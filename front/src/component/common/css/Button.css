@@ -1,0 +1,18 @@
+.buttonContainer {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.buttonContainer button {
+    padding: 8px 20px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: #003875;
+    color: white;
+}
+
+.buttonContainer button:hover {
+    background-color: #002855;
+}

@@ -5,7 +5,7 @@ const useFileUpload = () => {
     const [fileNames, setFileNames] = useState([]);
     const [existingFiles, setExistingFiles] = useState([]); // 기존 파일 목록
     const [filesToDelete, setFilesToDelete] = useState([]); // 삭제할 파일 ID 목록
-    
+
     // 기존 파일 목록 설정
     const setInitialFiles = (files) => {
         setExistingFiles(files || []);
@@ -42,10 +42,10 @@ const useFileUpload = () => {
         for (let i = 0; i < attachments.length; i++) {
             formData.append('attachments', attachments[i]);
         }
-
-        // 삭제할 파일 ID 목록 추가
+        
+        // 빈 배열일 때는 아예 보내지 않기
         if (filesToDelete && filesToDelete.length > 0) {
-            formData.append('filesToDelete', filesToDelete.join(','));  // 배열을 문자열로 변환
+            formData.append('filesToDelete', JSON.stringify(filesToDelete));
         }
     };
 

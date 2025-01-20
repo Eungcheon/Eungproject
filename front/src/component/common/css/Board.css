@@ -35,3 +35,33 @@
 .boardTable > tbody > tr {
     cursor: pointer;
 }
+.boardTable > tbody > tr > td:nth-child(1) {
+    text-align: center;
+}
+
+/* 검색 기능 */
+.searchBox {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.searchBox select {
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.searchBox input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    width: 200px;
+}
+
+.searchBox button {
+    padding: 5px 15px;
+    background-color: #0096FF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

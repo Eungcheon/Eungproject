@@ -1,4 +1,6 @@
 /* (공용) 글 상세 페이지 */
+import "./css/PostDetailView.css";
+import "./css/Button.css";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";

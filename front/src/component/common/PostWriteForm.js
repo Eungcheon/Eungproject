@@ -63,6 +63,18 @@ const PostWriteForm = () => {
 
     // 글 저장/수정 처리
     const handleSubmit = async () => {
+        // 제목과 내용 유효성 검사
+        if (!title.trim() && !content.trim()) {
+            alert('제목과 내용을 입력해주세요.');
+            return;
+        } else if (!title.trim()) {
+            alert('제목을 입력해주세요.');
+            return;
+        } else if (!content.trim()) {
+            alert('내용을 입력해주세요.');
+            return;
+        }
+
         const formData = new FormData();
         formData.append('title', title);
         formData.append('content', content);

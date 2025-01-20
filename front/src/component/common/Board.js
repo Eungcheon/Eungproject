@@ -37,11 +37,11 @@ const Board = ({ type }) => {
                 console.error('Error fetching posts:', error);
             }
         };
-        
+
         fetchPosts();
     }, [currentPage, type, sortOrder]);
 
-    
+
 
     const handlePageChange = (page) => {
         setCurrentPage(page - 1);
@@ -61,11 +61,20 @@ const Board = ({ type }) => {
         <div className="boardContainer">
             <p>{boardTitles[type]}</p>
             <div className="boardTopBox">
-                <p> 검색창 추가 예정 </p>
-                <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
-                    <option value="desc">최신순</option>
-                    <option value="asc">오래된순</option>
-                </select>
+                <div className="selectLasted">
+                    <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
+                        <option value="desc">최신순</option>
+                        <option value="asc">오래된순</option>
+                    </select>
+                </div>
+                <div className="searchBox">
+                    <select>
+                        <option value="title">제목</option>
+                        <option value="author">이름</option>
+                    </select>
+                    <input type="text" placeholder="검색어를 입력하세요" />
+                    <button>입력</button>
+                </div>
                 {isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
             </div>
             <div className="boardMiddleBox">
