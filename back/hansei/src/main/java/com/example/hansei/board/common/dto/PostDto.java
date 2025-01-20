@@ -19,4 +19,5 @@ public class PostDto {
     private LocalDateTime createdDate;
     private List<MultipartFile> attachments;	// 파일 업로드용
     private List<FileDto> fileList;				// 파일 조회용
+    private List<Long> filesToDelete; // 삭제할 파일 ID 목록을 담을 필드 추가
 }

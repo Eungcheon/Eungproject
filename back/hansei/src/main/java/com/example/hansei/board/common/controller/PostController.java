@@ -70,7 +70,20 @@ public class PostController {
             @PathVariable String type,
             @PathVariable Long id,
             @ModelAttribute PostDto postDto) {
-        return ResponseEntity.ok(postService.updatePost(type, id, postDto));
+    	try {
+            // filesToDelete 처리
+    		if (postDto.getFilesToDelete() != null && !postDto.getFilesToDelete().isEmpty()) {
+                for (Long fileId : postDto.getFilesToDelete()) {
+                    fileService.deleteFile(fileId);
+                }
+            }
+            
+            // 기존 업데이트 로직 실행
+            return ResponseEntity.ok(postService.updatePost(type, id, postDto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null);
+        }
     }
     
     @DeleteMapping("/{type}/{id}")

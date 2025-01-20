@@ -76,6 +76,20 @@ public class PostService {
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         
+     // filesToDelete 처리
+        if (postDto.getFilesToDelete() != null && !postDto.getFilesToDelete().isEmpty()) {            
+        	for (Long fileId : postDto.getFilesToDelete()) {
+                // 기존 파일 삭제
+                PostFile fileToDelete = post.getAttachments().stream()
+                    .filter(file -> file.getId().equals(fileId))  // Long 타입으로 직접 비교 가능
+                    .findFirst()
+                    .orElse(null);
+                if (fileToDelete != null) {
+                    post.getAttachments().remove(fileToDelete);
+                }
+            }
+        }
+        
      // 새로운 첨부파일 처리
         if (postDto.getAttachments() != null && !postDto.getAttachments().isEmpty()) {
             List<PostFile> newFiles = fileService.saveFiles(postDto.getAttachments());

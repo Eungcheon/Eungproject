@@ -1,9 +1,8 @@
 /* (공용) 게시글 목록 페이지 */
-
+import './css/Board.css';
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
 import { useState, useEffect } from "react";
-import './Board.css';
 import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";
 import useIsAdmin from "../../hooks/useIsAdmin";

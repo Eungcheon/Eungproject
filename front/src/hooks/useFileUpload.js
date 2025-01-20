@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { SERVER_URL } from "../api/serverURL";
-import axios from "axios";
 
 const useFileUpload = () => {
     const [attachments, setAttachments] = useState([]);
     const [fileNames, setFileNames] = useState([]);
-    const [existingFiles, setExistingFiles] = useState([]);
+    const [existingFiles, setExistingFiles] = useState([]); // 기존 파일 목록
+    const [filesToDelete, setFilesToDelete] = useState([]); // 삭제할 파일 ID 목록
     
     // 기존 파일 목록 설정
     const setInitialFiles = (files) => {
@@ -33,18 +32,20 @@ const useFileUpload = () => {
 
     // 기존 파일 삭제 처리
     const handleRemoveExistingFile = async (fileId) => {
-        try {
-            await axios.delete(`${SERVER_URL}/api/files/${fileId}`);
-            setExistingFiles(existingFiles.filter(file => file.id !== fileId));
-        } catch (error) {
-            console.error('Error removing existing file:', error);
-        }
+        setFilesToDelete([...filesToDelete, fileId]);
+        setExistingFiles(existingFiles.filter(file => file.id !== fileId));
     };
 
     // FormData에 파일 추가
     const appendFilesToFormData = (formData) => {
+        // 새로운 파일 추가
         for (let i = 0; i < attachments.length; i++) {
             formData.append('attachments', attachments[i]);
+        }
+
+        // 삭제할 파일 ID 목록 추가
+        if (filesToDelete && filesToDelete.length > 0) {
+            formData.append('filesToDelete', filesToDelete.join(','));  // 배열을 문자열로 변환
         }
     };
 
