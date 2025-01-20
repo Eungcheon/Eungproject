@@ -1,0 +1,11 @@
+.pagination {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+}
+
+.page-item > button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}

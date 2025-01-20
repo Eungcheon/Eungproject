@@ -1,0 +1,18 @@
+.counsContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.list {
+    display: flex;
+    margin-top: 20vh;
+}
+
+.list > div {
+    padding: 20px;
+}
+
+.list > div > a {
+    text-decoration: none;
+    color: inherit;
+}

@@ -1,0 +1,37 @@
+.boardContainer {
+    justify-content: center;
+    margin: 10vh 15vh;
+    min-height: 500px; 
+}
+
+.boardContainer > p {
+    margin-bottom: 50px;
+    text-align: left;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.boardTopBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.boardMiddleBox {
+    display: flex;
+    justify-content: center;
+    margin: 3vh 0;
+    width: 100%;
+    min-height: 50vh;
+}
+
+.boardTable {
+    width: 100%;
+}
+
+.boardTable > thead {
+    background-color: lightgray;
+}
+
+.boardTable > tbody > tr {
+    cursor: pointer;
+}

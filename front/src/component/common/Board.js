@@ -1,0 +1,106 @@
+/* (공용) 게시글 목록 페이지 */
+
+import { useNavigate } from "react-router-dom";
+import Pagination from "./Pagination";
+import { useState, useEffect } from "react";
+import './Board.css';
+import axios from "axios";
+import { SERVER_URL } from "../../api/serverURL";
+import useIsAdmin from "../../hooks/useIsAdmin";
+
+
+
+const Board = ({ type }) => {
+    const boardTitles = {
+        'notice': '공지사항',
+        'archive': '자료실',
+        'faq': '자주 묻는 질문'
+    };
+
+    const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
+    const [sortOrder, setSortOrder] = useState('desc');
+    const itemsPerPage = 10;
+
+    const navigate = useNavigate();
+    const isAdmin = useIsAdmin();
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(`${SERVER_URL}/api/${type}?page=${currentPage}&size=${itemsPerPage}&sort=${sortOrder}`);
+                setPosts(response.data.content);
+                setTotalPages(response.data.totalPages);
+                setTotalElements(response.data.totalElements);
+            } catch (error) {
+                console.error('Error fetching posts:', error);
+            }
+        };
+        
+        fetchPosts();
+    }, [currentPage, type, sortOrder]);
+
+    
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page - 1);
+        // 페이지 변경 시 데이터 fetch 로직
+    };
+
+    const handlePostClick = (postId) => {
+        navigate(`/community/${type}/detail/${postId}`);
+    };
+
+    // 글쓰기 페이지 이동
+    const handleWriteClick = () => {
+        navigate(`/community/${type}/write`);
+    };
+
+    return (
+        <div className="boardContainer">
+            <p>{boardTitles[type]}</p>
+            <div className="boardTopBox">
+                <p> 검색창 추가 예정 </p>
+                <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
+                    <option value="desc">최신순</option>
+                    <option value="asc">오래된순</option>
+                </select>
+                {isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
+            </div>
+            <div className="boardMiddleBox">
+                <table className="boardTable">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>작성일자</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {posts.map((post, index) => (
+                            <tr key={post.id} onClick={() => handlePostClick(post.id)}>
+                                <td>{sortOrder === 'desc'
+                                    ? totalElements - (currentPage * itemsPerPage) - index
+                                    : (currentPage * itemsPerPage) + index + 1
+                                }</td>
+                                <td>{post.title}</td>
+                                <td>{post.author}</td>
+                                <td>{post.createdDate.split('T')[0]}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <Pagination
+                currentPage={currentPage + 1}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+        </div>
+    );
+};
+
+export default Board;
