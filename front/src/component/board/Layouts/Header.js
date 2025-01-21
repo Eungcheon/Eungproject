@@ -43,7 +43,11 @@ const Header = () => {
     <header>
       <Link to="/counsel">상담</Link>
       &nbsp;&nbsp; | &nbsp;&nbsp;
-      <Link to="/community">커뮤니티</Link>
+      <Link to="/community/notice">공지사항</Link>
+      &nbsp;&nbsp; | &nbsp;&nbsp;
+      <Link to="/community/faq">FAQ</Link>
+      &nbsp;&nbsp; | &nbsp;&nbsp;
+      <Link to="/community/archive">자료실</Link>
       &nbsp;&nbsp; | &nbsp;&nbsp;
       <button onClick={handleAdminLogin}>관리자 로그인</button>
       &nbsp;&nbsp;

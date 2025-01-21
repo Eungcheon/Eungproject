@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 3px;
+}
+
+.page-item > button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    
+}
+
+.page-item > button > img {
+    width: 20px;  
+    height: 15px; 
+    object-fit: contain; /* 이미지 비율 유지 */
+}
+

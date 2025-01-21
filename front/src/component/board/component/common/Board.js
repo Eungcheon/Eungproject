@@ -61,7 +61,7 @@ const Board = ({ type }) => {
         <div className="boardContainer">
             <p>{boardTitles[type]}</p>
             <div className="boardTopBox">
-                <div className="selectLasted">
+                <div className="selectSortOrder">
                     <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
                         <option value="desc">최신순</option>
                         <option value="asc">오래된순</option>
@@ -89,12 +89,12 @@ const Board = ({ type }) => {
                     </thead>
                     <tbody>
                         {posts.map((post, index) => (
-                            <tr key={post.id} onClick={() => handlePostClick(post.id)}>
+                            <tr key={post.id} >
                                 <td>{sortOrder === 'desc'
                                     ? totalElements - (currentPage * itemsPerPage) - index
                                     : (currentPage * itemsPerPage) + index + 1
                                 }</td>
-                                <td>{post.title}</td>
+                                <td onClick={() => handlePostClick(post.id)}>{post.title}</td>
                                 <td>{post.author}</td>
                                 <td>{post.createdDate.split('T')[0]}</td>
                             </tr>

@@ -1,0 +1,84 @@
+/* 전체 레이아웃 */
+body.edit-page {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.edit-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 메인 섹션 */
+.edit-main {
+    display: flex;
+    gap: 30px;
+}
+
+/* 폼 스타일 */
+.edit-form-container {
+    width: 75%;
+    padding: 20px;
+}
+
+.edit-form-container h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.edit-form-container .edit-division-line {
+    border-top: 3px solid #444444;
+    margin: 10px -25px;
+}
+
+.edit-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.edit-form-container label {
+    font-size: 20px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-form-container input {
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-form-container input:focus {
+    border-color: rgb(1, 66, 122);
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* 버튼 스타일 */
+.edit-form-container button {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: rgb(1, 66, 122);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-form-container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}

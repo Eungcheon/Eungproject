@@ -1,0 +1,109 @@
+.boardContainer {
+    justify-content: center;
+    margin: 10vh 15vh;
+    min-height: 500px; 
+}
+
+.boardContainer > p {
+    margin-bottom: 50px;
+    text-align: left;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.boardTopBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.boardTopBox > .selectSortOrder > select {
+    height: 4vh;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.boardTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.boardTable > thead > tr {
+    background-color: #f8f9fa;
+    border-top: 2px solid #333;
+    border-bottom: 1px solid #ddd;
+}
+
+.boardTable > thead > tr > th {
+    padding: 12px;
+    font-weight: bold;
+}
+
+.boardTable > tbody > tr {
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.boardTable > tbody > tr > td {
+    padding: 12px;
+}
+
+.boardTable > tbody > tr > td:nth-child(1) {
+    width: 10%;
+}
+
+.boardTable > tbody > tr > td:nth-child(2) {
+    width: 50%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.boardTable > tbody > tr > td:nth-child(3) {
+    width: 20%;
+}
+
+.boardTable > tbody > tr > td:nth-child(4) {
+    width: 20%;
+}
+
+.searchBox {
+    display: flex;
+    gap: 10px;
+}
+
+.searchBox > select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.searchBox > input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    width: 200px;
+    border-radius: 4px;
+}
+
+.searchBox > button {
+    padding: 8px 15px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.boardTopBox > button {
+    padding: 8px 15px;
+    background-color: #003875;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* 호버 효과 추가 */
+.boardTable > tbody > tr:hover {
+    background-color: #f8f9fa;
+}

@@ -1,5 +1,9 @@
 import React from 'react';
 import './css/Pagination.css';
+import goNext from './images/goNext.png';
+import goPrev from './images/goPrev.png';
+import goFirst from './images/goFirst.png';
+import goLast from './images/goLast.png';
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const getPageNumbers = () => {
@@ -26,14 +30,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         {currentPage > 1 && (
           <>
             <li className="page-item">
-              <button onClick={() => onPageChange(1)}>{'<<'}</button>
+              <button onClick={() => onPageChange(1)}>
+                <img src={goFirst} alt='firstPage' />
+              </button>
             </li>
             <li className="page-item">
-              <button onClick={() => onPageChange(currentPage - 1)}>{'<'}</button>
+              <button onClick={() => onPageChange(currentPage - 1)}>
+                <img src={goPrev} alt='prevPage' />
+              </button>
             </li>
           </>
         )}
-        
+
         {pageNumbers.map(number => (
           <li key={number} className="page-item">
             <button
@@ -47,14 +55,18 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
             </button>
           </li>
         ))}
-        
+
         {currentPage < totalPages && (
           <>
             <li className="page-item">
-              <button onClick={() => onPageChange(currentPage + 1)}>{'>'}</button>
+              <button onClick={() => onPageChange(currentPage + 1)}>
+                <img src={goNext} alt='nextPage' />
+              </button>
             </li>
             <li className="page-item">
-              <button onClick={() => onPageChange(totalPages)}>{'>>'}</button>
+              <button onClick={() => onPageChange(totalPages)}>
+                <img src={goLast} alt='lastPage' />
+              </button>
             </li>
           </>
         )}

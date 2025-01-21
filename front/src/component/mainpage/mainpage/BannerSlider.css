@@ -1,0 +1,42 @@
+/* Custom Banner Slider Container */
+.custom-banner-slider-container {
+    width: 100%;
+  }
+  
+  /* Individual Slide Styles */
+  .custom-banner-slide {
+    position: relative;
+  }
+  
+  /* Image Styling */
+  .custom-banner-image {
+    width: 100%;
+    height: 230px;
+    object-fit: cover; /* 이미지를 잘라내거나 축소하여 요소 크기에 맞춤 */
+  }
+  
+  /* React Slick Custom Dots Styling */
+  .custom-banner-slider-container .slick-dots {
+    bottom: 10px;
+  }
+  
+  .custom-banner-slider-container .slick-dots li button:before {
+    font-size: 10px;
+    color: #ddd;
+  }
+  
+  .custom-banner-slider-container .slick-dots li.slick-active button:before {
+    color: #000; /* 활성 상태 점 색상 */
+  }
+  
+  /* Custom Navigation Arrows */
+  .custom-banner-slider-container .slick-prev,
+  .custom-banner-slider-container .slick-next {
+    z-index: 1;
+  }
+  
+  .custom-banner-slider-container .slick-prev:before,
+  .custom-banner-slider-container .slick-next:before {
+    color: #000; /* 화살표 색상 */
+  }
+  

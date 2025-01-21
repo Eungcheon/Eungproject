@@ -1,0 +1,82 @@
+/* 탭 스타일 */
+.employment-tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.employment-tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    background-color: #f4f4f4;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.employment-tab.active {
+    background-color: #fff;
+    border-bottom: 2px solid #fff;
+    font-weight: bold;
+}
+
+.employment-tab:hover {
+    background-color: #f0f0f0;
+    color: #007bff;
+}
+
+/* 테이블 스타일 */
+.employment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+}
+
+.employment-table th,
+.employment-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.employment-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+.employment-table td {
+    font-size: 13px;
+    color: #555;
+}
+
+.employment-table .star {
+    font-size: 18px;
+    cursor: pointer;
+    color: gold;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.employment-table .star:hover {
+    transform: scale(1.2);
+    color: #ffa500;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .employment-table th,
+    .employment-table td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .employment-tab {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}

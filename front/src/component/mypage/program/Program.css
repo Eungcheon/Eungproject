@@ -1,0 +1,196 @@
+/* 전체 레이아웃 */
+body.program-page {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.program-container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* 메인 섹션 */
+.program-main {
+    display: flex;
+    gap: 30px;
+}
+
+/* 폼 스타일 */
+.program-form-container {
+    width: 75%;
+    padding: 20px;
+}
+
+.program-form-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.program-form-container .jb-division-line {
+    border-top: 3px solid #444444;
+    margin: 10px -25px;
+}
+
+.program-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+/* 탭 스타일 */
+.program-tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.program-tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    background-color: #f4f4f4;
+    margin-right: 5px;
+}
+
+.program-tab.active {
+    background-color: #fff;
+    border-bottom: 2px solid #fff;
+    font-weight: bold;
+}
+
+.program-tab.active:hover {
+    background-color: rgb(1, 66, 122);
+    color: white;
+}
+
+.program-tab-content {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 테이블 스타일 */
+.program-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 0;
+}
+
+.program-table th,
+.program-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.program-table th {
+    background-color: #f4f4f4;
+    font-size: 17px;
+    text-align: center;
+}
+
+.program-star {
+    color: orange;
+    font-size: 16px;
+    margin-right: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .program-table th,
+    .program-table td {
+        font-size: 12px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .program-tab {
+        font-size: 14px;
+        padding: 8px 12px;
+        padding-bottom: 0;
+    }
+}
+
+/* 별 아이콘 스타일 */
+.program-star {
+    color: orange;
+    font-size: 25px;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.program-star.active {
+    color: gray;
+}
+
+/* 삭제 버튼 스타일 */
+.program-delete-btn {
+    padding: 5px 10px;
+    background-color: rgb(1, 66, 122);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.program-delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* 페이지네이션 */
+.program-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.program-page-number {
+    cursor: pointer;
+    padding: 5px 15px;
+    border: none;
+    font-size: 14px;
+    position: relative;
+    color: #333;
+}
+
+.program-page-number.active::after,
+.program-page-number:hover::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgb(1, 66, 122); /* 파란색 */
+    border-radius: 2px;
+}
+
+.program-page-number.active {
+    font-weight: bold;
+    color: black;
+}
+
+.program-page-number:hover {
+    color: black;
+}

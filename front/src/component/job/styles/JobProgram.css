@@ -1,0 +1,194 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; /* 기본 배경색 */
+    color: #333; /* 기본 텍스트 색상 */
+}
+
+.navbar-nav .nav-link {
+    font-size: 16px;
+}
+
+.sorting-section {
+    display: flex;
+    flex-direction: column; /* 정렬 순서를 위, 아이콘을 아래로 배치 */
+    align-items: flex-end; /* 오른쪽 정렬 */
+    margin-bottom: 20px;
+    gap: 10px; /* 정렬 순서와 아이콘 사이 간격 추가 */
+}
+
+.program-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.program-grid {
+    display: block; /* 그리드 뷰 표시 */
+    width: 100%;
+}
+
+.program-list {
+    display: block; /* 리스트 뷰 표시 */
+    width: 100%;
+}
+
+.program-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.program-list ul li {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff; /* 리스트 배경색 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 리스트 그림자 */
+    transition: transform 0.2s, box-shadow 0.2s; /* 호버 효과 */
+}
+
+.program-list ul li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.favorite-icon {
+    color: #ddd;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 10px;
+    transition: color 0.3s;
+}
+
+.favorite-icon.active {
+    color: gold;
+}
+
+.favorite-icon:hover {
+    color: #f1c40f;
+}
+
+.program-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.view-icons {
+    display: flex;
+    gap: 15px; /* 아이콘 간격 */
+}
+
+.view-icons i {
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+}
+
+.view-icons i.active {
+    color: #007bff;
+    transform: scale(1.2); /* 활성화된 아이콘 크기 증가 */
+}
+
+.view-icons i:hover {
+    color: #0056b3;
+}
+
+.program-count {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #007bff; /* 프로그램 개수 텍스트 색상 */
+}
+
+/* NavBar 스타일 */
+.navbar-blue {
+    background-color: #007bff; /* 파란색 배경 */
+}
+
+.navbar-blue .nav-link,
+.navbar-blue .navbar-brand {
+    color: white; /* 하얀색 글자 */
+}
+
+.navbar-blue .nav-link:hover {
+    color: #d1e8ff; /* 밝은 파란색 글자 */
+}
+
+/* 로그인 버튼 스타일 */
+.btn-login {
+    background-color: white !important; /* 하얀색 배경 */
+    color: #007bff !important; /* 파란색 글자 */
+    border: 1px solid #007bff !important; /* 파란색 테두리 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s, border 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #007bff !important; /* Hover 시 파란색 배경 */
+    color: white !important;
+    border: 1px solid white !important;
+}
+
+/* 카드 호버 효과 */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* 리스트 뷰 텍스트 강조 */
+.program-list li h5 {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 5px;
+}
+
+/* 게이지 바 스타일 */
+.progress-bar-container {
+    margin-top: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 20px;
+    background-color: #e9ecef; /* 게이지 바 컨테이너 배경색 */
+}
+
+.progress-bar {
+    height: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 0.9rem;
+    color: white;
+    background-color: #0c9229;
+    transition: width 0.4s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* 텍스트 가독성 향상 */
+    min-width: 20px; /* 최소 너비 */
+}
+
+.progress-bar.zero {
+    background-color: transparent; /* 0%일 때 배경 투명 */
+    color: #333; /* 0%일 때 텍스트 색상 */
+}
+
+/* 카드 호버 시 게이지 바 강조 */
+.card:hover .progress-bar {
+    background-color: #0056b3; /* 호버 시 게이지 바 강조 */
+}

@@ -1,0 +1,149 @@
+/* 전체 레이아웃 */
+body.counsel-page {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.counsel-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 메인 섹션 */
+.counsel-main {
+    display: flex;
+    gap: 30px;
+}
+
+/* 폼 스타일 */
+.counsel-form-container {
+    width: 75%;
+    padding: 20px;
+}
+
+.counsel-form-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.counsel-form-container .counsel-division-line {
+    border-top: 3px solid #444444;
+    margin: 10px -25px;
+}
+
+/* 탭 스타일 */
+.counsel-tabs {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.counsel-tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    background-color: #f4f4f4;
+    margin-right: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.counsel-tab.active {
+    background-color: #fff;
+    border-bottom: 2px solid #fff;
+    font-weight: bold;
+}
+
+.counsel-tab:hover {
+    background-color: rgb(1, 66, 122);
+    color: white;
+}
+
+/* 탭 콘텐츠 스타일 */
+.counsel-tab-content {
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 테이블 스타일 */
+.counsel-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 20px;
+    border-left: none; /* 테이블 전체 왼쪽 선 제거 */
+    border-right: none; /* 테이블 전체 오른쪽 선 제거 */
+}
+
+.counsel-table th,
+.counsel-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+    vertical-align: middle; /* 수직 가운데 정렬 */
+}
+
+.counsel-table th {
+    background-color: #f4f4f4;
+    font-size: 17px;
+    font-weight: bold;
+    color: #333;
+}
+
+.counsel-table td .star {
+    color: orange;
+    font-size: 16px;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.3s ease;
+}
+
+.counsel-table td .star:hover {
+    transform: scale(1.2);
+    color: #ffa500;
+}
+
+/* 삭제 버튼 스타일 */
+.counsel-delete-btn {
+    padding: 5px 10px;
+    background-color: rgb(1, 66, 122);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.counsel-delete-btn:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .counsel-table th,
+    .counsel-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .counsel-tab {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+}

@@ -1,0 +1,89 @@
+/* Secession 페이지 전체 레이아웃 */
+body.secession-page {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.secession-container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* 메인 섹션 */
+.secession-main {
+    display: flex;
+    gap: 30px;
+}
+
+/* 폼 스타일 */rm-conta
+.secession-foiner {
+    width: 75%;
+    padding: 20px;
+}
+
+.secession-form-container h1 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.secession-form-container .secession-division-line {
+    border-top: 3px solid #444444;
+    margin: 10px -25px;
+}
+
+.secession-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.secession-form-container .secession-text {
+    text-align: center;
+    line-height: 2;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.secession-form-container .secession-line {
+    border-top: 2px solid #4444;
+    margin: 10px -10px;
+}
+
+.secession-form-container input[type="password"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.secession-form-container input[type="password"]:focus {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+}
+
+/* 버튼 스타일 */
+.secession-form-container button {
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: rgb(1, 66, 122);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.secession-form-container button:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+}

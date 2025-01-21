@@ -1,0 +1,99 @@
+/* 전체 레이아웃 */
+.custom-community-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  @media (min-width: 768px) {
+    .custom-community-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  /* 공지사항 섹션 */
+  .custom-notices-section,
+  .custom-community-section {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  
+  .custom-notices-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+  }
+  
+  .custom-notice-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .custom-notice-link {
+    color: #2563eb;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .custom-notice-link:hover {
+    text-decoration: underline;
+  }
+  
+  .custom-notice-date {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
+  .custom-more-link {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: #2563eb;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .custom-more-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* 커뮤니티 섹션 */
+  .custom-community-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .custom-community-link {
+    display: block;
+    padding: 16px;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .custom-community-link:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .custom-link-title {
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .custom-link-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+  
