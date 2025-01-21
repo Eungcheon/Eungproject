@@ -82,6 +82,8 @@ const PostWriteForm = () => {
         formData.append('createdDate', createdDate);
         appendFilesToFormData(formData);
 
+
+
         try {
             if (isEdit) {
                 await axios.put(`${SERVER_URL}/api/${type}/${id}`, formData, {

@@ -5,11 +5,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";
-import useFileDownload from "../../hooks/useFileDownload";
 import useIsAdmin from "../../hooks/useIsAdmin";
+import AttachmentView from "./AttachmentView";
+import AnswerView from "./AnswerView";
 
 const PostDetailView = () => {
-    const { handleFileDownload } = useFileDownload();
+
     const isAdmin = useIsAdmin();
 
     const { type, id } = useParams();
@@ -50,23 +51,7 @@ const PostDetailView = () => {
                         <th>내용</th>
                         <td>{post?.content}</td>
                     </tr>
-                    <tr>
-                    <th>첨부파일</th>
-                        <td>
-                            {post?.fileList?.map(file => (
-                                <div key={file.id}>
-                                    <span
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleFileDownload(file.url, file.name);
-                                        }}
-                                    >
-                                        {file.name}
-                                    </span>
-                                </div>
-                            ))}
-                        </td>
-                    </tr>
+                    <AttachmentView fileList={post?.fileList} />  
                 </tbody>
             </table>
             <div className="buttonContainer">

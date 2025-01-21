@@ -1,0 +1,117 @@
+import "../../../css/PostDetailView.css";
+import "../../../css/Button.css";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { SERVER_URL } from "../../../api/serverURL";
+import useIsAdmin from "../../../hooks/useIsAdmin";
+
+const CounselDetailView = () => {
+    const isAdmin = useIsAdmin();
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [counsel, setCounsel] = useState(null);
+    const [isAuthor, setIsAuthor] = useState(false);
+
+    useEffect(() => {
+        const fetchCounselDetail = async () => {
+            try {
+                const response = await axios.get(`${SERVER_URL}/api/counsel/${id}`);
+                setCounsel(response.data);
+                
+                // 현재 로그인한 사용자가 작성자인지 확인
+                const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+                setIsAuthor(userInfo?.userName === response.data.author);
+            } catch (error) {
+                console.error('Error fetching counsel detail:', error);
+            }
+        };
+
+        fetchCounselDetail();
+    }, [id]);
+
+    const handleDelete = async () => {
+        if (window.confirm('정말 삭제하시겠습니까?')) {
+            try {
+                await axios.delete(`${SERVER_URL}/api/counsel/${id}`);
+                navigate('/counsel/online');
+            } catch (error) {
+                console.error('Error deleting counsel:', error);
+            }
+        }
+    };
+
+    const handleAnswerDelete = async () => {
+        if (window.confirm('답변을 삭제하시겠습니까?')) {
+            try {
+                await axios.delete(`${SERVER_URL}/api/counsel/${id}/answer`);
+                window.location.reload();
+            } catch (error) {
+                console.error('Error deleting answer:', error);
+            }
+        }
+    };
+
+    return (
+        <div className="detailBoardContainer">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>제목</th>
+                        <td>{counsel?.title}</td>
+                    </tr>
+                    <tr>
+                        <th>작성자</th>
+                        <td>{counsel?.author}</td>
+                    </tr>
+                    <tr>
+                        <th>작성일자</th>
+                        <td>{counsel?.createdDate?.replace('T', ' ')}</td>
+                    </tr>
+                    <tr>
+                        <th>내용</th>
+                        <td>{counsel?.content}</td>
+                    </tr>
+                    {counsel?.answer && (
+                        <tr>
+                            <th>답변</th>
+                            <td>
+                                <div className="answerContent">{counsel.answer}</div>
+                                <div className="answerInfo">
+                                    <span>답변자: {counsel.answerer}</span>
+                                    <span>답변일: {counsel.answerDate?.replace('T', ' ')}</span>
+                                </div>
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+            <div className="buttonContainer">
+                {/* 답변이 없고 작성자인 경우 수정/삭제 버튼 표시 */}
+                {!counsel?.answer && isAuthor && (
+                    <>
+                        <button onClick={() => navigate(`/counsel/online/edit/${id}`)}>수정</button>
+                        <button onClick={handleDelete}>삭제</button>
+                    </>
+                )}
+                
+                {/* 답변이 없고 관리자인 경우 답변작성 버튼 표시 */}
+                {!counsel?.answer && isAdmin && (
+                    <button onClick={() => navigate(`/counsel/online/answer/${id}`)}>답변작성</button>
+                )}
+
+                {/* 답변이 있고 관리자인 경우 답변 수정/삭제 버튼 표시 */}
+                {counsel?.answer && isAdmin && (
+                    <>
+                        <button onClick={() => navigate(`/counsel/online/answer/edit/${id}`)}>답변수정</button>
+                        <button onClick={handleAnswerDelete}>답변삭제</button>
+                    </>
+                )}
+
+                <button onClick={() => navigate('/counsel/online')}>목록</button>
+            </div>
+        </div>
+    );
+};
+
+export default CounselDetailView;

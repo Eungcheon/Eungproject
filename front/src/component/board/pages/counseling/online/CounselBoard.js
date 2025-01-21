@@ -1,0 +1,115 @@
+import '../../../component/common/css/Board.css';
+import { useNavigate } from "react-router-dom";
+import Pagination from "../../../component/common/Pagination";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { SERVER_URL } from "../../../api/serverURL";
+import useIsAdmin from "../../../hooks/useIsAdmin";
+
+const CounselBoard = () => {
+    const [posts, setPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
+    const [sortOrder, setSortOrder] = useState('desc');
+    const itemsPerPage = 10;
+
+    const navigate = useNavigate();
+    const isAdmin = useIsAdmin();
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(`${SERVER_URL}/api/counsel?page=${currentPage}&size=${itemsPerPage}&sort=${sortOrder}`);
+                setPosts(response.data.content);
+                setTotalPages(response.data.totalPages);
+                setTotalElements(response.data.totalElements);
+            } catch (error) {
+                console.error('Error fetching counsels:', error);
+            }
+        };
+
+        fetchPosts();
+    }, [currentPage, sortOrder]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page - 1);
+    };
+
+    const handlePostClick = (post) => {
+        // 현재 로그인한 사용자 정보 가져오기
+        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        
+        // 관리자이거나 작성자인 경우에만 접근 가능
+        if (isAdmin || post.author === userInfo?.userName) {
+            navigate(`/counsel/online/detail/${post.id}`);
+        } else {
+            alert('작성자만 열람할 수 있습니다.');
+        }
+    };
+
+    const handleWriteClick = () => {
+        navigate(`/community/counsel/write`);
+    };
+
+    return (
+        <div className="boardContainer">
+            <p>온라인 상담</p>
+            <div className="boardTopBox">
+                <div className="selectSortOrder">
+                    <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
+                        <option value="desc">최신순</option>
+                        <option value="asc">오래된순</option>
+                    </select>
+                </div>
+                <div className="searchBox">
+                    <select>
+                        <option value="title">제목</option>
+                        <option value="author">이름</option>
+                    </select>
+                    <input type="text" placeholder="검색어를 입력하세요" />
+                    <button>입력</button>
+                </div>
+                <button onClick={handleWriteClick}>글쓰기</button>
+            </div>
+            <div className="boardMiddleBox">
+                <table className="boardTable">
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>작성일자</th>
+                            <th>답변상태</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {posts.map((post, index) => (
+                            <tr key={post.id}>
+                                <td>
+                                    {sortOrder === 'desc'
+                                        ? totalElements - (currentPage * itemsPerPage) - index
+                                        : (currentPage * itemsPerPage) + index + 1
+                                    }
+                                </td>
+                                <td onClick={() => handlePostClick(post)}>
+                                    {post.title} {post.answer && <span className="answered">[답변완료]</span>}
+                                </td>
+                                <td>{post.author}</td>
+                                <td>{post.createdDate.split('T')[0]}</td>
+                                <td>{post.answer ? '답변완료' : '답변대기'}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <Pagination
+                currentPage={currentPage + 1}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+            />
+        </div>
+    );
+};
+
+export default CounselBoard;
