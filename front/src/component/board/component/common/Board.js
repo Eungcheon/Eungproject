@@ -94,7 +94,12 @@ const Board = ({ type }) => {
                                     ? totalElements - (currentPage * itemsPerPage) - index
                                     : (currentPage * itemsPerPage) + index + 1
                                 }</td>
-                                <td onClick={() => handlePostClick(post.id)}>{post.title}</td>
+                                <td>
+                                    <span className='boardTitle' 
+                                        onClick={() => handlePostClick(post.id)}>
+                                        {post.title}
+                                    </span>
+                                </td>
                                 <td>{post.author}</td>
                                 <td>{post.createdDate.split('T')[0]}</td>
                             </tr>

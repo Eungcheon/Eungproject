@@ -7,7 +7,6 @@ import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";
 import useIsAdmin from "../../hooks/useIsAdmin";
 import AttachmentView from "./AttachmentView";
-import AnswerView from "./AnswerView";
 
 const PostDetailView = () => {
 

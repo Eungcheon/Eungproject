@@ -39,7 +39,7 @@ const CounselBoard = () => {
     const handlePostClick = (post) => {
         // 현재 로그인한 사용자 정보 가져오기
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        
+
         // 관리자이거나 작성자인 경우에만 접근 가능
         if (isAdmin || post.author === userInfo?.userName) {
             navigate(`/counsel/online/detail/${post.id}`);
@@ -49,7 +49,7 @@ const CounselBoard = () => {
     };
 
     const handleWriteClick = () => {
-        navigate(`/community/counsel/write`);
+        navigate(`/counsel/online/write`);
     };
 
     return (
@@ -80,7 +80,6 @@ const CounselBoard = () => {
                             <th>제목</th>
                             <th>작성자</th>
                             <th>작성일자</th>
-                            <th>답변상태</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,12 +91,18 @@ const CounselBoard = () => {
                                         : (currentPage * itemsPerPage) + index + 1
                                     }
                                 </td>
-                                <td onClick={() => handlePostClick(post)}>
-                                    {post.title} {post.answer && <span className="answered">[답변완료]</span>}
+                                <td>
+                                    <span className='boardTitle'
+                                        onClick={() => handlePostClick(post)}>
+                                        {post.title}
+                                    </span>
+                                    {post.answer && <span className="answered"
+                                        onClick={() => handlePostClick(post)}>
+                                        [답변완료]
+                                    </span>}
                                 </td>
                                 <td>{post.author}</td>
                                 <td>{post.createdDate.split('T')[0]}</td>
-                                <td>{post.answer ? '답변완료' : '답변대기'}</td>
                             </tr>
                         ))}
                     </tbody>

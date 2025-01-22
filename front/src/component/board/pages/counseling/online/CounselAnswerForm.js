@@ -1,4 +1,4 @@
-import '../../../css/PostWriteForm.css';
+import '../../../component/common/css/PostWriteForm.css';
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,12 +9,18 @@ const CounselAnswerForm = () => {
     const navigate = useNavigate();
     const [counsel, setCounsel] = useState(null);
     const [answer, setAnswer] = useState('');
+    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         const fetchCounsel = async () => {
             try {
                 const response = await axios.get(`${SERVER_URL}/api/counsel/${id}`);
                 setCounsel(response.data);
+                // 기존 답변이 있으면 수정 모드로 설정하고 답변 내용 불러오기
+                if (response.data.answer) {
+                    setIsEdit(true);
+                    setAnswer(response.data.answer);
+                }
             } catch (error) {
                 console.error('Error fetching counsel:', error);
             }
@@ -30,10 +36,19 @@ const CounselAnswerForm = () => {
         }
 
         try {
-            await axios.post(`${SERVER_URL}/api/counsel/${id}/answer`, {
-                answer: answer,
-                answerer: JSON.parse(localStorage.getItem('userInfo'))?.userName
-            });
+            if (isEdit) {
+                // 답변 수정
+                await axios.put(`${SERVER_URL}/api/counsel/${id}/answer`, {
+                    answer: answer,
+                    answerer: JSON.parse(localStorage.getItem('userInfo'))?.userName
+                });
+            } else {
+                // 새 답변 작성
+                await axios.post(`${SERVER_URL}/api/counsel/${id}/answer`, {
+                    answer: answer,
+                    answerer: JSON.parse(localStorage.getItem('userInfo'))?.userName
+                });
+            }
             navigate(`/counsel/online/detail/${id}`);
         } catch (error) {
             console.error('Error saving answer:', error);

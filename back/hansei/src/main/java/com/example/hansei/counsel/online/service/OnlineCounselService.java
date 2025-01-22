@@ -1,6 +1,8 @@
 package com.example.hansei.counsel.online.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,8 @@ public class OnlineCounselService {
     public void deleteCounsel(Long id) {
         counselRepository.deleteById(id);
     }
+    
+    /*******************************답 변****************************************/
 
     public OnlineCounselDto addAnswer(Long id, String answer, String answerer) {
     	OnlineCounsel counsel = counselRepository.findById(id)
@@ -64,6 +68,36 @@ public class OnlineCounselService {
         OnlineCounsel updatedCounsel = counselRepository.save(counsel);
         return convertToDto(updatedCounsel);
     }
+    
+    public void deleteAnswer(Long id) {
+        OnlineCounsel counsel = counselRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Counsel not found"));
+        counsel.setAnswer(null);
+        counsel.setAnswerer(null);
+        counsel.setAnswerDate(null);
+        counselRepository.save(counsel);
+    }
+
+    public Map<String, String> getAnswer(Long id) {
+        OnlineCounsel counsel = counselRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Counsel not found"));
+        Map<String, String> answerMap = new HashMap<>();
+        answerMap.put("answer", counsel.getAnswer());
+        answerMap.put("answerer", counsel.getAnswerer());
+        return answerMap;
+    }
+
+    public OnlineCounselDto updateAnswer(Long id, String answer, String answerer) {
+        OnlineCounsel counsel = counselRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Counsel not found"));
+        counsel.setAnswer(answer);
+        counsel.setAnswerer(answerer);
+        counsel.setAnswerDate(LocalDateTime.now());
+        OnlineCounsel updatedCounsel = counselRepository.save(counsel);
+        return convertToDto(updatedCounsel);
+    }
+    
+    /*******************************변 환****************************************/
 
     private OnlineCounselDto convertToDto(OnlineCounsel counsel) {
         return modelMapper.map(counsel, OnlineCounselDto.class);

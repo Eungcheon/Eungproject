@@ -70,7 +70,7 @@ const Header = () => {
     },
     {
       title: 'community',
-      submenu: ['notice', 'FAQ', 'archive', '상담', '실시간 상담'],
+      submenu: ['notice', 'FAQ', 'archive', 'counsel', '실시간 상담'],
     },
     {
       title: '마이페이지',

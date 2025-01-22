@@ -52,6 +52,8 @@ public class OnlineCounselController {
         counselService.deleteCounsel(id);
         return ResponseEntity.ok().build();
     }
+    
+    /*-----------------------------------------답 변-----------------------------------------*/
 
     @PostMapping("/{id}/answer")
     public ResponseEntity<OnlineCounselDto> addAnswer(
@@ -60,5 +62,25 @@ public class OnlineCounselController {
         String answer = answerMap.get("answer");
         String answerer = answerMap.get("answerer");
         return ResponseEntity.ok(counselService.addAnswer(id, answer, answerer));
+    }
+    
+    @DeleteMapping("/{id}/answer")
+    public ResponseEntity<Void> deleteAnswer(@PathVariable Long id) {
+        counselService.deleteAnswer(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/answer")
+    public ResponseEntity<Map<String, String>> getAnswer(@PathVariable Long id) {
+        return ResponseEntity.ok(counselService.getAnswer(id));
+    }
+
+    @PutMapping("/{id}/answer")
+    public ResponseEntity<OnlineCounselDto> updateAnswer(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> answerMap) {
+        String answer = answerMap.get("answer");
+        String answerer = answerMap.get("answerer");
+        return ResponseEntity.ok(counselService.updateAnswer(id, answer, answerer));
     }
 }

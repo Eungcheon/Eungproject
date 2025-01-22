@@ -1,5 +1,5 @@
-import "../../../css/PostDetailView.css";
-import "../../../css/Button.css";
+import "../../../component/common/css/PostDetailView.css";
+import "../../../component/common/css/Button.css";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -18,7 +18,7 @@ const CounselDetailView = () => {
             try {
                 const response = await axios.get(`${SERVER_URL}/api/counsel/${id}`);
                 setCounsel(response.data);
-                
+
                 // 현재 로그인한 사용자가 작성자인지 확인
                 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                 setIsAuthor(userInfo?.userName === response.data.author);
@@ -54,6 +54,7 @@ const CounselDetailView = () => {
 
     return (
         <div className="detailBoardContainer">
+            <h1>상담 상세 내용</h1>
             <table>
                 <tbody>
                     <tr>
@@ -72,17 +73,31 @@ const CounselDetailView = () => {
                         <th>내용</th>
                         <td>{counsel?.content}</td>
                     </tr>
+                    {/* 구분선 추가 */}
                     {counsel?.answer && (
                         <tr>
-                            <th>답변</th>
-                            <td>
-                                <div className="answerContent">{counsel.answer}</div>
-                                <div className="answerInfo">
-                                    <span>답변자: {counsel.answerer}</span>
-                                    <span>답변일: {counsel.answerDate?.replace('T', ' ')}</span>
-                                </div>
-                            </td>
+                            <td colSpan="2" style={{ borderTop: '2px solid #ddd', padding: '10px 0' }}></td>
                         </tr>
+                    )}
+
+                    {/* 답변 섹션 */}
+                    {counsel?.answer && (
+                        <>
+                            <tr>
+                                <th>답변자</th>
+                                <td>{counsel.answerer}</td>
+                            </tr>
+                            <tr>
+                                <th>답변일자</th>
+                                <td>{counsel.answerDate?.replace('T', ' ')}</td>
+                            </tr>
+                            <tr>
+                                <th>답변</th>
+                                <td className="answerText">
+                                    {counsel.answer}
+                                </td>
+                            </tr>
+                        </>
                     )}
                 </tbody>
             </table>
@@ -94,7 +109,7 @@ const CounselDetailView = () => {
                         <button onClick={handleDelete}>삭제</button>
                     </>
                 )}
-                
+
                 {/* 답변이 없고 관리자인 경우 답변작성 버튼 표시 */}
                 {!counsel?.answer && isAdmin && (
                     <button onClick={() => navigate(`/counsel/online/answer/${id}`)}>답변작성</button>
