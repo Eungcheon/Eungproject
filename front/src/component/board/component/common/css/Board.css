@@ -27,6 +27,7 @@
 .boardTable {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .boardTable > thead > tr {
@@ -38,6 +39,7 @@
 .boardTable > thead > tr > th {
     padding: 12px;
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .boardTable > tbody > tr {
@@ -47,25 +49,13 @@
 
 .boardTable > tbody > tr > td {
     padding: 12px;
-}
-
-.boardTable > tbody > tr > td:nth-child(1) {
-    width: 10%;
+    white-space: nowrap;  /* 텍스트가 줄바꿈되지 않도록 설정 */
+    overflow: hidden;     /* 셀 크기를 넘어가는 내용을 숨김 */
 }
 
 .boardTable > tbody > tr > td:nth-child(2) {
     width: 50%;
     text-align: left;
-    white-space: nowrap;  /* 텍스트가 줄바꿈되지 않도록 설정 */
-    overflow: hidden;     /* 셀 크기를 넘어가는 내용을 숨김 */
-}
-
-.boardTable > tbody > tr > td:nth-child(3) {
-    width: 20%;
-}
-
-.boardTable > tbody > tr > td:nth-child(4) {
-    width: 20%;
 }
 
 .searchBox {

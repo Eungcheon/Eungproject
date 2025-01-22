@@ -1,10 +1,11 @@
 import '../../../component/common/css/Board.css';
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../../component/common/Pagination";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
 import useIsAdmin from "../../../hooks/useIsAdmin";
+import useSearch from '../../../hooks/useSearch';
 
 const CounselBoard = () => {
     const [posts, setPosts] = useState([]);
@@ -12,25 +13,46 @@ const CounselBoard = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
     const [sortOrder, setSortOrder] = useState('desc');
+
     const itemsPerPage = 10;
 
+    const {
+        searchType,
+        searchKeyword,
+        handleSearchChange,
+        handleSearch,
+        handleSearchTypeChange
+    } = useSearch();
     const navigate = useNavigate();
     const isAdmin = useIsAdmin();
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await axios.get(`${SERVER_URL}/api/counsel?page=${currentPage}&size=${itemsPerPage}&sort=${sortOrder}`);
-                setPosts(response.data.content);
-                setTotalPages(response.data.totalPages);
-                setTotalElements(response.data.totalElements);
-            } catch (error) {
-                console.error('Error fetching counsels:', error);
-            }
-        };
-
         fetchPosts();
     }, [currentPage, sortOrder]);
+
+    const fetchPosts = useCallback(async () => {
+        try {
+            const response = await axios.get(`${SERVER_URL}/api/counsel`, {
+                params: {
+                    page: currentPage,
+                    size: itemsPerPage,
+                    sort: sortOrder,
+                    searchType,
+                    keyword: searchKeyword
+                }
+            });
+            setPosts(response.data.content);
+            setTotalPages(response.data.totalPages);
+            setTotalElements(response.data.totalElements);
+        } catch (error) {
+            console.error('Error fetching counsels:', error);
+        }
+    }, [currentPage, sortOrder, searchType, searchKeyword]);
+
+    const handleSearchSubmit = useCallback(() => {
+        setCurrentPage(0);
+        fetchPosts();
+    }, [setCurrentPage, fetchPosts]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page - 1);
@@ -63,17 +85,36 @@ const CounselBoard = () => {
                     </select>
                 </div>
                 <div className="searchBox">
-                    <select>
+                    <select
+                        value={searchType}
+                        onChange={handleSearchTypeChange}
+                    >
                         <option value="title">제목</option>
                         <option value="author">이름</option>
                     </select>
-                    <input type="text" placeholder="검색어를 입력하세요" />
-                    <button>입력</button>
+                    <input
+                        type="text"
+                        placeholder="검색어를 입력하세요"
+                        value={searchKeyword}
+                        onChange={handleSearchChange}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearch(handleSearchSubmit);
+                            }
+                        }}
+                    />
+                    <button onClick={() => handleSearch(handleSearchSubmit)}>입력</button>
                 </div>
                 <button onClick={handleWriteClick}>글쓰기</button>
             </div>
             <div className="boardMiddleBox">
                 <table className="boardTable">
+                    <colgroup>
+                        <col style={{ width: "10%" }} />
+                        <col style={{ width: "50%" }} />
+                        <col style={{ width: "20%" }} />
+                        <col style={{ width: "20%" }} />
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>번호</th>

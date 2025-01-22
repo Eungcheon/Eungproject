@@ -2,11 +2,11 @@
 import './css/Board.css';
 import { useNavigate } from "react-router-dom";
 import Pagination from "./Pagination";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";
 import useIsAdmin from "../../hooks/useIsAdmin";
-
+import useSearch from '../../hooks/useSearch';
 
 
 const Board = ({ type }) => {
@@ -25,23 +25,41 @@ const Board = ({ type }) => {
 
     const navigate = useNavigate();
     const isAdmin = useIsAdmin();
+    const {
+        searchType,
+        searchKeyword,
+        handleSearchChange,
+        handleSearch,
+        handleSearchTypeChange
+    } = useSearch();
 
     useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const response = await axios.get(`${SERVER_URL}/api/${type}?page=${currentPage}&size=${itemsPerPage}&sort=${sortOrder}`);
-                setPosts(response.data.content);
-                setTotalPages(response.data.totalPages);
-                setTotalElements(response.data.totalElements);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-            }
-        };
-
         fetchPosts();
     }, [currentPage, type, sortOrder]);
 
+    const fetchPosts = async () => {
+        try {
+            const response = await axios.get(`${SERVER_URL}/api/${type}`, {
+                params: {
+                    page: currentPage,
+                    size: itemsPerPage,
+                    sort: sortOrder,
+                    searchType,
+                    keyword: searchKeyword
+                }
+            });
+            setPosts(response.data.content);
+            setTotalPages(response.data.totalPages);
+            setTotalElements(response.data.totalElements);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    };
 
+    const handleSearchSubmit = useCallback(() => {
+        setCurrentPage(0);
+        fetchPosts();
+    }, [setCurrentPage, fetchPosts]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page - 1);
@@ -68,17 +86,36 @@ const Board = ({ type }) => {
                     </select>
                 </div>
                 <div className="searchBox">
-                    <select>
+                    <select
+                        value={searchType}
+                        onChange={handleSearchTypeChange}
+                    >
                         <option value="title">제목</option>
                         <option value="author">이름</option>
                     </select>
-                    <input type="text" placeholder="검색어를 입력하세요" />
-                    <button>입력</button>
+                    <input
+                        type="text"
+                        placeholder="검색어를 입력하세요"
+                        value={searchKeyword}
+                        onChange={handleSearchChange}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                handleSearch(handleSearchSubmit);
+                            }
+                        }}
+                    />
+                    <button onClick={() => handleSearch(handleSearchSubmit)}>입력</button>
                 </div>
                 {isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
             </div>
             <div className="boardMiddleBox">
                 <table className="boardTable">
+                    <colgroup>
+                        <col style={{ width: "10%" }} />
+                        <col style={{ width: "50%" }} />
+                        <col style={{ width: "20%" }} />
+                        <col style={{ width: "20%" }} />
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>번호</th>
@@ -95,7 +132,7 @@ const Board = ({ type }) => {
                                     : (currentPage * itemsPerPage) + index + 1
                                 }</td>
                                 <td>
-                                    <span className='boardTitle' 
+                                    <span className='boardTitle'
                                         onClick={() => handlePostClick(post.id)}>
                                         {post.title}
                                     </span>

@@ -30,7 +30,7 @@ public class Post {
     private String content;     // 내용
     private String author;      // 작성자
     
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdDate;  // 작성일자
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

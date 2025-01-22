@@ -24,12 +24,17 @@ public class OnlineCounselController {
 	@Autowired
     private OnlineCounselService counselService;
 
-    @GetMapping
+	@GetMapping
     public ResponseEntity<Page<OnlineCounselDto>> getCounsels(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "desc") String sort) {
-        return ResponseEntity.ok(counselService.getCounsels(page, size, sort));
+            @RequestParam(defaultValue = "desc") String sort,
+            @RequestParam(required = false) String searchType,
+            @RequestParam(required = false) String keyword) {
+        
+        return ResponseEntity.ok(
+            counselService.getCounsels(page, size, sort, searchType, keyword)
+        );
     }
 
     @GetMapping("/{id}")

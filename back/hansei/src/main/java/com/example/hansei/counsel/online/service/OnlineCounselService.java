@@ -25,10 +25,23 @@ public class OnlineCounselService {
 	@Autowired
 	private ModelMapper modelMapper;
 
-    public Page<OnlineCounselDto> getCounsels(int page, int size, String sort) {
+    public Page<OnlineCounselDto> getCounsels(int page, int size, String sort, String searchType, String keyword) {
         Sort.Direction direction = sort.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "createdDate"));
-        return counselRepository.findAll(pageable).map(this::convertToDto);
+        
+        Page<OnlineCounsel> counselPage;
+        
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            if ("author".equals(searchType)) {
+                counselPage = counselRepository.findByAuthorContaining(keyword, pageable);
+            } else {
+                counselPage = counselRepository.findByTitleContaining(keyword, pageable);
+            }
+        } else {
+            counselPage = counselRepository.findAll(pageable);
+        }
+        
+        return counselPage.map(this::convertToDto);
     }
 
     public OnlineCounselDto getCounsel(Long id) {

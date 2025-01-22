@@ -69,6 +69,7 @@ const CounselAnswerForm = () => {
 
     return (
         <div className="writeBoardContainer">
+            <h1>답변 작성</h1>
             <table>
                 <tbody>
                     <tr>
