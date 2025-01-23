@@ -1,6 +1,7 @@
 .counsContainer {
     display: flex;
     justify-content: center;
+    margin-bottom: 20vh;
 }
 
 .list {
@@ -9,10 +10,11 @@
 }
 
 .list > div {
-    padding: 20px;
+    padding: 5vh;
 }
 
 .list > div > a {
+    text-align: center;
     text-decoration: none;
-    color: inherit;
+    color: black;
 }

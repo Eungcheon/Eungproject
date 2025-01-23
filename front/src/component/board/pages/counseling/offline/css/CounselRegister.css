@@ -1,0 +1,41 @@
+.counsel-register {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.counsel-register h2 {
+    margin-bottom: 30px;
+}
+
+.counsel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.counsel-table th, 
+.counsel-table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.counsel-table th {
+    background-color: #f8f9fa;
+    width: 120px;
+    text-align: center;
+}
+
+.counsel-table textarea {
+    width: 95%;
+    height: 200px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.button-container {
+    text-align: right;
+    margin-top: 20px;
+}

@@ -13,19 +13,19 @@ const CounselingList = () => {
                 <div className="online">
                     <Link to="./online">
                         <img src={onlineCouns} alt="onlineCounseling" />
-                        <p>온라인 상담</p>
+                        <h2>온라인 상담</h2>
                     </Link>
                 </div>
                 <div className="offline">
                     <Link to="./offline">
                         <img src={offlineCouns} alt="offlineCounseling" />
-                        <p>오프라인 상담</p>
+                        <h2>오프라인 상담</h2>
                     </Link>
                 </div>
                 <div className="realTime">
                     <Link to="./realTime">
                         <img src={realTimeCouns} alt="realTimeCounseling" />
-                        <p>실시간 상담</p>
+                        <h2>실시간 상담</h2>
                     </Link>
                 </div>
             </div>
