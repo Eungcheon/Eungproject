@@ -2,6 +2,7 @@ package com.example.hansei.board.common.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -33,17 +34,24 @@ public class FileService {
     @Autowired
     private PostRepository postRepository;
     
+    // 파일 업로드
     public List<PostFile> saveFiles(List<MultipartFile> files) {
         List<PostFile> savedFiles = new ArrayList<>();
         
         for (MultipartFile multipartFile : files) {
             if (!multipartFile.isEmpty()) {
                 try {
-                    // 원본 파일명
-                    String originalFilename = multipartFile.getOriginalFilename();
+                	// 원본 파일명 (디코딩)
+                    String originalFilename = URLDecoder.decode(multipartFile.getOriginalFilename(), StandardCharsets.UTF_8.toString());
                     
-                    // 저장할 파일명 생성 (UUID 사용)
-                    String storedFileName = UUID.randomUUID().toString() + "_" + originalFilename;
+                    // UUID 생성
+                    String uuid = UUID.randomUUID().toString();
+                    
+                    // 파일 확장자 추출
+                    String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    
+                    // 저장할 파일명 생성 (UUID + 확장자)
+                    String storedFileName = uuid + extension;
                     
                     // 파일 저장 경로 생성
                     String filePath = uploadPath + storedFileName;
@@ -54,11 +62,9 @@ public class FileService {
                     // 파일 정보 생성
                     PostFile file = new PostFile();
                     
-                    String encodedFilename = URLEncoder.encode(storedFileName, StandardCharsets.UTF_8.toString());
-                    
                     file.setName(originalFilename);
                     file.setStoredName(storedFileName);
-                    file.setUrl("/files/" + encodedFilename);
+                    file.setUrl("/files/" + URLEncoder.encode(storedFileName, StandardCharsets.UTF_8.toString()));
                     file.setContentType(multipartFile.getContentType());
                     file.setSize(multipartFile.getSize());
                     
