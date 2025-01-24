@@ -1,4 +1,4 @@
-.pagination {
+.board-pagination {
     display: flex;
     list-style-type: none;
     justify-content: center;
@@ -7,7 +7,7 @@
     gap: 3px;
 }
 
-.page-item > button {
+.board-page-item > button {
     border: none;
     background-color: white;
     cursor: pointer;
@@ -18,7 +18,7 @@
     
 }
 
-.page-item > button > img {
+.board-page-item > button > img {
     width: 20px;  
     height: 15px; 
     object-fit: contain; /* 이미지 비율 유지 */

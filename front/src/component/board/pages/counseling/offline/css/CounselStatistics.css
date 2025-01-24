@@ -1,8 +1,8 @@
-.statistics-container {
+.offline-statistics-container {
     padding: 20px;
 }
 
-.chart-row {
+.offline-chart-row {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -10,14 +10,14 @@
     margin-top: 20px;
 }
 
-.chart-row > div {
+.offline-chart-row > div {
     background: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-h3 {
+.offline-chart-row > div > h3 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;

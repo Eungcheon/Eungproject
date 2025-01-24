@@ -26,15 +26,15 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <nav>
-      <ul className="pagination">
+      <ul className="board-pagination">
         {currentPage > 1 && (
           <>
-            <li className="page-item">
+            <li className="board-page-item">
               <button onClick={() => onPageChange(1)}>
                 <img src={goFirst} alt='firstPage' />
               </button>
             </li>
-            <li className="page-item">
+            <li className="board-page-item">
               <button onClick={() => onPageChange(currentPage - 1)}>
                 <img src={goPrev} alt='prevPage' />
               </button>
@@ -43,7 +43,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         )}
 
         {pageNumbers.map(number => (
-          <li key={number} className="page-item">
+          <li key={number} className="board-page-item">
             <button
               onClick={() => onPageChange(number)}
               style={{
@@ -58,12 +58,12 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
         {currentPage < totalPages && (
           <>
-            <li className="page-item">
+            <li className="board-page-item">
               <button onClick={() => onPageChange(currentPage + 1)}>
                 <img src={goNext} alt='nextPage' />
               </button>
             </li>
-            <li className="page-item">
+            <li className="board-page-item">
               <button onClick={() => onPageChange(totalPages)}>
                 <img src={goLast} alt='lastPage' />
               </button>

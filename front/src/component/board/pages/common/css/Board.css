@@ -4,17 +4,16 @@
     min-height: 500px; 
 }
 
-.boardContainer > p {
-    margin-bottom: 50px;
+.boardContainer > h1 {
     text-align: left;
     font-size: 40px;
-    font-weight: bold;
 }
 
 .boardTopBox {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 50px;
     margin-bottom: 20px;
 }
 
@@ -58,32 +57,7 @@
     text-align: left;
 }
 
-.searchBox {
-    display: flex;
-    gap: 10px;
-}
 
-.searchBox > select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.searchBox > input {
-    padding: 8px;
-    border: 1px solid #ddd;
-    width: 200px;
-    border-radius: 4px;
-}
-
-.searchBox > button {
-    padding: 8px 15px;
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
 
 .boardTopBox > button {
     padding: 8px 15px;
@@ -109,7 +83,8 @@
     cursor: pointer;
 }
 
-.answered {
+/* 온라인 상답 게시판 답변완료 */
+.board-answered {
     display: inline-block;  /* 인라인 요소지만 블록 속성도 가지게 함 */
     color: #2196F3;        /* 텍스트 색상 설정 */
     margin-left: 5px;      /* 왼쪽 여백 설정 */

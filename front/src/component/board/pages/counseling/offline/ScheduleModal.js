@@ -44,8 +44,8 @@ const ScheduleModal = ({ isOpen, onClose }) => {
             overlayClassName="schedule-modal-overlay"
         >
             <h2>상담 일정 등록</h2>
-            <div className="modal-content">
-                <div className="input-group">
+            <div className="schedule-modal-content">
+                <div className="schedule-modal-input-group">
                     <label>상담사</label>
                     <input 
                         type="text" 
@@ -54,7 +54,7 @@ const ScheduleModal = ({ isOpen, onClose }) => {
                     />
                 </div>
 
-                <div className="input-group">
+                <div className="schedule-modal-input-group">
                     <label>날짜 선택</label>
                     <DatePicker
                         selected={selectedDate}
@@ -63,11 +63,11 @@ const ScheduleModal = ({ isOpen, onClose }) => {
                         locale={ko}
                         minDate={new Date()}
                         maxDate={addMonths(new Date(), 4)}  // 4개월까지 가능
-                        className="date-picker"
+                        className="schedule-modal-date-picker"
                     />
                 </div>
 
-                <div className="input-group">
+                <div className="schedule-modal-input-group">
                     <label>시간 선택</label>
                     <select 
                         value={selectedTime} 
@@ -80,16 +80,16 @@ const ScheduleModal = ({ isOpen, onClose }) => {
                     </select>
                 </div>
 
-                <div className="button-group">
+                <div className="schedule-modal-button-group">
                     <button 
-                        className="submit-button" 
+                        className="schedule-modal-submit-button" 
                         onClick={handleSubmit}
                         disabled={!selectedTime}
                     >
                         등록
                     </button>
                     <button 
-                        className="cancel-button" 
+                        className="schedule-modal-cancel-button" 
                         onClick={onClose}
                     >
                         취소

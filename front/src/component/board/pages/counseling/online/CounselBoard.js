@@ -1,4 +1,4 @@
-import '../../community/css/Board.css';
+import '../../common/css/Board.css';
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../common/Pagination";
 import { useState, useEffect, useCallback } from "react";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
 import useIsAdmin from "../../../hooks/useIsAdmin";
 import useSearch from '../../../hooks/useSearch';
+import SearchBox from '../../common/SearchBox';
 
 const CounselBoard = () => {
     const [posts, setPosts] = useState([]);
@@ -19,7 +20,6 @@ const CounselBoard = () => {
     const {
         searchType,
         searchKeyword,
-        handleSearchChange,
         handleSearch,
         handleSearchTypeChange
     } = useSearch();
@@ -76,7 +76,8 @@ const CounselBoard = () => {
 
     return (
         <div className="boardContainer">
-            <p>온라인 상담</p>
+            <h1>온라인 상담</h1>
+            <p>게시판 사용 안내</p>
             <div className="boardTopBox">
                 <div className="selectSortOrder">
                     <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
@@ -84,27 +85,12 @@ const CounselBoard = () => {
                         <option value="asc">오래된순</option>
                     </select>
                 </div>
-                <div className="searchBox">
-                    <select
-                        value={searchType}
-                        onChange={handleSearchTypeChange}
-                    >
-                        <option value="title">제목</option>
-                        <option value="author">이름</option>
-                    </select>
-                    <input
-                        type="text"
-                        placeholder="검색어를 입력하세요"
-                        value={searchKeyword}
-                        onChange={handleSearchChange}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleSearch(handleSearchSubmit);
-                            }
-                        }}
-                    />
-                    <button onClick={() => handleSearch(handleSearchSubmit)}>입력</button>
-                </div>
+                <SearchBox
+                    searchType={searchType}
+                    handleSearchTypeChange={handleSearchTypeChange}
+                    handleSearch={handleSearch}
+                    handleSearchSubmit={handleSearchSubmit}
+                />
                 <button onClick={handleWriteClick}>글쓰기</button>
             </div>
             <div className="boardMiddleBox">
@@ -137,7 +123,7 @@ const CounselBoard = () => {
                                         onClick={() => handlePostClick(post)}>
                                         {post.title}
                                     </span>
-                                    {post.answer && <span className="answered"
+                                    {post.answer && <span className="board-answered"
                                         onClick={() => handlePostClick(post)}>
                                         [답변완료]
                                     </span>}

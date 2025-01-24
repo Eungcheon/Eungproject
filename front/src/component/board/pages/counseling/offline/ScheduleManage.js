@@ -32,7 +32,7 @@ const ScheduleManage = () => {
     };
 
     return (
-        <div className="schedule-manage">
+        <div className="offline-schedule-manage">
             <h2>상담 일정 관리</h2>
             <table>
                 <thead>

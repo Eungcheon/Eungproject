@@ -19,55 +19,55 @@
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.schedule-modal-content {
     margin-top: 20px;
 }
 
-.input-group {
+.schedule-modal-input-group {
     margin-bottom: 20px;
 }
 
-.input-group label {
+.schedule-modal-input-group label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
 }
 
-.input-group input,
-.input-group select,
-.date-picker {
+.schedule-modal-input-group input,
+.schedule-modal-input-group select,
+.schedule-modal-date-picker {
     width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-.button-group {
+.schedule-modal-button-group {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
     margin-top: 30px;
 }
 
-.submit-button,
-.cancel-button {
+.schedule-modal-submit-button,
+.schedule-modal-cancel-button {
     padding: 8px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.submit-button {
+.schedule-modal-submit-button {
     background-color: #003875;
     color: white;
 }
 
-.cancel-button {
+.schedule-modal-cancel-button {
     background-color: #6c757d;
     color: white;
 }
 
-.submit-button:disabled {
+.schedule-modal-submit-button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }

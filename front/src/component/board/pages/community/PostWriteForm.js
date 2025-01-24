@@ -1,4 +1,4 @@
-import './css/PostWriteForm.css';
+import '../common/css/PostWriteForm.css';
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";

@@ -1,10 +1,10 @@
-.schedule-calendar {
+.offline-schedule-calendar {
     padding: 20px;
     max-width: 1000px;
     margin: 0 auto;
 }
 
-.calendar-header {
+.offline-calendar-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,23 +12,23 @@
     margin-bottom: 20px;
 }
 
-.calendar {
+.offline-calendar {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-.calendar th, .calendar td {
+.offline-calendar th, .offline-calendar td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: center;
 }
 
-.calendar th {
+.offline-calendar th {
     background-color: #f8f9fa;
 }
 
-.calendar td {
+.offline-calendar td {
     position: relative;  /* 자식 요소의 절대 위치 기준점 */
     vertical-align: top; /* 내용을 위쪽으로 정렬 */
 }
@@ -38,8 +38,8 @@
     position: relative;
 }
 
-.calendar th.sun { color: #ff6b6b; }
-.calendar th.sat { color: #339af0; }
+.offline-calendar th.sun { color: #ff6b6b; }
+.offline-calendar th.sat { color: #339af0; }
 
 .cal-day {
     position: absolute; /* 절대 위치 설정 */
@@ -47,31 +47,31 @@
     font-weight: bold;
 }
 
-.schedule-container {
+.offline-schedule-container {
     padding-top: 15px;
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-.schedule {
+.offline-schedule {
     font-size: 0.9em;
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.schedule.available {
+.offline-schedule.available {
     background-color: #e3f2fd;
     color: #1976d2;
 }
 
-.schedule.reserved {
+.offline-schedule.reserved {
     background-color: #ffebee;
     color: #c62828;
 }
 
-.calendar-header button {
+.offline-calendar-header button {
     padding: 5px 10px;
     background: none;
     border: none;
@@ -80,7 +80,7 @@
 }
 
 /* 일요일 날짜 스타일 */
-.calendar td:first-child .cal-day {
+.offline-calendar td:first-child .cal-day {
     color: #ff3333;
 }
 

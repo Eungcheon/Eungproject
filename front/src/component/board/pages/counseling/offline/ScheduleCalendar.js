@@ -78,11 +78,11 @@ const ScheduleCalendar = () => {
         if (!day || !schedules[day]) return null;
 
         return (
-            <div className='schedule-container'>
+            <div className='offline-schedule-container'>
                 {schedules[day].map((schedule, index) =>
                     <div
                         key={index}
-                        className={`schedule ${schedule.status}`}
+                        className={`offline-schedule ${schedule.status}`}
                         onClick={(e) => {
                             e.stopPropagation();  // td의 클릭 이벤트 전파 방지
                             handleScheduleClick(day, schedule);
@@ -124,13 +124,13 @@ const ScheduleCalendar = () => {
     };
 
     return (
-        <div className="schedule-calendar">
-            <div className="calendar-header">
+        <div className="offline-schedule-calendar">
+            <div className="offline-calendar-header">
                 <button onClick={() => moveMonth(-1)}>◀</button>
                 <h3>{currentDate.getFullYear()}년 {currentDate.getMonth() + 1}월</h3>
                 <button onClick={() => moveMonth(1)}>▶</button>
             </div>
-            <table className="calendar">
+            <table className="offline-calendar">
                 <thead>
                     <tr>
                         <th className="sun">SUN</th>
@@ -149,7 +149,7 @@ const ScheduleCalendar = () => {
                                 <td key={j}>
                                     <div className='cell-content'>
                                         {day && <div className="cal-day">{day}</div>}
-                                        <div className='schedule-container'>
+                                        <div className='offline-schedule-container'>
                                             {renderSchedule(day)}
                                         </div>
                                     </div>

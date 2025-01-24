@@ -4,14 +4,14 @@
     padding: 20px;
 }
 
-.tab-container {
+.offline-tab-container {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
 }
 
-.tab-button {
+.offline-tab-button {
     padding: 10px 20px;
     border: none;
     background: none;
@@ -20,12 +20,12 @@
     position: relative;
 }
 
-.tab-button.active {
+.offline-tab-button.active {
     color: #003875;
     font-weight: bold;
 }
 
-.tab-button.active::after {
+.offline-tab-button.active::after {
     content: '';
     position: absolute;
     bottom: -1px;
@@ -35,6 +35,6 @@
     background-color: #003875;
 }
 
-.content-container {
+.offline-counsel-content-container {
     min-height: 500px;
 }
