@@ -34,9 +34,9 @@ const CounselRegister = () => {
     };
 
     return (
-        <div className="counsel-register">
+        <div className="offline-counsel-register">
             <h2>오프라인 상담 신청</h2>
-            <table className="counsel-table">
+            <table className="offline-counsel-table">
                 <tbody>
                     <tr>
                         <th>상담사</th>
