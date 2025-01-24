@@ -40,7 +40,7 @@
 }
 
 
-input[type="file"] {
+.writeBoardContainer input[type="file"] {
     margin-top: 10px;
 }
 
