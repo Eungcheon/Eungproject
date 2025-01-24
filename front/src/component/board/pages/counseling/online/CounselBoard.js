@@ -1,6 +1,6 @@
-import '../../../component/common/css/Board.css';
+import '../../community/css/Board.css';
 import { useNavigate } from "react-router-dom";
-import Pagination from "../../../component/common/Pagination";
+import Pagination from "../../common/Pagination";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";

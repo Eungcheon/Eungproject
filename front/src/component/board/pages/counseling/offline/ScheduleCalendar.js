@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './css/ScheduleCalendar.css';
-import '../../../component/common/css/Button.css';
+import '../../common/css/Button.css';
 import { useNavigate } from 'react-router-dom';
 import useIsAdmin from '../../../hooks/useIsAdmin';
 import ScheduleModal from './ScheduleModal';

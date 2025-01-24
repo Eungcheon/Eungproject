@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { SERVER_URL } from '../../../api/serverURL';
 import './css/CounselRegister.css';
-import '../../../component/common/css/Button.css';
+import '../../common/css/Button.css';
 
 const CounselRegister = () => {
     const navigate = useNavigate();

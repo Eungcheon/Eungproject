@@ -1,7 +1,7 @@
 /* (공용) 게시글 목록 페이지 */
 import './css/Board.css';
 import { useNavigate } from "react-router-dom";
-import Pagination from "./Pagination";
+import Pagination from "../common/Pagination";
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";

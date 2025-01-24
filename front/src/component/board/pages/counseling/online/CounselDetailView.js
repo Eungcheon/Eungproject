@@ -1,5 +1,5 @@
-import "../../../component/common/css/PostDetailView.css";
-import "../../../component/common/css/Button.css";
+import "../../community/css/PostDetailView.css";
+import "../../common/css/Button.css";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
