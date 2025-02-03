@@ -76,10 +76,10 @@ const Board = ({ type }) => {
     };
 
     return (
-        <div className="boardContainer">
+        <div className="common-board-container">
             <h1>{boardTitles[type]}</h1>
-            <div className="boardTopBox">
-                <div className="selectSortOrder">
+            <div className="board-top-box">
+                <div className="select-sort-order">
                     <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
                         <option value="desc">최신순</option>
                         <option value="asc">오래된순</option>
@@ -93,8 +93,8 @@ const Board = ({ type }) => {
                 />
                 {isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
             </div>
-            <div className="boardMiddleBox">
-                <table className="boardTable">
+            <div className="board-middle-box">
+                <table className="common-board-table">
                     <colgroup>
                         <col style={{ width: "10%" }} />
                         <col style={{ width: "50%" }} />
@@ -117,7 +117,7 @@ const Board = ({ type }) => {
                                     : (currentPage * itemsPerPage) + index + 1
                                 }</td>
                                 <td>
-                                    <span className='boardTitle'
+                                    <span className='common-board-title'
                                         onClick={() => handlePostClick(post.id)}>
                                         {post.title}
                                     </span>

@@ -1,23 +1,24 @@
-.detailBoardContainer {
+.common-detail-board-container {
     width: 100%;
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
 }
 
-.detailBoardContainer table {
+.common-detail-board-container table {
     width: 100%;
     border-top: 2px solid #333;
     border-collapse: collapse;
 }
 
-.detailBoardContainer tr:nth-child(4)  {  
+.common-detail-board-container tr:nth-child(4),
+.common-detail-board-container tr:nth-child(8) {  
     height: 500px;
     vertical-align: top;  /* 내용을 상단에서 시작 */
     white-space: pre-wrap;  /* 줄바꿈 유지 */
 }
 
-.detailBoardContainer th {
+.common-detail-board-container th {
     width: 100px;
     background-color: #f8f8f8;
     padding: 15px;
@@ -25,18 +26,18 @@
     border-bottom: 1px solid #ddd;
 }
 
-.detailBoardContainer td {
+.common-detail-board-container td {
     padding: 15px;
     border-bottom: 1px solid #ddd;
 }
 
-.detailBoardContainer td span {
+.common-detail-board-container td span {
     color: blue;
     text-decoration: underline;
     cursor: pointer;
 }
 
-.answerText {
+.common-detail-board-container > .answer-text {
     white-space: pre-wrap;
 }
 

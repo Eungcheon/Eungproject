@@ -53,7 +53,7 @@ const CounselDetailView = () => {
     };
 
     return (
-        <div className="detailBoardContainer">
+        <div className="common-detail-board-container">
             <h1>상담 상세 내용</h1>
             <table>
                 <tbody>
@@ -93,7 +93,7 @@ const CounselDetailView = () => {
                             </tr>
                             <tr>
                                 <th>답변</th>
-                                <td className="answerText">
+                                <td className="answer-text">
                                     {counsel.answer}
                                 </td>
                             </tr>
@@ -101,7 +101,7 @@ const CounselDetailView = () => {
                     )}
                 </tbody>
             </table>
-            <div className="buttonContainer">
+            <div className="common-button-container">
                 {/* 답변이 없고 작성자인 경우 수정/삭제 버튼 표시 */}
                 {!counsel?.answer && isAuthor && (
                     <>

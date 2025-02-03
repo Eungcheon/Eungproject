@@ -63,7 +63,7 @@ const CounselRegister = () => {
                     </tr>
                 </tbody>
             </table>
-            <div className="buttonContainer">
+            <div className="common-button-container">
                 <button onClick={handleSubmit}>저장</button>
                 <button onClick={() => navigate('/counsel/offline')}>목록</button>
             </div>

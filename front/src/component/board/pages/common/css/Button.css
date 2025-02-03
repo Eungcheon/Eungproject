@@ -1,9 +1,9 @@
-.buttonContainer {
+.common-button-container {
     margin-top: 20px;
     text-align: right;
 }
 
-.buttonContainer button {
+.common-button-container button {
     padding: 8px 20px;
     margin-left: 10px;
     border: none;
@@ -13,6 +13,6 @@
     color: white;
 }
 
-.buttonContainer button:hover {
+.common-button-container button:hover {
     background-color: #002855;
 }

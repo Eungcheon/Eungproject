@@ -160,7 +160,7 @@ const ScheduleCalendar = () => {
                 </tbody>
             </table>
             {isAdmin && (
-                <div className="buttonContainer">
+                <div className="common-button-container">
                     <button onClick={handleScheduleCreate}>
                         일정 등록
                     </button>

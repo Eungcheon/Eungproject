@@ -8,23 +8,23 @@ const CounselingList = () => {
 
 
     return (
-        <div className="counsContainer">
+        <div className="couns-container">
             <div className="list">
                 <div className="online">
                     <Link to="./online">
-                        <img src={onlineCouns} alt="onlineCounseling" />
+                        <img src={onlineCouns} alt="online-counseling" />
                         <h2>온라인 상담</h2>
                     </Link>
                 </div>
                 <div className="offline">
                     <Link to="./offline">
-                        <img src={offlineCouns} alt="offlineCounseling" />
+                        <img src={offlineCouns} alt="offline-counseling" />
                         <h2>오프라인 상담</h2>
                     </Link>
                 </div>
                 <div className="realTime">
                     <Link to="./realTime">
-                        <img src={realTimeCouns} alt="realTimeCounseling" />
+                        <img src={realTimeCouns} alt="realTime-counseling" />
                         <h2>실시간 상담</h2>
                     </Link>
                 </div>

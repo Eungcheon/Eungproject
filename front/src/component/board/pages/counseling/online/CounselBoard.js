@@ -75,11 +75,11 @@ const CounselBoard = () => {
     };
 
     return (
-        <div className="boardContainer">
+        <div className="common-board-container">
             <h1>온라인 상담</h1>
             <p>게시판 사용 안내</p>
-            <div className="boardTopBox">
-                <div className="selectSortOrder">
+            <div className="board-top-box">
+                <div className="select-sort-order">
                     <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
                         <option value="desc">최신순</option>
                         <option value="asc">오래된순</option>
@@ -93,8 +93,8 @@ const CounselBoard = () => {
                 />
                 <button onClick={handleWriteClick}>글쓰기</button>
             </div>
-            <div className="boardMiddleBox">
-                <table className="boardTable">
+            <div className="board-middle-box">
+                <table className="common-board-table">
                     <colgroup>
                         <col style={{ width: "10%" }} />
                         <col style={{ width: "50%" }} />
@@ -119,7 +119,7 @@ const CounselBoard = () => {
                                     }
                                 </td>
                                 <td>
-                                    <span className='boardTitle'
+                                    <span className='common-board-title'
                                         onClick={() => handlePostClick(post)}>
                                         {post.title}
                                     </span>

@@ -1,15 +1,15 @@
-.boardContainer {
+.common-board-container {
     justify-content: center;
     margin: 10vh 15vh;
     min-height: 500px; 
 }
 
-.boardContainer > h1 {
+.common-board-container > h1 {
     text-align: left;
     font-size: 40px;
 }
 
-.boardTopBox {
+.board-top-box {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,49 +17,49 @@
     margin-bottom: 20px;
 }
 
-.boardTopBox > .selectSortOrder > select {
+.board-top-box > .select-sort-order > select {
     height: 4vh;
     padding: 5px;
     border: 1px solid #ddd;
 }
 
-.boardTable {
+.common-board-table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
 }
 
-.boardTable > thead > tr {
+.common-board-table > thead > tr {
     background-color: #f8f9fa;
     border-top: 2px solid #333;
     border-bottom: 1px solid #ddd;
 }
 
-.boardTable > thead > tr > th {
+.common-board-table > thead > tr > th {
     padding: 12px;
     font-weight: bold;
     white-space: nowrap;
 }
 
-.boardTable > tbody > tr {
+.common-board-table > tbody > tr {
     border-bottom: 1px solid #ddd;
     text-align: center;
 }
 
-.boardTable > tbody > tr > td {
+.common-board-table > tbody > tr > td {
     padding: 12px;
     white-space: nowrap;  /* 텍스트가 줄바꿈되지 않도록 설정 */
     overflow: hidden;     /* 셀 크기를 넘어가는 내용을 숨김 */
 }
 
-.boardTable > tbody > tr > td:nth-child(2) {
+.common-board-table > tbody > tr > td:nth-child(2) {
     width: 50%;
     text-align: left;
 }
 
 
 
-.boardTopBox > button {
+.board-top-box > button {
     padding: 8px 15px;
     background-color: #003875;
     color: white;
@@ -69,12 +69,12 @@
 }
 
 /* 호버 효과 추가 */
-.boardTable > tbody > tr:hover {
+.common-board-table > tbody > tr:hover {
     background-color: #f8f9fa;
 }
 
 /* 제목 길이 제한 */
-.boardTitle {
+.common-board-title {
     display: inline-block;
     max-width: 70%;
     overflow: hidden;

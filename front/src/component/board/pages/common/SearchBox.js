@@ -19,7 +19,7 @@ const SearchBox = ({
     };
 
     return (
-        <div className="board-searchBox">
+        <div className="common-board-search-box">
             <select
                 value={searchType}
                 onChange={handleSearchTypeChange}

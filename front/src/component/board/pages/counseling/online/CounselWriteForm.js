@@ -82,7 +82,7 @@ const CounselWriteForm = () => {
     };
 
     return (
-        <div className="writeBoardContainer">
+        <div className="write-board-container">
             <h1>상담 작성</h1>
             <table>
                 <tbody>
@@ -107,7 +107,7 @@ const CounselWriteForm = () => {
                     </tr>
                 </tbody>
             </table>
-            <div className="buttonContainer">
+            <div className="common-button-container">
                 <button onClick={handleSubmit}>
                     {isEdit ? '수정' : '저장'}
                 </button>

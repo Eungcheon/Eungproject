@@ -113,7 +113,7 @@ const PostWriteForm = () => {
     };
 
     return (
-        <div className="writeBoardContainer">
+        <div className="write-board-container">
             <table>
                 <tbody>
                     <tr>
@@ -140,7 +140,7 @@ const PostWriteForm = () => {
                         <td>
                             {/* 기존 첨부파일 목록 */}
                             {isEdit && existingFiles.map(file => (
-                                <div key={file.id} className="selectedFiles">
+                                <div key={file.id} className="write-selected-files">
                                     {file.name}
                                     <button onClick={() => handleRemoveExistingFile(file.id)}>
                                         ×
@@ -149,11 +149,11 @@ const PostWriteForm = () => {
                             ))}
                             {/* 선택된 파일 목록 표시 */}
                             {fileNames.map((name, index) => (
-                                <div key={index} className="selectedFiles">
+                                <div key={index} className="write-selected-files">
                                     {name}
                                     <button
                                         onClick={() => handleRemoveFile(index)}
-                                        className="removeFile"
+                                        className="write-remove-file"
                                     >
                                         ×
                                     </button>
@@ -169,7 +169,7 @@ const PostWriteForm = () => {
                     </tr>
                 </tbody>
             </table>
-            <div className="buttonContainer">
+            <div className="common-button-container">
                 <button onClick={handleSubmit}>
                     {isEdit ? '수정' : '저장'}
                 </button>

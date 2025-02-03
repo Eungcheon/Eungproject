@@ -31,7 +31,7 @@ const PostDetailView = () => {
     }, [id, type]);
 
     return (
-        <div className="detailBoardContainer">
+        <div className="common-detail-board-container">
             <table>
                 <tbody>
                     <tr>
@@ -53,7 +53,7 @@ const PostDetailView = () => {
                     <AttachmentView fileList={post?.fileList} />  
                 </tbody>
             </table>
-            <div className="buttonContainer">
+            <div className="common-button-container">
                 {isAdmin && <button onClick={() => navigate(`/community/${type}/edit/${id}`)}>수정</button>}
                 <button onClick={() => navigate(`/community/${type}`)}>목록</button>
             </div>

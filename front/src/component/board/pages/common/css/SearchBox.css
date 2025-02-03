@@ -1,22 +1,22 @@
-.board-searchBox {
+.common-board-search-box {
     display: flex;
     gap: 10px;
 }
 
-.board-searchBox > select {
+.common-board-search-box > select {
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-.board-searchBox > input {
+.common-board-search-box > input {
     padding: 8px;
     border: 1px solid #ddd;
     width: 200px;
     border-radius: 4px;
 }
 
-.board-searchBox > button {
+.common-board-search-box > button {
     padding: 8px 15px;
     background-color: #0066cc;
     color: white;
