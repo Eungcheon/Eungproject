@@ -1,64 +1,50 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
-import './ChatRoom.css';
+import './css/ChatRoom.css';
 
 const ChatRoom = () => {
-    const { counselorId } = useParams();
+    const { roomId } = useParams(); // URL에서 roomId 가져오기
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
-    const [status, setStatus] = useState('connecting');
-    const socketRef = useRef();
-    const navigate = useNavigate();
-    
+    const socketRef = useRef(io('http://localhost:8095'));
+
     useEffect(() => {
-        socketRef.current = io('http://localhost:8090');
-
-        socketRef.current.emit('joinRoom', { counselorId });
-
-        socketRef.current.on('connect', () => {
-            setStatus('chatting');
-        });
+        socketRef.current.emit('joinRoom', { roomId }); // 방 연결
 
         socketRef.current.on('receiveMessage', (message) => {
-            setMessages(prev => [...prev, message]);
+            setMessages((prev) => [...prev, message]);
         });
 
-        socketRef.current.on('counselingEnded', () => {
-            alert('상담이 종료되었습니다.');
-            navigate('/counsel');
-        });
-
-        return () => socketRef.current.disconnect();
-    }, [counselorId]);
+        return () => {
+            socketRef.current.disconnect();
+        };
+    }, [roomId]);
 
     const sendMessage = (e) => {
         e.preventDefault();
-        if (inputMessage.trim()) {
-            socketRef.current.emit('sendMessage', {
-                counselorId,
-                message: inputMessage
-            });
-            setInputMessage('');
-        }
+        socketRef.current.emit('sendMessage', {
+            roomId,
+            sender: '유저',
+            message: inputMessage,
+        });
+        setInputMessage('');
     };
 
     return (
         <div className="chat-room">
             <div className="chat-messages">
                 {messages.map((msg, index) => (
-                    <div key={index} className={`message ${msg.type}`}>
-                        <span className="sender">{msg.sender}</span>
-                        <p>{msg.content}</p>
+                    <div key={index} className="message">
+                        {msg.sender}: {msg.message}
                     </div>
                 ))}
             </div>
-            <form onSubmit={sendMessage} className="message-form">
+            <form className="message-form" onSubmit={sendMessage}>
                 <input
                     type="text"
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    placeholder="메시지를 입력하세요..."
                 />
                 <button type="submit">전송</button>
             </form>

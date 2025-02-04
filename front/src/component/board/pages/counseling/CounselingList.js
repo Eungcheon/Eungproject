@@ -22,8 +22,8 @@ const CounselingList = () => {
                         <h2>오프라인 상담</h2>
                     </Link>
                 </div>
-                <div className="realTime">
-                    <Link to="./realTime">
+                <div className="realtime">
+                    <Link to="./realtime">
                         <img src={realTimeCouns} alt="realTime-counseling" />
                         <h2>실시간 상담</h2>
                     </Link>
