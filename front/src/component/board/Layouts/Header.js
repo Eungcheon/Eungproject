@@ -39,10 +39,22 @@ const Header = () => {
     window.location.reload();
   };
 
+  const handleCounselorLogin = async () => {
+    try {
+      const response = await axios.post(`${SERVER_URL}/api/login`, {
+        userEmail: 'counselor1@hansei.ac.kr',
+        userPassword: 'password21'
+      });
+      localStorage.setItem('userInfo', JSON.stringify(response.data));
+      setUserRole(response.data.userRole);
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+    window.location.reload();
+  };
+
   return (
     <header>
-      <Link to="/counsel">상담</Link>
-      &nbsp;&nbsp; | &nbsp;&nbsp;
       <Link to="/community/notice">공지사항</Link>
       &nbsp;&nbsp; | &nbsp;&nbsp;
       <Link to="/community/faq">FAQ</Link>
@@ -56,6 +68,8 @@ const Header = () => {
       <button onClick={handleAdminLogin}>관리자 로그인</button>
       &nbsp;&nbsp;
       <button onClick={handleUserLogin}>사용자 로그인</button>
+      &nbsp;&nbsp;
+      <button onClick={handleCounselorLogin}>상담사 로그인</button>
       <div>현재 권한: {userRole || '로그인 필요'}</div>
       <hr />
     </header>

@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import socket from '../../../hooks/socket'; // 전역 소켓 가져오기
 import './css/CounselorList.css';
 
 const counselorData = [
@@ -10,29 +10,29 @@ const counselorData = [
 ];
 
 const CounselorList = () => {
-    const [counselors] = useState(counselorData);
     const navigate = useNavigate();
-    const socketRef = useRef(io('http://localhost:8095')); // 소켓 초기화
 
-    const handleChatStart = (counselorId) => {
+    const handleChatStart = () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+        const roomId = `${userInfo.userId}-${Date.now()}`; // 고유 Room ID 생성
 
         // 상담 요청 전송
-        socketRef.current.emit('requestCounseling', {
+        socket.emit('requestCounseling', {
             userId: userInfo.userId,
             userName: userInfo.userName,
+            roomId,
         });
 
-        socketRef.current.on('counselRequest', ({ roomId }) => {
-            navigate(`/counsel/realtime/chat/${roomId}`); // 방 ID 기반으로 이동
-        });
+        // 사용자 바로 방으로 이동
+        navigate(`/counsel/realtime/chat/${roomId}`);
+        socket.emit('joinRoom', { roomId });
     };
 
     return (
         <div className="counselor-list-container">
             <h2>실시간 상담</h2>
             <div className="counselor-grid">
-                {counselors.map((counselor) => (
+                {counselorData.map((counselor) => (
                     <div key={counselor.id} className="counselor-card">
                         <h3>{counselor.name}</h3>
                         <p className="info">{counselor.info}</p>
@@ -41,7 +41,7 @@ const CounselorList = () => {
                             {counselor.status === 'available' ? '상담 가능' : '상담중'}
                         </div>
                         <button
-                            onClick={() => handleChatStart(counselor.id)}
+                            onClick={handleChatStart}
                             disabled={counselor.status !== 'available'}
                         >
                             상담 시작

@@ -1,34 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import io from 'socket.io-client';
+import socket from '../../../hooks/socket'; // 전역 소켓 가져오기
 import './css/CounselorDashboard.css';
 
 const CounselorDashboard = () => {
     const [requests, setRequests] = useState([]);
-    const socketRef = useRef(io('http://localhost:8095'));
     const navigate = useNavigate();
 
     useEffect(() => {
-        // 상담 요청 수신
-        socketRef.current.on('counselRequest', ({ userId, userName, roomId }) => {
+        const handleCounselRequest = ({ userId, userName, roomId }) => {
             setRequests((prev) => [...prev, { userId, userName, roomId }]);
-        });
+        };
+
+        // 상담 요청 수신 이벤트 등록
+        socket.on('counselRequest', handleCounselRequest);
 
         return () => {
-            socketRef.current.disconnect();
+            socket.off('counselRequest', handleCounselRequest); // 기존 리스너 제거
         };
     }, []);
 
     const handleAccept = (roomId) => {
-        // 상담사 요청 수락
-        socketRef.current.emit('acceptCounseling', {
-            roomId,
-            counselorId: '1234', // 상담사 ID
-            counselorName: '상담사1',
-        });
-
-        // 방으로 이동
-        navigate(`/counsel/realtime/chat/${roomId}`);
+        socket.emit('acceptCounseling', { roomId }); // 상담 수락 이벤트 전송
+        navigate(`/counsel/realtime/chat/${roomId}`); // 방으로 이동
     };
 
     return (

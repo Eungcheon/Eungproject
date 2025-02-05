@@ -7,28 +7,45 @@ const ChatRoom = () => {
     const { roomId } = useParams(); // URL에서 roomId 가져오기
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
-    const socketRef = useRef(io('http://localhost:8095'));
+    const socketRef = useRef(null); // 소켓 인스턴스를 저장
 
     useEffect(() => {
-        socketRef.current.emit('joinRoom', { roomId }); // 방 연결
+        // 소켓이 초기화되지 않았다면 초기화
+        if (!socketRef.current) {
+            socketRef.current = io('http://localhost:8095'); // 소켓 연결
+        }
 
-        socketRef.current.on('receiveMessage', (message) => {
-            setMessages((prev) => [...prev, message]);
-        });
+        // 방에 입장
+        socketRef.current.emit('joinRoom', { roomId });
 
-        return () => {
-            socketRef.current.disconnect();
+        // 메시지 수신 이벤트 핸들러
+        const handleReceiveMessage = (message) => {
+            setMessages((prevMessages) => [...prevMessages, message]); // 이전 메시지에 새 메시지를 추가
         };
-    }, [roomId]);
+
+        // 메시지 수신 이벤트 등록
+        socketRef.current.on('receiveMessage', handleReceiveMessage);
+
+        // 컴포넌트 언마운트 시 소켓 연결 해제 및 이벤트 제거
+        return () => {
+            if (socketRef.current) {
+                socketRef.current.off('receiveMessage', handleReceiveMessage); // 기존 이벤트 제거
+                socketRef.current.disconnect(); // 소켓 연결 해제
+                socketRef.current = null; // 소켓 참조 초기화
+            }
+        };
+    }, [roomId]); // roomId가 변경될 때만 실행
 
     const sendMessage = (e) => {
         e.preventDefault();
-        socketRef.current.emit('sendMessage', {
-            roomId,
-            sender: '유저',
-            message: inputMessage,
-        });
-        setInputMessage('');
+        if (inputMessage.trim()) {
+            socketRef.current.emit('sendMessage', {
+                roomId,
+                sender: '유저',
+                message: inputMessage,
+            });
+            setInputMessage(''); // 입력창 초기화
+        }
     };
 
     return (

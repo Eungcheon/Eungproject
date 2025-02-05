@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
-const { v4: uuidv4 } = require('uuid'); // 고유 방 ID 생성용
 
 const app = express();
 const server = http.createServer(app);
@@ -19,13 +18,23 @@ io.on('connection', (socket) => {
     console.log('새로운 사용자 연결:', socket.id);
 
     // 유저가 상담 요청
-    socket.on('requestCounseling', ({ userId, userName }) => {
-        const roomId = uuidv4(); // 고유 방 ID 생성
-        console.log(`상담 요청: ${userName}, Room ID: ${roomId}`);
-        pendingRequests.push({ userId, userName, socketId: socket.id, roomId, status: 'pending' });
+    socket.on('requestCounseling', ({ userId, userName, roomId }) => {
+        if (userId && userName && roomId) {
+            console.log(`상담 요청: ${userName}, Room ID: ${roomId}`);
 
-        // 상담사들에게 실시간 알림
-        io.emit('counselRequest', { userId, userName, roomId });
+            pendingRequests.push({
+                userId,
+                userName,
+                socketId: socket.id,
+                roomId,
+                status: 'pending',
+            });
+
+            // 상담사들에게 알림
+            io.emit('counselRequest', { userId, userName, roomId });
+        } else {
+            console.log('유효하지 않은 상담 요청');
+        }
     });
 
     // 상담사가 요청 수락
@@ -40,9 +49,19 @@ io.on('connection', (socket) => {
         pendingRequests = pendingRequests.filter((req) => req.socketId !== userSocketId);
     });
 
+    // 사용자가 방에 참여 (joinRoom 이벤트 추가)
+    socket.on('joinRoom', ({ roomId }) => {
+        if (roomId) {
+            socket.join(roomId); // 사용자를 해당 방에 추가
+            console.log(`사용자가 방 ${roomId}에 입장`);
+        } else {
+            console.log('유효하지 않은 방 요청');
+        }
+    });
+
     // 채팅 메시지 처리
     socket.on('sendMessage', ({ roomId, sender, message }) => {
-        io.to(roomId).emit('receiveMessage', { sender, message });
+        io.to(roomId).emit('receiveMessage', { sender, message }); // 해당 방의 모든 클라이언트에게 메시지 전송
     });
 
     // 상담 종료

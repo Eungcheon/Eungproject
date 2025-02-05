@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `online_counsel` (
   `created_date` datetime DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `post` (
   PRIMARY KEY (`id`),
   KEY `fk_post_user` (`user_id`),
   CONSTRAINT `fk_post_user` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `post_file` (
   PRIMARY KEY (`id`),
   KEY `FKn75omflablcagq3jsuoognqwy` (`post_id`),
   CONSTRAINT `FKn75omflablcagq3jsuoognqwy` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   `user_email` varchar(255) DEFAULT NULL,
   `user_password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
