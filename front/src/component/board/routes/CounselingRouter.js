@@ -28,7 +28,7 @@ const CounselingRouter = (
     <Route path="offline/schedule/manage" element={<ScheduleManage />} />
     <Route path="realtime" element={<CounselorList />} />
     <Route path="realtime/dashboard" element={<CounselorDashboard />} />
-    <Route path="realtime/chat/:id" element={<ChatRoom />} />
+    <Route path="realtime/chat/:roomId" element={<ChatRoom />} />
   </Route>
 );
 

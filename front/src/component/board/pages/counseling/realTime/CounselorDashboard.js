@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import socket from '../../../hooks/socket'; // 전역 소켓 가져오기
+import { getSocket } from '../../../hooks/socket'; // 새 전역 소켓 관리 방식
 import './css/CounselorDashboard.css';
 
 const CounselorDashboard = () => {
     const [requests, setRequests] = useState([]);
     const navigate = useNavigate();
+    const socket = getSocket(); // 소켓 초기화 (필요한 경우에만 사용)
 
     useEffect(() => {
         const handleCounselRequest = ({ userId, userName, roomId }) => {
@@ -18,10 +19,19 @@ const CounselorDashboard = () => {
         return () => {
             socket.off('counselRequest', handleCounselRequest); // 기존 리스너 제거
         };
-    }, []);
+    }, [socket]); // socket 의존성 추가
 
     const handleAccept = (roomId) => {
-        socket.emit('acceptCounseling', { roomId }); // 상담 수락 이벤트 전송
+        const userInfo = JSON.parse(localStorage.getItem('userInfo')); // 상담사 정보
+        const counselorId = userInfo.userId;
+
+        if (!roomId) {
+            console.error('Room ID가 유효하지 않음');
+            return;
+        }
+
+        console.log(`상담 수락: Room ID: ${roomId}, Counselor ID: ${counselorId}`); // 디버깅용 로그
+        socket.emit('acceptCounseling', { roomId, counselorId }); // 상담 수락 이벤트 전송
         navigate(`/counsel/realtime/chat/${roomId}`); // 방으로 이동
     };
 

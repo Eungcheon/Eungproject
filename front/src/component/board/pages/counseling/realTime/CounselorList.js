@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import socket from '../../../hooks/socket'; // 전역 소켓 가져오기
+import { getSocket } from '../../../hooks/socket'; // 전역 소켓 관리 방식
 import './css/CounselorList.css';
 
 const counselorData = [
@@ -12,20 +12,33 @@ const counselorData = [
 const CounselorList = () => {
     const navigate = useNavigate();
 
-    const handleChatStart = () => {
+    const handleChatStart = async () => {
         const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-        const roomId = `${userInfo.userId}-${Date.now()}`; // 고유 Room ID 생성
+        const socket = getSocket(); // 소켓 초기화
 
-        // 상담 요청 전송
-        socket.emit('requestCounseling', {
-            userId: userInfo.userId,
-            userName: userInfo.userName,
-            roomId,
-        });
+        // 상담 요청 전송 및 roomId 수신
+        socket.emit(
+            'requestCounseling',
+            {
+                userId: userInfo.userId,
+                userName: userInfo.userName,
+            },
+            ({ roomId, error }) => {
+                if (error) {
+                    console.error('방 생성 실패:', error);
+                    return;
+                }
 
-        // 사용자 바로 방으로 이동
-        navigate(`/counsel/realtime/chat/${roomId}`);
-        socket.emit('joinRoom', { roomId });
+                // 서버에서 roomId를 받아온 경우
+                console.log('생성된 Room ID:', roomId);
+
+                // 사용자 바로 방으로 이동
+                navigate(`/counsel/realtime/chat/${roomId}`);
+
+                // 방에 참여
+                socket.emit('joinRoom', { roomId, userName: userInfo.userName });
+            }
+        );
     };
 
     return (
