@@ -51,8 +51,16 @@ io.on('connection', (socket) => {
     });
 
 
-    // 상담사가 상담 요청 수락
     socket.on('acceptCounseling', ({ roomId, counselorId }) => {
+        // 상담사가 이미 상담 중인지 확인
+        const isCounselorBusy = Object.values(activeRooms).some(
+            (room) => room.counselorId === counselorId
+        );
+        if (isCounselorBusy) {
+            socket.emit('error', { message: '상담사가 이미 상담 중입니다.' });
+            return;
+        }
+    
         // 대기 중인 요청 검증
         const requestIndex = pendingRequests.findIndex((req) => req.roomId === roomId);
         if (requestIndex === -1) {
@@ -60,24 +68,46 @@ io.on('connection', (socket) => {
             socket.emit('error', { message: '유효하지 않은 상담 요청입니다.' });
             return;
         }
-
+    
         const request = pendingRequests[requestIndex];
-
+    
         // 방 활성화
         activeRooms[roomId] = {
             userId: request.userId,
             userName: request.userName,
             counselorId,
         };
-        pendingRequests.splice(requestIndex, 1); // 대기열에서 요청 제거
-        console.log(`상담 요청 수락: Room ID: ${roomId}`);
-
-        console.log('현재 활성화된 방:', activeRooms);
-
-        // 방 입장 처리
+    
+        // 상담사가 방에 참여하도록 추가
         socket.join(roomId);
+        console.log(`상담 요청 수락: Room ID: ${roomId}, Counselor ID: ${counselorId}`);
         io.to(roomId).emit('systemMessage', `상담사가 입장했습니다.`);
+    
+        // 같은 상담사와 연결된 다른 대기 요청 취소
+        pendingRequests = pendingRequests.filter((req) => {
+            if (req.counselorId === counselorId && req.roomId !== roomId) {
+                // 요청 취소 알림 전송
+                io.to(req.socketId).emit('requestCanceled', {
+                    message: '다른 요청이 수락되었습니다.',
+                    roomId: req.roomId,
+                });
+    
+                // 방에서 나가기 처리
+                const clientSocket = io.sockets.sockets.get(req.socketId);
+                if (clientSocket) {
+                    clientSocket.leave(req.roomId); // 방 나가기
+                    console.log(`사용자 ${req.userName}가 방 ${req.roomId}에서 나갔습니다.`);
+                }
+    
+                return false; // 대기 요청 제거
+            }
+            return true;
+        });
+    
+        // 수락된 요청 대기열에서 제거
+        pendingRequests = pendingRequests.filter((req) => req.roomId !== roomId);
     });
+    
 
 
     // 사용자 또는 상담사 방 참여
@@ -113,17 +143,17 @@ io.on('connection', (socket) => {
 
     socket.on('endRoom', ({ roomId }) => {
         console.log(`Room 종료 요청: ${roomId}`);
-    
+
         // 방이 활성화되어 있는지 확인
         if (!activeRooms[roomId]) {
             console.error(`Room ID ${roomId}는 활성화되지 않았습니다.`);
             socket.emit('error', { message: '유효하지 않은 Room ID입니다.' });
             return;
         }
-    
+
         // 방에 연결된 모든 사용자에게 종료 이벤트 알림
         io.to(roomId).emit('roomEnded');
-    
+
         // 방에서 모든 소켓을 분리
         const roomSockets = io.sockets.adapter.rooms.get(roomId);
         if (roomSockets) {
@@ -132,7 +162,7 @@ io.on('connection', (socket) => {
                 clientSocket.leave(roomId); // 해당 소켓을 방에서 나가게 함
             });
         }
-    
+
         // 활성화된 방에서 데이터 삭제
         delete activeRooms[roomId];
         console.log(`Room ID ${roomId} 데이터가 삭제되었습니다.`);

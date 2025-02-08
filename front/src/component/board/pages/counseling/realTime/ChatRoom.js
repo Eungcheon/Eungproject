@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getSocket, disconnectSocket } from '../../../hooks/socket'; // 전역 소켓 관리
+import UserRequestHandler from './UserRequestHandler';
 import './css/ChatRoom.css';
 
 const ChatRoom = () => {
@@ -51,7 +52,7 @@ const ChatRoom = () => {
             alert('상담이 종료되었습니다. 메인 페이지로 이동합니다.');
             // 상담사의 경우 대시보드로, 사용자는 "/counsel"로 리다이렉트
             const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            if (userInfo.userRole === 'counselor') {
+            if (userInfo.userRole === 'ADMIN') {
                 navigate('/counsel/realtime/dashboard');
             } else {
                 navigate('/counsel');
@@ -81,6 +82,7 @@ const ChatRoom = () => {
 
     return (
         <div className="chat-room">
+            <UserRequestHandler />
             <h1>채팅방: {roomId}</h1>
             {/* 채팅창 */}
             <div className="chat-messages">
