@@ -1,41 +1,59 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import './css/ScheduleCalendar.css';
 import '../../common/css/Button.css';
 import { useNavigate } from 'react-router-dom';
 import useIsAdmin from '../../../hooks/useIsAdmin';
 import ScheduleModal from './ScheduleModal';
+import axios from 'axios';
+import { SERVER_URL } from '../../../api/serverURL';
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const ScheduleCalendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const isAdmin = useIsAdmin();
-    const navigate = useNavigate();
+    const [schedules, setSchedules] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const isAdmin = useIsAdmin(); // 관리자 체크
+    const navigate = useNavigate();
+    const { isName } = useContext(LoginContext);
 
-    // 예시 데이터 - 실제로는 백엔드에서 받아와야 함
-    const schedules = {
-        2: [
-            { time: "14:00 ~ 15:00", status: "available", counselor: "홍길동" },
-            { time: "16:00 ~ 17:00", status: "reserved", counselor: "관리자" }
-        ],
-        3: [
-            { time: "13:00 ~ 14:00", status: "available", counselor: "이순신" },
-            { time: "16:00 ~ 17:00", status: "available", counselor: "이순신" }
-        ],
-        8: [
-            { time: "16:00 ~ 17:00", status: "available", counselor: "홍길동" }
-        ]
+    // 일정 데이터 가져오기
+    const fetchSchedules = async () => {
+        try {
+            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule`, {
+                params: { counselor: isName }, // 예: 현재 로그인된 사용자 이름
+            });
+            const groupedSchedules = response.data.reduce((acc, schedule) => {
+                const day = new Date(schedule.counsel_date).getDate();
+                if (!acc[day]) acc[day] = [];
+                acc[day].push(schedule);
+                return acc;
+            }, {});
+            setSchedules(groupedSchedules);
+        } catch (error) {
+            console.error("Error fetching schedules:", error);
+        }
     };
+
+    useEffect(() => {
+        fetchSchedules(); // 컴포넌트 로드 시 일정 가져오기
+    }, [currentDate]);
 
     // 월 이동 함수
     const moveMonth = (direction) => {
-        setCurrentDate(prev => {
+        setCurrentDate((prev) => {
             const newDate = new Date(prev);
             newDate.setMonth(prev.getMonth() + direction);
             return newDate;
         });
     };
 
-    // 달력 데이터 생성
+    // 모달 닫기 핸들러
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+        fetchSchedules(); // 일정 데이터 갱신
+    };
+
+    // 달력 날짜 데이터 생성
     const generateCalendarData = () => {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth();
@@ -46,7 +64,7 @@ const ScheduleCalendar = () => {
         const calendar = [];
         let week = [];
 
-        // 첫 주 빈 칸 채우기
+        // 첫 주 빈 칸
         for (let i = 0; i < firstDay; i++) {
             week.push(null);
         }
@@ -60,7 +78,7 @@ const ScheduleCalendar = () => {
             }
         }
 
-        // 마지막 주 빈 칸 채우기
+        // 마지막 주 빈 칸
         if (week.length > 0) {
             while (week.length < 7) {
                 week.push(null);
@@ -71,57 +89,72 @@ const ScheduleCalendar = () => {
         return calendar;
     };
 
-
-
-    // 예약 가능한 상담 시간 표시
+    // 스케줄 렌더링
     const renderSchedule = (day) => {
-        if (!day || !schedules[day]) return null;
+        if (!day || !schedules[day]) return null; // 유효하지 않은 day, 해당 날짜에 스케줄이 없으면 건너뜁니다.
+    
+        // 현재 연도와 월
+        const currentYear = currentDate.getFullYear();
+        const currentMonth = currentDate.getMonth(); // 0-indexed (0 = 1월)
 
+    
         return (
-            <div className='offline-schedule-container'>
-                {schedules[day].map((schedule, index) =>
-                    <div
-                        key={index}
-                        className={`offline-schedule ${schedule.status}`}
-                        onClick={(e) => {
-                            e.stopPropagation();  // td의 클릭 이벤트 전파 방지
-                            handleScheduleClick(day, schedule);
-                        }}
-                    >
-                        {schedule.counselor}
-                        {schedule.status === 'reserved' && ' - 예약됨'}
-                        <div>
-                            {schedule.time}
+            <div className="offline-schedule-container">
+                {schedules[day]
+                    .filter(schedule => {
+                        // 백엔드에서 가져온 데이터의 counsel_date (예: 2025-02-02)
+                        const scheduleDate = new Date(schedule.counsel_date);
+                        return (
+                            scheduleDate.getFullYear() === currentYear &&
+                            scheduleDate.getMonth() === currentMonth
+                        );
+                    })
+                    .map((schedule, index) => (
+                        <div
+                            key={index}
+                            className={`offline-schedule ${schedule.reserve_status ? "reserved" : "available"}`}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleScheduleClick(schedule);
+                            }}
+                        >
+                            {schedule.counselor}
+                            {schedule.reserve_status && " - 예약됨"}
+                            <div>{schedule.counsel_time}</div>
                         </div>
-                    </div>
-                )}
+                    ))}
             </div>
         );
     };
+    
 
-    // 상담 일정 등록
-    const handleScheduleCreate = () => {
-        setIsModalOpen(true);
-    };
+    // 일정 클릭 처리
+    const handleScheduleClick = async (schedule) => {
 
-    // 상담 일정 관리
-    const handleManageSchedule = () => {
-        navigate('/counsel/offline/schedule/manage');
-    };
+        const clientName = isName;
 
-    // 상담 일정 클릭 처리
-    const handleScheduleClick = (day, schedule) => {
-        if (schedule.status === 'reserved') {
-            // 예약된 상담은 작성자만 접근 가능
-            // TODO: 작성자 확인 로직 추가
-            alert('예약된 상담입니다.');
-        } else {
-            // 예약 페이지로 이동
-            // TODO: 라우팅 처리
-            console.log(`${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 ${day}일 예약하기`);
-            navigate('/counsel/offline/register');
+        if (schedule.reserve_status) {
+            alert("이미 예약된 일정입니다.");
+            return;
         }
+    
+        
+        
+        if(window.confirm("예약하시겠습니까?")) {
+            try {
+                await axios.patch(`${SERVER_URL}/api/counsel/schedule/${schedule.id}/reserve`, clientName, {
+                    headers: { 'Content-Type': 'text/plain' } // 단순 문자열 전송
+                });
+                alert("예약이 완료되었습니다.");
+                fetchSchedules(); // 일정 갱신
+            } catch (error) {
+                console.error("Error during reservation:", error.response?.data || error);
+                alert("예약에 실패했습니다.");
+            }
+        }
+        
     };
+    
 
     return (
         <div className="offline-schedule-calendar">
@@ -147,11 +180,9 @@ const ScheduleCalendar = () => {
                         <tr key={i}>
                             {week.map((day, j) => (
                                 <td key={j}>
-                                    <div className='cell-content'>
+                                    <div className="cell-content">
                                         {day && <div className="cal-day">{day}</div>}
-                                        <div className='offline-schedule-container'>
-                                            {renderSchedule(day)}
-                                        </div>
+                                        {renderSchedule(day)}
                                     </div>
                                 </td>
                             ))}
@@ -159,21 +190,17 @@ const ScheduleCalendar = () => {
                     ))}
                 </tbody>
             </table>
-            {isAdmin && (
+            {!isAdmin && (
                 <div className="common-button-container">
-                    <button onClick={handleScheduleCreate}>
-                        일정 등록
-                    </button>
-                    <button onClick={handleManageSchedule}>
-                        일정 관리
-                    </button>
+                    <button onClick={() => setIsModalOpen(true)}>일정 등록</button>
+                    <button onClick={() => navigate("/counsel/offline/schedule/manage")}>일정 관리</button>
                 </div>
             )}
 
             {/* 일정 등록 모달 */}
             <ScheduleModal
                 isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
+                onClose={handleModalClose}
             />
         </div>
     );

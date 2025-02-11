@@ -29,6 +29,7 @@ const useAuth = () => {
         isLoginInProgress,
         isUserId,
         isLoginId,
+        isName, // ✅ name 가져오기
         isGender,
         roles,
         loginCheck: _,
@@ -55,6 +56,7 @@ const useAuth = () => {
         userId: loginStatus === LOGIN_STATUS.LOGGED_IN ? isUserId : null,
         loginId: loginStatus === LOGIN_STATUS.LOGGED_IN ? isLoginId : null,
         gender: loginStatus === LOGIN_STATUS.LOGGED_IN ? isGender : null,
+        name: loginStatus === LOGIN_STATUS.LOGGED_IN ? isName : null,
         roles: loginStatus === LOGIN_STATUS.LOGGED_IN ? roles_from_context(roles) : null,
         axios: axiosInstance,
         login: loginStatus === LOGIN_STATUS.LOGGED_OUT ? login : null,

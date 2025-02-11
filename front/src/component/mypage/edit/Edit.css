@@ -1,12 +1,12 @@
 /* 전체 레이아웃 */
-body.edit-page {
+body.myedit-page {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
 }
 
-.edit-container {
+.myedit-container {
     width: 80%;
     margin: 20px auto;
     background-color: #fff;
@@ -15,43 +15,44 @@ body.edit-page {
 }
 
 /* 메인 섹션 */
-.edit-main {
+.myedit-main {
     display: flex;
     gap: 30px;
 }
 
 /* 폼 스타일 */
-.edit-form-container {
+.myedit-form-container {
     width: 75%;
     padding: 20px;
 }
 
-.edit-form-container h2 {
+.myedit-form-container h2 {
     font-size: 30px;
     margin-bottom: 20px;
     color: #333;
+    font-weight: bold;
 }
 
-.edit-form-container .edit-division-line {
+.myedit-form-container .edit-division-line {
     border-top: 3px solid #444444;
     margin: 10px -25px;
 }
 
-.edit-form-container form {
+.myedit-form-container form {
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 40px;
 }
 
-.edit-form-container label {
+.myedit-form-container label {
     font-size: 20px;
     margin-bottom: 5px;
     font-weight: bold;
     color: #333;
 }
 
-.edit-form-container input {
+.myedit-form-container input {
     padding: 10px;
     font-size: 18px;
     border: 1px solid #ddd;
@@ -59,14 +60,14 @@ body.edit-page {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.edit-form-container input:focus {
+.myedit-form-container input:focus {
     border-color: rgb(1, 66, 122);
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 /* 버튼 스타일 */
-.edit-form-container button {
+.myedit-form-container button {
     padding: 10px 20px;
     font-size: 18px;
     color: #fff;
@@ -76,9 +77,49 @@ body.edit-page {
     cursor: pointer;
     margin-top: 30px;
     transition: background-color 0.3s ease, transform 0.2s ease;
+     width: 15%;
+     margin: 30px auto;
+    font-weight: bold;
 }
 
-.edit-form-container button:hover {
+.myedit-form-container edit-button:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
+}
+
+/* 비밀번호 입력 컨테이너 */
+.myedit-eye-password-container {
+    position: relative;
+    width: 100%;
+}
+
+.myedit-container .myedit-division-line {
+    border-top: 3px solid #444444;
+    margin: 10px -25px;
+}
+
+.myedit-eye-password-container input {
+    width: 100%;
+    box-sizing: border-box; /* 입력란 크기 유지 */
+}
+
+/* 눈 모양 토글 버튼 */
+.myedit-eye-password-container .toggle-password {
+    position: absolute;
+    top: 50%; /* 중앙 정렬 */
+    right: 0px; /*오른쪽 끝에 배치*/
+    transform: translateY(-50%);
+    background: none; /* 배경 제거 */
+    border: none; /* 테두리 제거 */
+    cursor: pointer; /* 클릭 가능한 커서 */
+    font-size: 18px;
+    color: #333; /* 텍스트 색상 */
+    padding: 0;
+    margin: 0;
+    outline: none; /* 포커스 시 외곽선 제거 */
+    appearance: none; /* 브라우저 기본 스타일 제거 */
+}
+
+.myedit-eye-password-container .toggle-password:focus {
+    outline: none; /* 포커스 상태에서도 테두리 제거 */
 }

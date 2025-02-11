@@ -1,4 +1,4 @@
-JobDetail.css
+/* 기본 스타일 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,115 +6,243 @@ body {
     box-sizing: border-box;
 }
 
-.container {
+.job-detail-container {
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px; /* 하단 간격 최소화 */
 }
 
-.header {
+/* Header 스타일 */
+.job-detail-header {
     display: flex;
     margin-bottom: 20px;
 }
 
-.image-container {
+.job-detail-image-container {
     flex: 1;
 }
 
-.image-container img {
+.job-detail-image-container img {
     width: 100%;
     height: auto;
     border: 1px solid #ccc;
 }
 
-.info-container {
+.job-detail-info-container {
     flex: 2;
     padding-left: 20px;
 }
 
-.info-container h1 {
+.job-detail-info-container h1 {
     margin: 0;
     font-size: 24px;
+    margin-bottom: 10px; /* 줄과의 간격 추가 */
 }
 
-.info-container hr {
-    margin: 10px 0;
+.job-detail-divider {
+    display: block; /* 줄 다시 표시 */
+    border: none;
+    border-bottom: 1px solid #ddd; /* 줄의 스타일 */
+    margin: 0; /* 기본 여백 제거 */
+    margin-bottom: 10px; /* 줄과 하단 콘텐츠 간격 */
 }
 
-.details {
+.job-detail-details {
     font-size: 16px;
     line-height: 1.5;
 }
 
-.bottom-section {
+/* Bottom Section 스타일 */
+.job-detail-bottom-section {
     display: flex;
     margin-top: 20px;
+    margin-bottom: 0px; /* 하단 간격 제거 */
 }
 
-.poster-info {
+.job-detail-poster-info {
     flex: 1;
     font-size: 14px;
 }
 
-.description {
+/* 프로그램 간단한 설명 */
+.job-detail-program-summary {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-height: 80px; /* 기본 높이 제한 */
+    overflow: hidden; /* 초과 내용 숨김 */
+    position: relative;
+}
+
+.job-detail-program-summary.job-detail-expanded {
+    max-height: none; /* 확장된 상태에서 제한 해제 */
+}
+
+/* 더보기 버튼 스타일 */
+.job-detail-show-more-summary-button {
+    margin-top: 5px;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.job-detail-show-more-summary-button:hover {
+    color: #0056b3;
+}
+
+/* 구분선 스타일 제거 */
+.job-detail-divider-hidden {
+    display: none; /* 구분선 완전히 제거 */
+}
+
+/* 스크롤 가능한 설명 섹션 */
+.job-detail-description {
     flex: 2;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 15px;
     margin-left: 20px;
     max-height: 200px;
     overflow-y: scroll;
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding-bottom: 0px; /* 하단 패딩 제거 */
+    margin-bottom: -10px; /* 버튼과 프로그램 일정 간격 제거 */
 }
 
-.action-buttons {
+/* 프로그램 일정 이름 스타일 */
+.job-detail-description h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    margin-top: 20px;
-    gap: 10px;
+    gap: 10px; /* 체크박스와 텍스트 간 간격 */
 }
 
-.apply-button {
-    flex: 3;
+/* 체크박스 크기 */
+.job-detail-description h3 input[type="checkbox"] {
+    width: 25px; /* 체크박스 너비 */
+    height: 25px; /* 체크박스 높이 */
+    cursor: pointer; /* 클릭 시 손가락 모양 */
+}
+
+/* 프로그램 일정 스타일 */
+.job-detail-schedule-list {
+    list-style: none;
+    padding: 0;
+    margin: 0; /* 리스트의 여백 제거 */
+    font-size: 14px; /* 글자 크기 조정 */
+    line-height: 1.6; /* 줄 간격 */
+}
+
+.job-detail-schedule-header {
+    display: flex;
+    align-items: center; /* ✅ 체크박스와 일정 이름을 세로 중앙 정렬 */
+    gap: 10px; /* ✅ 체크박스와 일정 이름 간격 조정 */
+  }
+  
+  .job-detail-schedule-checkbox {
+    width: 20px; /* ✅ 체크박스 크기 일정 이름과 비슷하게 조절 */
+    height: 18px;
+    transform: scale(1.5); /* ✅ 체크박스를 더 크게 확대 */
+    cursor: pointer;
+    margin-top: -10px; /* ✅ 체크박스를 살짝 위로 이동 */
+  }
+
+.job-detail-schedule-item {
+    margin-bottom: 5px; /* 항목 간 간격 최소화 */
+    color: #333;
+}
+
+/* 상세 설명 텍스트 스타일 */
+.job-detail-detail-text {
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.job-detail-detail-text.job-detail-expanded {
+    max-height: none;
+    white-space: normal;
+}
+
+.job-detail-show-more-button {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.job-detail-show-more-button:hover {
+    color: #0056b3;
+}
+
+/* Action 버튼 스타일 */
+.job-detail-action-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    margin-top: -10px; /* 버튼과 프로그램 일정 간격 완전히 제거 */
+    gap: 10px; /* 버튼 간 간격 */
+}
+
+.job-detail-apply-button {
+    width: 345px;
     padding: 15px;
-    font-size: 18px;
+    font-size: 16px;
     color: #fff;
     background-color: #007BFF;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    text-align: center;
+    transition: background-color 0.3s ease;
 }
 
-.apply-button:hover {
+.job-detail-apply-button:hover {
     background-color: #0056b3;
 }
 
-.favorite-container {
-    width: 120px;
+.job-detail-favorite-container {
+    width: 80px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 10px;
     border: 1px solid #ccc;
-    padding: 10px 5px;
     border-radius: 5px;
     cursor: pointer;
     background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+    gap: 5px;
 }
 
-.favorite-container:hover {
+.job-detail-favorite-container:hover {
     background-color: #f0f0f0;
 }
 
-.favorite-icon {
+.job-detail-favorite-icon {
     font-size: 24px;
     color: #999;
-    margin-right: 5px;
 }
 
-.favorite-icon.active {
+.job-detail-favorite-icon.active {
     color: #FFD700;
 }
 
-.favorite-count {
+.job-detail-favorite-count {
     font-size: 16px;
+    line-height: 1;
 }

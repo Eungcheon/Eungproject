@@ -19,7 +19,7 @@ const PostDetailView = () => {
     useEffect(() => {
         const fetchPostDetail = async () => {
             try {
-                const response = await axios.get(`${SERVER_URL}/api/${type}/${id}`);
+                const response = await axios.get(`${SERVER_URL}/api/board/${type}/${id}`);
                 console.log('Post detail response:', response.data);
                 setPost(response.data);
             } catch (error) {

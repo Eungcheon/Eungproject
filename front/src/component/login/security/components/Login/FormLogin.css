@@ -10,11 +10,11 @@ body.login-page {
 }
 
 .login-container {
-    background-color: #ffffff; /* 밝은 배경 */
+    
     margin: auto;
-    padding: 30px 40px;
+    padding: 15px 15px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* 부드러운 그림자 */
+    
     width: 100%;
     max-width: 800px; /* 로그인 박스 최대 너비 */
     transition: transform 0.3s ease, box-shadow 0.3s ease;

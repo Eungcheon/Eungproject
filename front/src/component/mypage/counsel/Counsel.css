@@ -1,12 +1,12 @@
 /* 전체 레이아웃 */
-body.counsel-page {
+body.mycounsel-page {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
 }
 
-.counsel-container {
+.mycounsel-container {
     width: 80%;
     margin: 20px auto;
     background-color: #fff;
@@ -15,30 +15,31 @@ body.counsel-page {
 }
 
 /* 메인 섹션 */
-.counsel-main {
+.mycounsel-main {
     display: flex;
     gap: 30px;
 }
 
 /* 폼 스타일 */
-.counsel-form-container {
+.mycounsel-form-container {
     width: 75%;
     padding: 20px;
 }
 
-.counsel-form-container h2 {
-    font-size: 24px;
+.mycounsel-form-container h2 {
+    font-size: 30px;
     margin-bottom: 20px;
     color: #333;
+    font-weight: bold;
 }
 
-.counsel-form-container .counsel-division-line {
+.mycounsel-form-container .mycounsel-division-line {
     border-top: 3px solid #444444;
     margin: 10px -25px;
 }
 
-/* 탭 스타일 */
-.counsel-tabs {
+/* 메인탭 스타일 */
+.mycounsel-tabs {
     display: flex;
     list-style: none;
     padding: 0;
@@ -48,7 +49,7 @@ body.counsel-page {
     font-size: 20px;
 }
 
-.counsel-tab {
+.mycounsel-tab {
     padding: 10px 20px;
     cursor: pointer;
     border: 1px solid #ddd;
@@ -58,19 +59,28 @@ body.counsel-page {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.counsel-tab.active {
-    background-color: #fff;
-    border-bottom: 2px solid #fff;
-    font-weight: bold;
+.mycounsel-tab.active {
+    background-color: rgb(1, 66, 122);
+    color: white;
+    border-bottom: 2px solid rgb(1, 66, 122);
 }
 
-.counsel-tab:hover {
+.mycounsel-tab:hover {
     background-color: rgb(1, 66, 122);
     color: white;
 }
 
 /* 탭 콘텐츠 스타일 */
-.counsel-tab-content {
+.mycounsel-tab-content {
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 탭 콘텐츠 스타일 */
+.mycounsel-tab-content {
     margin-top: 20px;
     text-align: center;
     padding-top: 20px;
@@ -79,32 +89,34 @@ body.counsel-page {
 }
 
 /* 테이블 스타일 */
-.counsel-table {
+.mycounsel-table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
     margin-top: 20px;
     border-left: none; /* 테이블 전체 왼쪽 선 제거 */
     border-right: none; /* 테이블 전체 오른쪽 선 제거 */
+    margin-bottom: 20px;
 }
 
-.counsel-table th,
-.counsel-table td {
+.mycounsel-table th,
+.mycounsel-table td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
     font-size: 16px;
     vertical-align: middle; /* 수직 가운데 정렬 */
+    font-weight: 500;
 }
 
-.counsel-table th {
+.mycounsel-table th {
     background-color: #f4f4f4;
     font-size: 17px;
     font-weight: bold;
     color: #333;
 }
 
-.counsel-table td .star {
+.mycounsel-table td .star {
     color: orange;
     font-size: 16px;
     margin-right: 5px;
@@ -112,38 +124,219 @@ body.counsel-page {
     transition: transform 0.2s ease, color 0.3s ease;
 }
 
-.counsel-table td .star:hover {
+.mycounsel-table td .star:hover {
     transform: scale(1.2);
     color: #ffa500;
 }
 
 /* 삭제 버튼 스타일 */
-.counsel-delete-btn {
-    padding: 5px 10px;
-    background-color: rgb(1, 66, 122);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.counsel-delete-btn:hover {
-    background-color: #d32f2f;
-    transform: translateY(-2px);
+.mycounsel-delete-btn:hover {
+    font-size: 15px;
+    color: red;
 }
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
-    .counsel-table th,
-    .counsel-table td {
+    .mycounsel-table th,
+    .mycounsel-table td {
         font-size: 12px;
         padding: 8px;
     }
 
-    .counsel-tab {
+    .mycounsel-tab {
         font-size: 14px;
         padding: 8px 12px;
     }
+}
+
+/* 페이지네이션 */
+.mycounsel-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.mycounsel-pagination-button {
+    cursor: pointer;
+    padding: 5px 15px;
+    border: none;
+    font-size: 15px;
+    position: relative;
+    color: #333;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.mycounsel-pagination-button.active::after,
+.mycounsel-pagination-button:hover::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgb(1, 66, 122); 
+}
+
+.mycounsel-pagination-button.active {
+    font-weight: bold;
+    color: black;
+}
+
+.mycounsel-pagination-button:hover {
+    color: black;
+} 
+
+.past-counsel {
+    color: gray;
+}
+
+/* 지난 상담 회색 글씨 */
+.gray-text {
+    color: gray;
+}
+
+/* 상담내역 데이터 없을 시 안내 문구 */
+.no-data-message {
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    font-weight: 400;
+}
+
+/* 삭제 버튼 */
+.mycounsel-delete-controls {
+    display: flex;
+    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+    align-items: center;
+    margin-bottom: 10px; /* 테이블과 간격 추가 */
+    font-weight: 400;
+}
+
+.mycounsel-select-all-btn,
+.mycounsel-delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.mycounsel-delete-btn:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .mycounsel-delete-controls {
+        flex-direction: column; /* 모바일에서는 세로 정렬 */
+        gap: 5px;
+    }
+
+    .mycounsel-select-all-btn,
+    .mycounsel-delete-btn {
+        width: 100%; /* 모바일에서 버튼 너비 확장 */
+        text-align: center;
+    }
+}
+
+/* 기본 체크박스 숨기기 */
+.mycounsel-checkbox-container input[type="checkbox"] {
+    display: none;
+}
+
+/* 커스텀 체크박스 스타일 */
+.mycounsel-checkbox-label {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d3d2d2; /* 기본 테두리 */
+    border-radius: 10px; /* 체크박스를 둥글게 */
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: transparent; /* 기본 상태에서는 아이콘 숨김 */
+}
+
+/* 체크된 상태 */
+.mycounsel-checkbox-container input[type="checkbox"]:checked + 
+.mycounsel-checkbox-label {
+    background-color: white; /* 체크되었을 때 배경색 */
+    border-color: white;
+    color: rgb(1, 66, 122); /* 체크된 상태에서 ✔️ 색상 */
+}
+
+/* 체크 아이콘 (✔️) */
+.mycounsel-checkbox-container input[type="checkbox"]:checked + 
+.mycounsel-checkbox-label::after {
+    content: "✔️"; /* 아이콘 표시 */
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 체크박스 호버 효과 */
+.mycounsel-checkbox-label:hover {
+    border-color: #f1eeee;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+}
+
+.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+/* 삭제 버튼 클릭 시 오른쪽으로 부드럽게 사라짐 */
+.fade-out-right {
+    animation: fadeOutRight 0.5s ease forwards;
+}
+
+@keyframes fadeOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* 검색 입력창 */
+.mycounsel-search-input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 3px solid  rgb(1, 66, 122); 
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.mycounsel-search-input:focus {
+    border:3px solid  rgb(1, 66, 122); 
+    background-color:rgb(236, 245, 253);  /* 연한 파란색 배경 추가 (선택사항) */
+    outline: none; /* 기본 아웃라인 제거 */
 }

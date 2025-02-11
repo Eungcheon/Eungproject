@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import { SERVER_URL } from '../../../api/serverURL';
@@ -7,11 +7,15 @@ import { ko } from 'date-fns/locale';
 import "react-datepicker/dist/react-datepicker.css";
 import './css/ScheduleModal.css';
 import { addMonths } from 'date-fns';
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
+
+
+Modal.setAppElement('#root')
 
 const ScheduleModal = ({ isOpen, onClose }) => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState('');
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const { isName } = useContext(LoginContext);
 
     const timeSlots = [
         "09:00~10:00", "10:00~11:00", "11:00~12:00",
@@ -19,22 +23,29 @@ const ScheduleModal = ({ isOpen, onClose }) => {
         "16:00~17:00", "17:00~18:00"
     ];
 
+    
+
     const handleSubmit = async () => {
         try {
-            // API 호출
+            const formattedDate = selectedDate.toISOString(); // ISO 형식으로 변환
+    
+            // POST 요청
             await axios.post(`${SERVER_URL}/api/counsel/schedule`, {
-                counselor: userInfo.userName,
-                date: selectedDate,
-                time: selectedTime
+                counselor: isName,
+                client: null, // 예약 전이므로 client는 null
+                counsel_date: formattedDate,
+                counsel_time: selectedTime,
+                reserve_status: false
             });
+    
             onClose();
-            // 성공 메시지
             alert('일정이 등록되었습니다.');
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error during schedule registration:', error.response?.data || error.message);
             alert('일정 등록에 실패했습니다.');
         }
     };
+    
 
     return (
         <Modal
@@ -49,7 +60,7 @@ const ScheduleModal = ({ isOpen, onClose }) => {
                     <label>상담사</label>
                     <input 
                         type="text" 
-                        value={userInfo?.userName || ''} 
+                        value={isName || ''} 
                         disabled 
                     />
                 </div>

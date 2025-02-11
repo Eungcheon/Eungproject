@@ -39,6 +39,20 @@ public class PostService {
         Page<Post> posts = postRepository.findByType(type, pageable);
         return posts.map(this::convertToDto);
     }
+    
+    public Page<PostDto> searchPosts(String type, String searchType, String keyword, int page, int size, String sort) {
+    	Sort.Direction direction = sort.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+    	Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "createdDate"));
+    	
+    	Page<Post> posts;
+    	if ("author".equalsIgnoreCase(searchType)) {
+    	    posts = postRepository.findByTypeAndAuthorContaining(type, keyword, pageable);
+    	} else { // 기본값은 제목 검색 처리
+    	    posts = postRepository.findByTypeAndTitleContaining(type, keyword, pageable);
+    	}
+
+    	return posts.map(this::convertToDto);
+    }
 
     // 게시글 상세 조회
     public PostDto getPost(String type, Long id) {

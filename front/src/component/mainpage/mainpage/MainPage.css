@@ -1,24 +1,26 @@
-/* MainPage 전체 컨테이너 */
-.main-page-container {
+.main-page {
     display: flex;
     flex-direction: column;
-    gap: 2rem; /* 컴포넌트 간 간격 */
-    padding: 1rem; /* 전체 여백 */
-    background-color: #f8f9fa; /* 연한 배경색 */
+    gap: 2rem;
+}
+
+.main-content {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
   }
   
-  /* 반응형 디자인 */
-  @media (min-width: 768px) {
-    .main-page-container {
-      gap: 3rem; /* 중간 화면에서 더 넓은 간격 */
-      padding: 2rem;
+  @media (min-width: 1280px) {
+    .main-content {
+      max-width: 1600px;
     }
   }
   
-  @media (min-width: 1024px) {
-    .main-page-container {
-      gap: 4rem; /* 큰 화면에서 더 넓은 간격 */
-      padding: 3rem;
+  @media (max-width: 768px) {
+    .main-content {
+      padding: 1rem;
     }
   }
-  

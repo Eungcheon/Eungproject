@@ -30,7 +30,7 @@ import com.example.hansei.board.common.service.FileService;
 import com.example.hansei.board.common.service.PostService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/board")
 public class PostController {
 	
 	@Value("${file.upload.path}")
@@ -47,8 +47,15 @@ public class PostController {
             @PathVariable String type,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "desc") String sort) {
-        return ResponseEntity.ok(postService.getPosts(type, page, size, sort));
+            @RequestParam(defaultValue = "desc") String sort,
+            @RequestParam(required = false) String searchType,
+            @RequestParam(required = false) String keyword) {
+    	
+    	if (keyword != null && !keyword.trim().isEmpty()) {
+            return ResponseEntity.ok(postService.searchPosts(type, searchType, keyword, page, size, sort));
+        } else {
+            return ResponseEntity.ok(postService.getPosts(type, page, size, sort));
+        }
     }
     
     @GetMapping("/{type}/{id}")

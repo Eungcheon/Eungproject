@@ -1,13 +1,15 @@
 /* 탭 스타일 */
-.employment-tabs {
+.emp-tabs {
     display: flex;
     list-style: none;
     padding: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    font-size: 20px;
 }
 
-.employment-tab {
+.emp-tab {
     padding: 10px 20px;
     cursor: pointer;
     border: 1px solid #ddd;
@@ -17,66 +19,198 @@
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.employment-tab.active {
+.emp-tab.active {
+    background-color: rgb(1, 66, 122);
+    color: white;
+    border-bottom: 2px solid rgb(1, 66, 122);
+}
+
+.emp-tab:hover {
+    background-color: rgb(1, 66, 122);
+    color: white;
+}
+
+.emp-main {
+    display: flex;
+    gap: 30px;
+}
+
+.emp-container {
+    width: 80%;
+    margin: 20px auto;
     background-color: #fff;
-    border-bottom: 2px solid #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.emp-container .emp-division-line {
+    border-top: 3px solid #444444;
+    margin: 10px -25px;
+}
+
+.emp-form-container {
+    width: 75%;
+    padding: 20px;
+}
+
+.emp-form-container h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+    color: #333;
     font-weight: bold;
 }
 
-.employment-tab:hover {
-    background-color: #f0f0f0;
-    color: #007bff;
+/* 탭 콘텐츠 스타일 */
+.emp-tab-content {
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 /* 테이블 스타일 */
-.employment-table {
+.emp-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #fff;
+   margin-bottom: 20px;
 }
 
-.employment-table th,
-.employment-table td {
+.emp-table th,
+.emp-table td {
+    padding: 15px;
     border: 1px solid #ddd;
-    padding: 8px;
     text-align: center;
+    font-size: 16px;
+    vertical-align: middle; /* 수직 가운데 정렬 */
+    font-weight: 500;
 }
 
-.employment-table th {
+.emp-table th {
     background-color: #f4f4f4;
+    font-size: 17px;
     font-weight: bold;
-    font-size: 14px;
     color: #333;
-}
-
-.employment-table td {
-    font-size: 13px;
-    color: #555;
-}
-
-.employment-table .star {
-    font-size: 18px;
-    cursor: pointer;
-    color: gold;
-    transition: transform 0.2s ease, color 0.3s ease;
-}
-
-.employment-table .star:hover {
-    transform: scale(1.2);
-    color: #ffa500;
 }
 
 /* 반응형 스타일 */
 @media (max-width: 768px) {
-    .employment-table th,
-    .employment-table td {
+    .emp-table th,
+    .emp-table td {
         font-size: 12px;
-        padding: 6px;
+        padding: 8px;
     }
 
-    .employment-tab {
+    .emp-tab {
         font-size: 14px;
-        padding: 8px 16px;
+        padding: 8px 12px;
     }
+}
+
+/* 페이지네이션 */
+.emp-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.emp-pagination button {
+    cursor: pointer;
+    padding: 5px 15px;
+    border: none;
+    font-size: 15px;
+    position: relative;
+    color: #333;
+    margin-right: 5px;
+}
+
+.emp-pagination button.active::after,
+.emp-pagination button:hover::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: rgb(1, 66, 122); 
+     border-radius: 2px;  
+}
+
+.emp-pagination button.active {
+    font-weight: bold;
+    color: black;
+}
+
+.emp-pagination button:hover {
+    color: black;
+}
+
+/* 마감 상태 깜박이는 애니메이션 */
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.blinking-check {
+    animation: blink 2s infinite;
+    display: inline-block;
+}
+
+/* 즐겨찾기 부드럽게 왼쪽으로 삭제되는 애니메이션 */
+.fade-out-left {
+    animation: fadeOutLeft 0.5s ease forwards;
+}
+
+@keyframes fadeOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+}
+
+/* 마감된 항목 회색 표시 */
+.gray-text {
+    color: gray;
+}
+
+/* 마감상태 표시 */
+.emp-getDeadlineStatus {
+    text-align: right;
+    word-spacing: 10px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* 채용 데이터 없을 시 안내 문구 */
+.no-data-message {
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    font-weight: 400;
+}
+
+/* 검색 입력창 */
+.emp-search-input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 3px solid  rgb(1, 66, 122); 
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.emp-search-input:focus {
+    border:3px solid  rgb(1, 66, 122); 
+    background-color:rgb(236, 245, 253);  /* 연한 파란색 배경 추가 (선택사항) */
+    outline: none; /* 기본 아웃라인 제거 */
 }

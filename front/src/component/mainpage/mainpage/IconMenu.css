@@ -1,56 +1,35 @@
-/* IconMenu 컨테이너 */
-.icon-menu-container {
+.icon-menu {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 16px;
-  }
+    gap: 1rem;
+}
   
-  @media (min-width: 768px) {
-    .icon-menu-container {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  
-  /* IconMenu 아이템 */
-  .icon-menu-item {
+.icon-menu-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 1rem;
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
+    color: inherit;
+    transition: background-color 0.3s;
+}
   
-  .icon-menu-item:hover {
+.icon-menu-item:hover {
     background-color: #f9fafb;
-    transform: translateY(-4px);
-  }
+}
   
-  /* 아이콘 스타일 */
-  .icon-menu-item svg {
-    color: #4b5563; /* 다크 그레이 */
-    transition: color 0.3s ease;
-  }
-  
-  .icon-menu-item:hover svg {
-    color: #2563eb; /* 블루 */
-  }
-  
-  /* 텍스트 스타일 */
-  .icon-menu-text {
-    margin-top: 8px;
-    font-size: 0.875rem; /* 14px */
+.icon-menu-text {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    color: #374151; /* 딥 그레이 */
-    text-align: center;
-  }
+}
   
-  .icon-menu-item:hover .icon-menu-text {
-    color: #2563eb; /* 블루 */
-  }
-  
+@media (min-width: 768px) {
+    .icon-menu {
+      grid-template-columns: repeat(4, 1fr);
+    }
+}

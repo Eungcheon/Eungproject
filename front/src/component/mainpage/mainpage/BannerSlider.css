@@ -1,42 +1,59 @@
-/* Custom Banner Slider Container */
-.custom-banner-slider-container {
+.banner-slider-container {
+    display: flex;
+    justify-content: center;
     width: 100%;
-  }
+}
   
-  /* Individual Slide Styles */
-  .custom-banner-slide {
-    position: relative;
-  }
+.banner-slider {
+    width: 100%;
+    /* max-width: 994px; */
+}
   
-  /* Image Styling */
-  .custom-banner-image {
+.banner-image {
     width: 100%;
     height: 230px;
-    object-fit: cover; /* 이미지를 잘라내거나 축소하여 요소 크기에 맞춤 */
-  }
-  
-  /* React Slick Custom Dots Styling */
-  .custom-banner-slider-container .slick-dots {
+    object-fit: cover;
+    object-position: center;
+}
+
+.slick-dots {
     bottom: 10px;
-  }
+}
   
-  .custom-banner-slider-container .slick-dots li button:before {
-    font-size: 10px;
-    color: #ddd;
-  }
+.slick-dots li button:before {
+    color: white;
+}
   
-  .custom-banner-slider-container .slick-dots li.slick-active button:before {
-    color: #000; /* 활성 상태 점 색상 */
-  }
-  
-  /* Custom Navigation Arrows */
-  .custom-banner-slider-container .slick-prev,
-  .custom-banner-slider-container .slick-next {
+.slick-prev, .slick-next {
     z-index: 1;
-  }
+}
   
-  .custom-banner-slider-container .slick-prev:before,
-  .custom-banner-slider-container .slick-next:before {
-    color: #000; /* 화살표 색상 */
-  }
+.slick-prev {
+    left: 10px;
+}
   
+.slick-next {
+    right: 10px;
+}
+  
+.slick-prev:before, .slick-next:before {
+    font-size: 24px;
+}
+  
+@media (max-width: 994px) {
+    .banner-slider {
+      width: 100%;
+    }
+}
+  
+@media (max-width: 768px) {
+    .banner-image {
+      height: 180px;
+    }
+}
+  
+@media (max-width: 480px) {
+    .banner-image {
+      height: 150px;
+    }
+}  

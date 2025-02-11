@@ -4,7 +4,7 @@ import { SERVER_URL } from "../api/serverURL";
 const useFileDownload = () => {
     const handleFileDownload = async (fileUrl, fileName) => {
         try {
-            const response = await axios.get(`${SERVER_URL}/api${fileUrl}`, {
+            const response = await axios.get(`${SERVER_URL}/api/board${fileUrl}`, {
                 responseType: 'blob', // 파일 다운로드를 위한 응답 타입 설정
                 withCredentials: false,
                 headers: {

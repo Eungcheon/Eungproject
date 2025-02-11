@@ -15,7 +15,7 @@
 .header-container {
   max-width: 1680px;
   margin: 0 auto;
-  /* padding: 1rem; */
+  padding: 1rem;
 }
 
 .header-top {
@@ -25,20 +25,49 @@
   margin-bottom: 1rem;
 }
 
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .logo {
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: inherit;
 }
 
 .logo img {
-  height: 1.75rem;
+  /*height: 1.75rem;*/
+  height: 40px;
   width: auto;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
+  transition: height 0.3s ease;
 }
 
 .logo span {
   font-size: 1.25rem;
   font-weight: bold;
+}
+
+.site-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333333;
+  text-decoration: none;
+  transition: font-size 0.3s ease;
+}
+
+.auth-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 5px;
 }
 
 .header-login-container {
@@ -56,27 +85,26 @@
   font-weight: bold; /* 강조를 위해 굵은 글꼴 */
 }
 
+.auth-buttons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
 .auth-button {
-  padding: 0.5rem 1rem;
   background-color: #2563eb;
   color: white;
-  border: none;
-  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s, font-size 0.3s ease, padding 0.3s ease;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 0.9rem;
+  gap: 0.5rem;
 }
 
 .auth-button:hover {
   background-color: #1d4ed8;
-}
-
-
-.flex {
-  display: flex;
-}
-
-.space-x-2 > * + * {
-  margin-left: 0.5rem;
 }
 
 .menu-toggle {
@@ -103,6 +131,9 @@
   justify-content: center;
   gap: 5rem; /* 주 목록 간 간격 설정 */
   margin-top: -0.5rem;
+  list-style-type: none;
+  padding: 0;
+  /* margin: 0; */
 }
 
 .nav-item {

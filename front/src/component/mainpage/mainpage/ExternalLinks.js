@@ -1,18 +1,47 @@
-import React from 'react';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import './ExternalLinks.css'; // 분리된 스타일 파일
+import React from "react"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import "./ExternalLinks.css"
 
 const ExternalLinks = () => {
   const links = [
-    { name: '대학 홈페이지', url: 'https://www.university.ac.kr' },
-    { name: '학사정보시스템', url: 'https://student.university.ac.kr' },
-    { name: '이러닝', url: 'https://elearning.university.ac.kr' },
-    { name: '산학협력단', url: 'https://industry.university.ac.kr' },
-    { name: '대학일자리센터', url: 'https://career.university.ac.kr' },
-    { name: '국제교류원', url: 'https://international.university.ac.kr' },
-  ];
+    {
+      name: "대학 홈페이지",
+      url: "https://www.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo01.png",
+    },
+    {
+      name: "워크넷",
+      url: "https://student.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo02.png",
+    },
+    { 
+      name: "사람인",
+      url: "https://library.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo03.png",
+    },
+    {
+      name: "에듀스",
+      url: "https://elearning.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo04.png",
+    },
+    {
+      name: "레주메팩토리",
+      url: "https://industry.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo05.png",
+    },
+    {
+      name: "월드잡플러스",
+      url: "https://career.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo06.png",
+    },
+    {
+      name: "고용노동부",
+      url: "https://career.university.ac.kr",
+      image: "/images/external_links_logos/main_slide_logo07.png",
+    },
+  ]
 
   const settings = {
     dots: false,
@@ -25,42 +54,33 @@ const ExternalLinks = () => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 5 }
+        settings: { slidesToShow: 5 },
       },
       {
         breakpoint: 768,
-        settings: { slidesToShow: 4 }
+        settings: { slidesToShow: 4 },
       },
       {
         breakpoint: 480,
-        settings: { slidesToShow: 3 }
+        settings: { slidesToShow: 2 },
       },
-      {
-        breakpoint: 320,
-        settings: { slidesToShow: 2 }
-      }
-    ]
-  };
+    ],
+  }
 
   return (
-    <div className="external-links-container">
-      <h2 className="external-links-title">관련 링크</h2>
+    <div className="external-links">
       <Slider {...settings}>
         {links.map((link, index) => (
-          <div key={index} className="external-links-slide">
-            <a
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="external-link"
-            >
-              {link.name}
+          <div key={index} className="external-link-wrapper">
+            <a href={link.url} target="_blank" rel="noopener noreferrer" className="external-link">
+              <img src={link.image || "/placeholder.svg"} alt={link.name} className="external-link-image" />
             </a>
           </div>
         ))}
       </Slider>
     </div>
-  );
-};
+  )
+}
 
-export default ExternalLinks;
+export default ExternalLinks
+

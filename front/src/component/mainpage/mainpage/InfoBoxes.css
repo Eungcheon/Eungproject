@@ -1,49 +1,42 @@
-/* InfoBoxes 컨테이너 */
-.info-boxes-container {
+.info-boxes {
     display: grid;
-    grid-template-columns: 1fr; /* 기본 1열 */
-    gap: 16px; /* 박스 간 간격 */
-    padding: 16px;
-  }
-  
-  @media (min-width: 768px) {
-    .info-boxes-container {
-      grid-template-columns: repeat(3, 1fr); /* 중간 화면: 3열 */
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .info-boxes-container {
-      grid-template-columns: repeat(5, 1fr); /* 큰 화면: 5열 */
-    }
-  }
-  
-  /* InfoBox 스타일 */
-  .info-box {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.info-box {
     background-color: #ffffff;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .info-box:hover {
+    color: inherit;
+    transition: background-color 0.3s;
+}
+
+.info-box:hover {
     background-color: #f9fafb;
-    transform: translateY(-4px);
-  }
-  
-  /* InfoBox 제목 */
-  .info-box-title {
-    font-size: 1.125rem; /* 18px */
+}
+
+.info-box-title {
+    font-size: 1.125rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: #1f2937; /* 다크 그레이 */
-  }
+    margin-bottom: 0.5rem;
+}
+
+.info-box-text {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+@media (min-width: 1024px) {
+    .info-boxes {
+      grid-template-columns: repeat(5, 1fr);
+    }
+}
   
-  /* InfoBox 부제목 */
-  .info-box-subtext {
-    font-size: 0.875rem; /* 14px */
-    color: #6b7280; /* 중간 톤 회색 */
-  }
-  
+@media (min-width: 768px) {
+    .info-boxes {
+      grid-template-columns: repeat(3, 1fr);
+    }
+}

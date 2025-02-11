@@ -30,7 +30,7 @@ const PostWriteForm = () => {
         if (isEdit) {
             const fetchPost = async () => {
                 try {
-                    const response = await axios.get(`${SERVER_URL}/api/${type}/${id}`);
+                    const response = await axios.get(`${SERVER_URL}/api/board/${type}/${id}`);
                     const post = response.data;
                     setTitle(post.title);
                     setContent(post.content);
@@ -86,11 +86,11 @@ const PostWriteForm = () => {
 
         try {
             if (isEdit) {
-                await axios.put(`${SERVER_URL}/api/${type}/${id}`, formData, {
+                await axios.put(`${SERVER_URL}/api/board/${type}/${id}`, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
             } else {
-                await axios.post(`${SERVER_URL}/api/${type}`, formData, {
+                await axios.post(`${SERVER_URL}/api/board/${type}`, formData, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
             }
@@ -104,7 +104,7 @@ const PostWriteForm = () => {
     const handleDelete = async () => {
         if (window.confirm('정말 삭제하시겠습니까?')) {
             try {
-                await axios.delete(`${SERVER_URL}/api/${type}/${id}`);
+                await axios.delete(`${SERVER_URL}/api/board/${type}/${id}`);
                 navigate(`/community/${type}`);
             } catch (error) {
                 console.error('Error deleting post:', error);

@@ -1,21 +1,23 @@
-import React from 'react';
-import BannerSlider from './BannerSlider';
-import IconMenu from './IconMenu';
-import InfoBoxes from './InfoBoxes';
-import CommunitySection from './CommunitySection';
-import ExternalLinks from './ExternalLinks';
-import './MainPage.css'; // 새로운 스타일 파일 추가
+import React from "react"
+import BannerSlider from "./BannerSlider"
+import IconMenu from "./IconMenu"
+import InfoBoxes from "./InfoBoxes"
+import CommunitySection from "./CommunitySection"
+import ExternalLinks from "./ExternalLinks"
+import "./MainPage.css"
 
 const MainPage = () => {
   return (
-    <div className="main-page-container">
-      <BannerSlider />
-      <IconMenu />
-      <InfoBoxes />
-      <CommunitySection />
-      <ExternalLinks />
+    <div className="main-page">
+      <main className="main-content">
+        <BannerSlider />
+        <IconMenu />
+        <InfoBoxes />
+        <CommunitySection />
+        <ExternalLinks />
+      </main>
     </div>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

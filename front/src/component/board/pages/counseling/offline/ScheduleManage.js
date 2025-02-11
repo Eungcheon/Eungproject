@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
 import './css/ScheduleManage.css';
+import { LoginContext } from "../../../../login/security/contexts/LoginContextProvider";
 
 const ScheduleManage = () => {
     const [schedules, setSchedules] = useState([]);
-    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    const { isName } = useContext(LoginContext);
 
     useEffect(() => {
         fetchSchedules();
@@ -13,7 +14,11 @@ const ScheduleManage = () => {
 
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule`);
+            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule`,
+                {
+                    params: { counselor: isName } // 서버에 상담사 이름 전달
+                }
+            );
             setSchedules(response.data);
         } catch (error) {
             console.error('Error fetching schedules:', error);
@@ -23,7 +28,10 @@ const ScheduleManage = () => {
     const handleDelete = async (scheduleId) => {
         if (window.confirm('이 일정을 삭제하시겠습니까?')) {
             try {
-                await axios.delete(`${SERVER_URL}/api/counsel/schedule/${scheduleId}`);
+                await axios.delete(`${SERVER_URL}/api/counsel/schedule/${scheduleId}`,
+                    {
+                        params: { counselor: isName } // 서버에 상담사 이름 전달
+                    });
                 fetchSchedules();
             } catch (error) {
                 console.error('Error deleting schedule:', error);
@@ -46,13 +54,13 @@ const ScheduleManage = () => {
                 <tbody>
                     {schedules.map(schedule => (
                         <tr key={schedule.id}>
-                            <td>{schedule.date}</td>
-                            <td>{schedule.time}</td>
-                            <td data-status={schedule.status}>
-                                {schedule.status === 'available' ? '예약 가능' : '예약됨'}
+                            <td>{schedule.counsel_date}</td>
+                            <td>{schedule.counsel_time}</td>
+                            <td data-status={schedule.reserve_status}>
+                                {!schedule.reserve_status ? '예약 대기중' : '예약됨'}
                             </td>
                             <td>
-                                {schedule.status === 'available' && (
+                                {!schedule.reserve_status && (
                                     <button onClick={() => handleDelete(schedule.id)}>
                                         삭제
                                     </button>

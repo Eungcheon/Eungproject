@@ -1,171 +1,267 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Employment.css';
-import Footer from '../page/Footer';
-import Header from '../page/Header';
 import Sidebar from '../page/Sidebar';
 
 const Employment = () => {
     const [activeTab, setActiveTab] = useState("tab1");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 10; // 한 페이지에 표시할 데이터 수
+    const itemsPerPage = 10;
+    const [removingItems, setRemovingItems] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(""); // ✅ 검색어 상태 추가
+    const [filteredData, setFilteredData] = useState([]); // ✅ 검색된 데이터 저장
 
+
+    // ✅ 각 탭에 15개씩 데이터 추가 (페이지네이션 확인 가능)
     const [jobData, setJobData] = useState({
-        tab1: [
-            { id: 1, company: "CJ", details: "4300만원 / 한국 / 주 40시간", education: "관계없음", registered: "2024-04-25", deadline: "2024-05-06", isFavorite: false },
-            { id: 2, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 3, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 4, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 5, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 6, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 7, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 8, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 9, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 10, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 11, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-            { id: 12, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-
-        ],
-        tab2: [
-            { id: 3, company: "네이버", details: "연봉 협의 / 서울 / 주 40시간", education: "학사 이상", registered: "2024-04-15", deadline: "2024-04-30", isFavorite: false },
-            { id: 4, company: "카카오", details: "연봉 협의 / 성남 / 주 40시간", education: "학사 이상", registered: "2024-04-10", deadline: "2024-04-25", isFavorite: false },
-        ],
-        tab3: [
-            { id: 5, company: "CJ", details: "4300만원 / 한국 / 주 40시간", education: "관계없음", registered: "2024-04-25", deadline: "2024-05-06", isFavorite: false },
-            { id: 6, company: "풀무원", details: "3890만원 / 한국 / 주 40시간", education: "전문대 졸업(예정자)", registered: "2024-04-19", deadline: "2024-04-28", isFavorite: false },
-        ],
-        tab4: [],
+        tab1: [...Array(15)].map((_, i) => ({
+            id: i + 1,
+            company: "삼성",
+            details: `연봉 ${5000 + i * 10}만원 / 한국 / 주 40시간`,
+            education: "학사 이상",
+            registered: "2025-01-17",
+            deadline: `2025-02-${String(1 + (i % 10)).padStart(2, '0')}`,
+            isFavorite: true,
+        })),
+        tab2: [...Array(15)].map((_, i) => ({
+            id: i + 16,
+            company: "LG",
+            details: `연봉 ${4800 + i * 10}만원 / 한국 / 주 40시간`,
+            education: "학사 이상",
+            registered: "2025-01-17",
+            deadline: `2025-02-${String(2 + (i % 10)).padStart(2, '0')}`,
+            isFavorite: true,
+        })),
+        tab3: [...Array(15)].map((_, i) => ({
+            id: i + 31,
+            company: "네이버",
+            details: `연봉 협의 / 서울 / 주 40시간`,
+            education: "학사 이상",
+            registered: "2025-01-17",
+            deadline: `2025-02-${String(3 + (i % 10)).padStart(2, '0')}`,
+            isFavorite: true,
+        })),
+        tab4: [...Array(15)].map((_, i) => ({
+            id: i + 46,
+            company: "카카오",
+            details: `연봉 협의 / 경기 / 주 40시간`,
+            education: "학사 이상",
+            registered: "2025-01-17",
+            deadline: `2025-02-${String(4 + (i % 10)).padStart(2, '0')}`,
+            isFavorite: true,
+        })),
     });
 
-    const toggleFavorite = (tab, jobId) => {
-        setJobData((prevJobData) => {
-            const updatedTabData = prevJobData[tab].filter((job) => job.id !== jobId);
-            const totalItems = updatedTabData.length;
-            const totalPages = Math.ceil(totalItems / itemsPerPage);
+    useEffect(() => {
+        const removeExpiredJobs = () => {
+            setJobData((prevJobData) => {
+                const updatedJobData = { ...prevJobData };
+                let dataChanged = false;
 
-            if (currentPage > totalPages) {
-                setCurrentPage(totalPages > 0 ? totalPages : 1);
-            }
+                Object.keys(updatedJobData).forEach((tab) => {
+                    const filteredData = updatedJobData[tab].filter((job) => {
+                        const deadlineDate = new Date(job.deadline);
+                        const today = new Date();
+                        const daysDiff = Math.ceil((today - deadlineDate) / (1000 * 60 * 60 * 24));
 
-            return { ...prevJobData, [tab]: updatedTabData };
-        });
+                        return daysDiff <= 2; // 마감일이 2일 이상 지난 항목 삭제
+                    });
+
+                    if (filteredData.length !== updatedJobData[tab].length) {
+                        dataChanged = true;
+                        updatedJobData[tab] = filteredData;
+                    }
+                });
+
+                return dataChanged ? updatedJobData : prevJobData;
+            });
+        };
+
+        removeExpiredJobs(); // 처음 렌더링될 때 한 번 실행
+        const interval = setInterval(removeExpiredJobs, 24 * 60 * 60 * 1000); // 24시간마다 실행
+
+        return () => clearInterval(interval);
+    }, []);
+
+
+    const isPastDeadline = (deadline) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const deadlineDate = new Date(deadline);
+        deadlineDate.setHours(0, 0, 0, 0);
+        return deadlineDate < today;
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+    const sortByDeadline = (data) => [...data].sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
 
-    const paginateData = (data) => {
+    // 검색어 필터링 추가
+    const paginateData = () => {
+        const dataToPaginate = searchQuery.trim() ? filteredData : jobData[activeTab] || [];
+        const sortedData = sortByDeadline(dataToPaginate);
         const startIndex = (currentPage - 1) * itemsPerPage;
-        return data.slice(startIndex, startIndex + itemsPerPage).map((job, index) => ({
-            ...job,
-            number: startIndex + index + 1,
-        }));
+        return sortedData.slice(startIndex, startIndex + itemsPerPage);
     };
 
-    const renderPagination = (dataLength) => {
-        const totalPages = Math.ceil(dataLength / itemsPerPage);
-        if (totalPages <= 1) return null; // 한 페이지만 필요하면 표시하지 않음
+    const totalItems = searchQuery.trim() ? filteredData.length : jobData[activeTab]?.length || 0;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-        return (
-            <div className="pagination">
-                {Array.from({ length: totalPages }, (_, index) => (
-                    <span
-                        key={index + 1}
-                        className={`page-number ${currentPage === index + 1 ? "active" : ""}`}
-                        onClick={() => handlePageChange(index + 1)}
-                    >
-                        {index + 1}
-                    </span>
-                ))}
-            </div>
-        );
+    // ⭐ 즐겨찾기 해제 시 즉시 삭제 + 현재 페이지가 비면 이전 페이지로 이동 + 탭 유지
+    const toggleFavorite = (jobId) => {
+        setRemovingItems((prev) => [...prev, jobId]);
+
+        setTimeout(() => {
+            setJobData((prevJobData) => {
+                const updatedData = prevJobData[activeTab].filter((job) => job.id !== jobId);
+                const updatedJobData = { ...prevJobData, [activeTab]: updatedData };
+
+                // 🔥 삭제 후 최신 데이터 확인
+                const sortedItems = sortByDeadline(updatedJobData[activeTab] || []);
+                const remainingItemsOnPage = sortedItems.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+                // 🔥 현재 페이지가 비었고, 이전 페이지가 있으면 이전 페이지로 이동
+                if (remainingItemsOnPage.length === 0 && currentPage > 1) {
+                    setCurrentPage((prev) => Math.max(prev - 1, 1));
+                }
+
+                return updatedJobData;
+            });
+
+            setRemovingItems((prev) => prev.filter((id) => id !== jobId));
+        }, 500);
     };
 
-    const emptyMessages = {
-        tab1: "즐겨찾기한 교내 채용 정보가 없습니다.",
-        tab2: "즐겨찾기한 추천 채용 정보가 없습니다.",
-        tab3: "즐겨찾기한 교외 채용 정보가 없습니다.",
-        tab4: "즐겨찾기한 인턴 채용 정보가 없습니다.",
+    // 🕒 마감 상태 계산 함수
+    const getDeadlineStatus = (deadline) => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const deadlineDate = new Date(deadline);
+        deadlineDate.setHours(0, 0, 0, 0);
+
+        const timeDiff = deadlineDate - today;
+        const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+        if (daysRemaining < 0) return "❌";
+        if (daysRemaining <= 2) return "⚠️";
+        return "✔️";
     };
+
+    // 검색어 입력 처리 및 검색 후 데이터 저장
+    const handleSearch = (event) => {
+        const query = event.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        if (query.trim() === "") {
+            // ✅ 검색어가 없을 때 → 기존 activeTab 데이터 사용
+            setFilteredData([]);
+        } else {
+            // ✅ 검색어가 있을 때 → 모든 탭의 데이터에서 검색
+            const allData = Object.values(jobData).flat();
+            const results = allData.filter((job) =>
+                job.company.toLowerCase().includes(query) ||
+                job.details.toLowerCase().includes(query) ||
+                job.education.toLowerCase().includes(query)
+            );
+
+            setFilteredData(results); // ✅ 검색된 데이터 저장
+        }
+
+        setCurrentPage(1); // ✅ 검색 시 첫 번째 페이지로 이동
+    };
+
 
     return (
         <div>
-            <Header />
-            <div className="container">
-                <main>
+            <div className="emp-container">
+                <main className="emp-main">
                     <Sidebar />
-                    <section className="form-container">
+                    <section className="emp-form-container">
                         <h2>나의 채용 정보</h2>
-                        <ul className="employment-tabs">
-                            <li
-                                className={`employment-tab ${activeTab === "tab1" ? "active" : ""}`}
-                                onClick={() => setActiveTab("tab1")}
-                            >
-                                교내 채용
-                            </li>
-                            <li
-                                className={`employment-tab ${activeTab === "tab2" ? "active" : ""}`}
-                                onClick={() => setActiveTab("tab2")}
-                            >
-                                추천 채용
-                            </li>
-                            <li
-                                className={`employment-tab ${activeTab === "tab3" ? "active" : ""}`}
-                                onClick={() => setActiveTab("tab3")}
-                            >
-                                교외 채용
-                            </li>
-                            <li
-                                className={`employment-tab ${activeTab === "tab4" ? "active" : ""}`}
-                                onClick={() => setActiveTab("tab4")}
-                            >
-                                인턴 채용
-                            </li>
-                        </ul>
-                        <div className="tab-content">
-                            {jobData[activeTab]?.length > 0 ? (
-                                <>
-                                    <table className="employment-table">
-                                        <thead>
-                                            <tr>
-                                                <th>즐겨찾기</th>
-                                                <th>회사명</th>
-                                                <th>채용 정보</th>
-                                                <th>학력 / 경력</th>
-                                                <th>등록일</th>
-                                                <th>마감일</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {paginateData(jobData[activeTab]).map((job) => (
-                                                <tr key={job.id}>
-                                                    <td>
-                                                        <span
-                                                            className="star"
-                                                            onClick={() => toggleFavorite(activeTab, job.id)}
-                                                        >
-                                                            ★
-                                                        </span>
-                                                    </td>
-                                                    <td>{job.company}</td>
-                                                    <td>{job.details}</td>
-                                                    <td>{job.education}</td>
-                                                    <td>{job.registered}</td>
-                                                    <td>{job.deadline}</td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                    {renderPagination(jobData[activeTab].length)}
-                                </>
-                            ) : (
-                                <p className="empty-message">{emptyMessages[activeTab]}</p>
-                            )}
-                        </div>
+                        <div className="emp-division-line"></div>
+
+                        {/* 🔍 검색 입력창 추가 */}
+                        <input
+                            type="text"
+                            placeholder="검색어를 입력하세요"
+                            value={searchQuery}
+                            onChange={handleSearch}
+                            className="emp-search-input"
+                        />
+
+                        {/* 🔍 검색 중이 아닐 때만 탭 표시 */}
+                        {!searchQuery.trim() && (
+                            <ul className="emp-tabs">
+                                {Object.keys(jobData).map((tab) => (
+                                    <li key={tab} className={`emp-tab ${activeTab === tab ? "active" : ""}`} onClick={() => setActiveTab(tab)}>
+                                        {tab === "tab1" ? "교내 채용" : tab === "tab2" ? "추천 채용" : tab === "tab3" ? "외부 채용" : "인턴 채용"}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+
+                        {totalItems > 0 && (
+                            <div className='emp-getDeadlineStatus'>❌: 마감됨  ⚠️: 임박  ✔️: 진행중</div>
+                        )}
+
+                        {totalItems === 0 ? (
+                            <div className="no-data-message">최근에 즐겨찾기한 채용 정보가 없습니다.</div>
+                        ) : (
+                            <table className="emp-table">
+                                <thead>
+                                    <tr>
+                                        {/* 🔍 검색 중이 아닐 때만 "즐겨찾기" 컬럼 표시 */}
+                                        {!searchQuery.trim() && <th>즐겨찾기</th>}
+                                        <th>회사명</th>
+                                        <th>채용 정보</th>
+                                        <th>학력 / 경력</th>
+                                        <th>등록일</th>
+                                        <th>마감일</th>
+                                        <th>마감 상태</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {paginateData().map((job) => (
+                                        <tr key={job.id} className={removingItems.includes(job.id) ? "fade-out-left" : ""}>
+                                            {/* 🔍 검색 중이 아닐 때만 "즐겨찾기" 아이콘 표시 */}
+                                            {!searchQuery.trim() && (
+                                                <td>
+                                                    <span className="star" onClick={() => toggleFavorite(job.id)} style={{ cursor: 'pointer', color: 'gold' }}>
+                                                        ⭐
+                                                    </span>
+                                                </td>
+                                            )}
+                                            <td className={isPastDeadline(job.deadline) ? "gray-text" : ""}>{job.company}</td>
+                                            <td className={isPastDeadline(job.deadline) ? "gray-text" : ""}>{job.details}</td>
+                                            <td className={isPastDeadline(job.deadline) ? "gray-text" : ""}>{job.education}</td>
+                                            <td className={isPastDeadline(job.deadline) ? "gray-text" : ""}>{job.registered}</td>
+                                            <td className={isPastDeadline(job.deadline) ? "gray-text" : ""}>{job.deadline}</td>
+                                            <td>{getDeadlineStatus(job.deadline)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+
+
+                            </table>
+                        )}
+
+                        {/* 페이지네이션 (2페이지 이상일 때만 표시) */}
+                        {totalPages > 1 && (
+                            <div className="emp-pagination">
+                                {Array.from({ length: totalPages }, (_, i) => (
+                                    <button
+                                        key={i + 1}
+                                        className={currentPage === i + 1 ? "active" : ""}
+                                        onClick={() => setCurrentPage(i + 1)}
+                                    >
+                                        {i + 1}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
                     </section>
                 </main>
             </div>
-            <Footer />
         </div>
     );
 };

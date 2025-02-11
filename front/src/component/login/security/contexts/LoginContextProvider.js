@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState, useCallback } from 'react';
 import api from '../apis/api';
-import Cookies from 'js-cookie';
 import * as auth from '../apis/auth';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,25 +14,31 @@ const LoginContextProvider = ({ children }) => {
     const [isGender, setIsGender] = useState(null);
     const [isLoginId, setIsLoginId] = useState(null);
     const [roles, setRoles] = useState({});
+    const [isName, setIsName] = useState(null);  // ✅ 사용자 이름 상태 추가
 
-    // logoutSetting 함수 메모이제이션
+    // ✅ [1] 로그아웃 처리 (localStorage 사용)
     const logoutSetting = useCallback(() => {
         api.defaults.headers.common.Authorization = undefined;
-        Cookies.remove("accessToken");
+        localStorage.removeItem("accessToken");  // ✅ Cookies 대신 localStorage 사용
         setLogin(false);
         setIsUserId(null);
         setIsLoginId(null);
+        setIsName(null);
         setIsGender(null);
         setRoles({});
     }, []);
 
-    // loginSetting 함수 메모이제이션
+    // ✅ [2] 로그인 후 사용자 정보 저장
     const loginSetting = useCallback((userData, accessToken) => {
-        const { userId, loginid, gender, roles: userRoles = [] } = userData;
-        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        const { userId, loginid, name, gender, roles: userRoles = [] } = userData;
+        
+        localStorage.setItem("accessToken", accessToken); // ✅ Cookies 대신 localStorage 사용
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`; // ✅ 모든 요청에 Authorization 헤더 추가
+
         setLogin(true);
         setIsUserId(userId);
         setIsLoginId(loginid);
+        setIsName(name);
         setIsGender(gender);
 
         if (Array.isArray(userRoles)) {
@@ -44,15 +49,15 @@ const LoginContextProvider = ({ children }) => {
         }
     }, []);
 
-    // loginCheck 함수 메모이제이션
+    // ✅ [3] 로그인 체크 (localStorage 사용)
     const loginCheck = useCallback(async () => {
-        const accessToken = Cookies.get("accessToken");
+        const accessToken = localStorage.getItem("accessToken"); // ✅ Cookies 대신 localStorage 사용
         if (!accessToken) {
             logoutSetting();
             return;
         }
 
-        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+        api.defaults.headers.common.Authorization = `Bearer ${accessToken}`; // ✅ 모든 요청에 Authorization 헤더 추가
         try {
             const response = await auth.info();
             if (response.data === 'UNAUTHORIZED') {
@@ -65,12 +70,13 @@ const LoginContextProvider = ({ children }) => {
         }
     }, [logoutSetting, loginSetting]);
 
-    // useEffect에서 loginCheck 실행
+    // ✅ [4] 로그인 체크 실행
     useEffect(() => {
         setLoginInProgress(true);
         loginCheck().finally(() => setLoginInProgress(false));
     }, [loginCheck]);
 
+    // ✅ [5] 로그인 요청
     const login = async (loginid, password) => {
         try {
             const response = await auth.login(loginid, password);
@@ -81,7 +87,7 @@ const LoginContextProvider = ({ children }) => {
             }
 
             const accessToken = authHeader.replace("Bearer ", "");
-            Cookies.set("accessToken", accessToken);
+            localStorage.setItem("accessToken", accessToken); // ✅ Cookies 대신 localStorage 사용
 
             await loginCheck();
             alert("로그인 성공! 메인 화면으로 이동합니다.");
@@ -92,6 +98,7 @@ const LoginContextProvider = ({ children }) => {
         }
     };
 
+    // ✅ [6] 로그아웃 처리
     const logout = (force = false) => {
         if (force || window.confirm("로그아웃하시겠습니까?")) {
             logoutSetting();
@@ -100,7 +107,17 @@ const LoginContextProvider = ({ children }) => {
     };
 
     return (
-        <LoginContext.Provider value={{ isLogin, isLoginInProgress, isUserId, isLoginId, isGender, roles, login, logout }}>
+        <LoginContext.Provider value={{ 
+            isLogin, 
+            isLoginInProgress, 
+            isUserId, 
+            isLoginId, 
+            isName,  
+            isGender, 
+            roles, 
+            login, 
+            logout 
+        }}>
             {children}
         </LoginContext.Provider>
     );

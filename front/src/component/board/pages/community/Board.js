@@ -33,19 +33,16 @@ const Board = ({ type }) => {
         handleSearchTypeChange
     } = useSearch();
 
-    useEffect(() => {
-        fetchPosts();
-    }, [currentPage, type, sortOrder]);
-
-    const fetchPosts = async () => {
+    const fetchPosts = useCallback(async () => {
         try {
-            const response = await axios.get(`${SERVER_URL}/api/${type}`, {
+            const response = await axios.get(`${SERVER_URL}/api/board/${type}`, {
                 params: {
+                    type,
                     page: currentPage,
                     size: itemsPerPage,
                     sort: sortOrder,
                     searchType,
-                    keyword: searchKeyword
+                    keyword: searchKeyword,
                 }
             });
             setPosts(response.data.content);
@@ -54,7 +51,11 @@ const Board = ({ type }) => {
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
-    };
+    }, [currentPage, type, sortOrder, searchType, searchKeyword]);
+
+    useEffect(() => {
+        fetchPosts();
+    }, [currentPage, type, sortOrder]);
 
     const handleSearchSubmit = useCallback(() => {
         setCurrentPage(0);

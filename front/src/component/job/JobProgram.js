@@ -6,15 +6,17 @@ function JobProgram() {
   return (
     <div className="main-content">
       <div className="container mt-4">
-        <h2>전체 프로그램</h2>
-        <hr />
-        {/* ProgramView 포함 */}
-        <ProgramView />
+        {/* ✅ 컨테이너 틀 추가 */}
+        <div className="program-wrapper">
+          <div className="program-header">
+            <h2 className="program-title">전체 프로그램</h2>
+            <hr className="program-divider" />
+          </div>
+
+          {/* ✅ ProgramView 포함 */}
+          <ProgramView />
+        </div>
       </div>
-      {/* Footer는 ProgramView 아래에 위치 */}
-      <footer>
-        <div className="text-center p-3">© 2025 대학일자리플러스</div>
-      </footer>
     </div>
   );
 }

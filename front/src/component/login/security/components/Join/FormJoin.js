@@ -12,6 +12,7 @@ const FormJoin = ({ join }) => {
         email: '',
         email1: '',
         email2: 'naver.com',
+        depart: '',
         gender: 'male',
         sms: true, // boolean으로 설정
     });
@@ -148,6 +149,10 @@ const FormJoin = ({ join }) => {
             alert("핸드폰 번호를 입력해주세요.");
             return;
         }
+        if (!formData.depart.trim()) {
+            alert("학과를 입력해주세요.");
+            return;
+        }
         if (!inputDisable.isLoginid) {
             alert("아이디 중복 체크를 완료해주세요.");
             return;
@@ -227,6 +232,19 @@ const FormJoin = ({ join }) => {
                         placeholder="이름"
                         name="name"
                         value={formData.name}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                {/* 학과 */}
+                <div className="join-form-row">
+                    <label htmlFor="depart">학과</label>
+                    <input
+                        id="depart"
+                        type="text"
+                        placeholder="학과"
+                        name="depart"
+                        value={formData.depart}
                         onChange={handleChange}
                     />
                 </div>

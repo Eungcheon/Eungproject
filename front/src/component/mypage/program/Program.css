@@ -1,12 +1,12 @@
 /* 전체 레이아웃 */
-body.program-page {
+body.myprogram-page {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
 }
 
-.program-container {
+.myprogram-container {
     width: 80%;
     margin: 0 auto;
     background-color: #fff;
@@ -16,28 +16,30 @@ body.program-page {
 }
 
 /* 메인 섹션 */
-.program-main {
+.myprogram-main {
     display: flex;
     gap: 30px;
 }
 
 /* 폼 스타일 */
-.program-form-container {
+.myprogram-form-container {
     width: 75%;
     padding: 20px;
 }
 
-.program-form-container h2 {
-    font-size: 24px;
+.myprogram-form-container h2 {
+    font-size: 30px;
     margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
 }
 
-.program-form-container .jb-division-line {
-    border-top: 3px solid #444444;
+.myprogram-form-container .myprogram-division-line {
+border-top: 3px solid #444444;
     margin: 10px -25px;
 }
 
-.program-form-container form {
+.myprogram-form-container form {
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -45,7 +47,7 @@ body.program-page {
 }
 
 /* 탭 스타일 */
-.program-tabs {
+.myprogram-tabs {
     display: flex;
     list-style: none;
     padding: 0;
@@ -55,7 +57,7 @@ body.program-page {
     font-size: 20px;
 }
 
-.program-tab {
+.myprogram-tab {
     padding: 10px 20px;
     cursor: pointer;
     border: 1px solid #ddd;
@@ -64,18 +66,19 @@ body.program-page {
     margin-right: 5px;
 }
 
-.program-tab.active {
-    background-color: #fff;
-    border-bottom: 2px solid #fff;
-    font-weight: bold;
+.myprogram-tab.active {
+    background-color: rgb(1, 66, 122);
+    color: white;
+    border-bottom: 2px solid rgb(1, 66, 122);
 }
 
-.program-tab.active:hover {
+
+.myprogram-tab.active:hover {
     background-color: rgb(1, 66, 122);
     color: white;
 }
 
-.program-tab-content {
+.myprogram-tab-content {
     text-align: center;
     padding-top: 20px;
     font-size: 18px;
@@ -83,114 +86,251 @@ body.program-page {
 }
 
 /* 테이블 스타일 */
-.program-table {
+.myprogram-table {
     width: 100%;
     border-collapse: collapse;
     background-color: #fff;
     margin-top: 0;
+    margin-bottom: 20px;
 }
 
-.program-table th,
-.program-table td {
+.myprogram-table th,
+.myprogram-table td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
     font-size: 16px;
     vertical-align: middle;
+    font-weight: 500;
 }
 
-.program-table th {
+.myprogram-table th {
     background-color: #f4f4f4;
     font-size: 17px;
     text-align: center;
-}
-
-.program-star {
-    color: orange;
-    font-size: 16px;
-    margin-right: 5px;
-    display: inline-block;
-    vertical-align: middle;
+    font-weight: bold;
 }
 
 /* 반응형 */
 @media (max-width: 768px) {
-    .program-table th,
-    .program-table td {
+    .myprogram-table th,
+    .myprogram-table td {
         font-size: 12px;
         padding: 8px;
         text-align: center;
     }
 
-    .program-tab {
+    .myprogram-tab {
         font-size: 14px;
         padding: 8px 12px;
         padding-bottom: 0;
     }
 }
 
-/* 별 아이콘 스타일 */
-.program-star {
-    color: orange;
-    font-size: 25px;
-    cursor: pointer;
-    display: inline-block;
-    margin-right: 5px;
-}
-
-.program-star.active {
-    color: gray;
-}
-
-/* 삭제 버튼 스타일 */
-.program-delete-btn {
-    padding: 5px 10px;
-    background-color: rgb(1, 66, 122);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    text-align: center;
-}
-
-.program-delete-btn:hover {
-    background-color: #d32f2f;
-}
-
 /* 페이지네이션 */
-.program-pagination {
+.myprogram-pagination {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     gap: 10px;
+    font-weight: bold;
 }
 
-.program-page-number {
+.myprogram-pagination button {
     cursor: pointer;
     padding: 5px 15px;
     border: none;
-    font-size: 14px;
+    font-size: 15px;
     position: relative;
     color: #333;
+    margin-right: 5px;
 }
 
-.program-page-number.active::after,
-.program-page-number:hover::after {
+.myprogram-pagination button.active::after,
+.myprogram-pagination button:hover::after {
     content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 3px;
-    background-color: rgb(1, 66, 122); /* 파란색 */
-    border-radius: 2px;
+    background-color: rgb(1, 66, 122); 
+     border-radius: 2px;  
 }
 
-.program-page-number.active {
+.myprogram-pagination button.active {
     font-weight: bold;
     color: black;
 }
 
-.program-page-number:hover {
+.myprogram-pagination button:hover {
     color: black;
 }
+
+/* 마감된 날짜 회색  */ 
+.gray-text {
+    color: gray;
+}
+
+.blinking-check {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* 삭제 버튼 클릭 시 오른쪽으로 부드럽게 사라짐 */
+.fade-out-right {
+    animation: fadeOutRight 0.5s ease forwards;
+}
+
+@keyframes fadeOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* 즐겨찾기 해제 시 왼쪽으로 부드럽게 사라짐 */
+.fade-out-left {
+    animation: fadeOutLeft 0.5s ease forwards;
+}
+
+@keyframes fadeOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+}
+
+/* 마감된 항목 회색 표시 */
+.gray-text {
+    color: gray;
+}
+
+/* 마감상태 표시 */
+.myprogram-getDeadlineStatus {
+    text-align: right;
+    word-spacing: 10px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* 프로그램 데이터 없을 시 안내 문구 */
+.no-data-message {
+    text-align: center;
+    font-size: 15px;
+    padding: 20px;
+    font-weight: 400;
+}
+
+/* 삭제 버튼 */
+.myprogram-delete-controls {
+    display: flex;
+    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+    align-items: center;
+    margin-bottom: 10px; /* 테이블과 간격 추가 */
+    font-weight: 400;
+}
+
+.myprogram-select-all-btn,
+.myprogram-delete-btn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+    margin-left: 10px;
+}
+
+.myprogram-delete-btn:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+@media (max-width: 600px) {
+    .myprogram-delete-controls {
+        flex-direction: column; /* 모바일에서는 세로 정렬 */
+        gap: 5px;
+    }
+
+    .myprogram-select-all-btn,
+    .myprogram-delete-btn {
+        width: 100%; /* 모바일에서 버튼 너비 확장 */
+        text-align: center;
+    }
+}
+
+/* 커스텀 체크박스 스타일 */
+.myprogram-checkbox-label {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d3d2d2; /* 기본 테두리 */
+    border-radius: 10px; /* 체크박스를 둥글게 */
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: transparent; /* 기본 상태에서는 아이콘 숨김 */
+}
+
+/* 체크된 상태 */
+.myprogram-checkbox-container input[type="checkbox"]:checked + 
+.myprogram-checkbox-label {
+    background-color: white; /* 체크되었을 때 배경색 */
+    border-color: white;
+    color: rgb(1, 66, 122); /* 체크된 상태에서 ✔️ 색상 */
+}
+
+/* 체크 아이콘 (✔️) */
+.myprogram-checkbox-container input[type="checkbox"]:checked + 
+.myprogram-checkbox-label::after {
+    content: "✔️"; /* 아이콘 표시 */
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* 체크박스 호버 효과 */
+.myprogram-checkbox-label:hover {
+    border-color: #f1eeee;
+}
+
+/* 검색 입력창 */
+.myprogram-search-input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 3px solid  rgb(1, 66, 122); 
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.myprogram-search-input:focus {
+    border:3px solid  rgb(1, 66, 122); 
+    background-color:rgb(236, 245, 253);  /* 연한 파란색 배경 추가 (선택사항) */
+    outline: none; /* 기본 아웃라인 제거 */
+}
+

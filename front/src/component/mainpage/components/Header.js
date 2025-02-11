@@ -1,18 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Header.css';
-// import useAuth, { LOGIN_STATUS, ROLES } from '../../login/hooks/useAuth';
-// import { LoginContext } from '../../login/security/contexts/LoginContextProvider';
+import useAuth, { LOGIN_STATUS } from '../../login/hooks/useAuth';
+import { LoginContext } from '../../login/security/contexts/LoginContextProvider';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState("120px");
+  const [headerHeight, setHeaderHeight] = useState("135px");
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  // const { logout } = useContext(LoginContext);
-  // const { loginStatus, loginId, roles, } = useAuth();
-  const navigate = useNavigate();
+  const { logout } = useContext(LoginContext);
+  const { loginStatus, name } = useAuth(); // ✅ name 가져오기
+
 
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -30,7 +30,7 @@ const Header = () => {
 
   const handleMenuHover = (index) => {
     setActiveSubmenu(index);
-    setHeaderHeight(index !== null ? "500px" : "135px");
+    setHeaderHeight(index !== null ? "350px" : "135px");
   };
 
   // 화면 크기가 변경될 때마다 모바일 여부를 설정
@@ -57,24 +57,47 @@ const Header = () => {
 
   const menuItems = [
     {
-      title: '센터소개',
-      submenu: ['부서소개', '진로 취업 로드맵', '진로 취업 프로그램'],
+      title: "센터소개",
+      submenu: [
+        { title: "부서소개", link: "/" },
+        { title: "진로 취업 로드맵", link: "/" },
+        { title: "진로 취업 프로그램", link: "/" }
+      ]
     },
     {
-      title: '채용정보',
-      submenu: ['채용정보', '취업솔루션'],
+      title: "채용정보",
+      submenu: [
+        { title: "채용정보", link: "/mainRecruitment" },
+        { title: "취업솔루션", link: "/" }
+      ]
     },
     {
-      title: '프로그램',
-      submenu: ['전체 프로그램', '취업 프로그램', '진로 프로그램', '창업 프로그램', '신청내역'],
+      title: "프로그램",
+      submenu: [
+        { title: "전체 프로그램", link: "/" },
+        { title: "취업 프로그램", link: "/" },
+        { title: "진로 프로그램", link: "/" },
+        { title: "창업 프로그램", link: "/" },
+        { title: "신청내역", link: "/" }
+      ]
     },
     {
-      title: 'community',
-      submenu: ['notice', 'FAQ', 'archive', '상담', '실시간 상담'],
+      title: "커뮤니티",
+      submenu: [
+        { title: "공지사항", link: "/community/notice" },
+        { title: "FAQ", link: "/community/faq" },
+        { title: "자료실", link: "/community/archive" },
+        { title: "상담", link: "/counsel" }
+      ]
     },
     {
-      title: '마이페이지',
-      submenu: ['회원 정보', '내가 신청한 프로그램', '즐겨찾기', '상담 결과 조회'],
+      title: "마이페이지",
+      submenu: [
+        { title: "회원 정보", link: "/myEdit" },
+        { title: "내가 신청한 프로그램", link: "/myProgram" },
+        { title: "즐겨찾기", link: "/myEmployment" },
+        { title: "상담 결과 조회", link: "/myCounsel" }
+      ]
     },
   ];
 
@@ -82,21 +105,21 @@ const Header = () => {
     <header className="header" style={{ height: headerHeight }}>
       <div className="header-container">
         <div className="header-top">
-          <div className="flex items-center">
-            <a href="https://www.jobpluscenter.com" target="_blank" rel="noopener noreferrer" className="logo">
-              <img src="/images/logos/logo.png" alt="일자리플러스센터 로고" />
+          <div className="logo-container">
+            <a href="https://www.hansei.ac.kr/" target="_blank" rel="noopener noreferrer" className="logo">
+              <img src="/images/logos/logo.png" alt="한세대학교 로고" />
             </a>
-            <Link to="/" className="text-xl font-bold hover:text-blue-600 transition-colors">
+            <Link to="/" className="site-title">
               일자리플러스센터
             </Link>
           </div>
-          <div>
-            {/* {
+          <div className="auth-container">
+            {
               loginStatus === LOGIN_STATUS.LOGGED_IN ? (
                 <>
                   <div id="top_login" className="header-login-container">
                     <div className="flex-container">
-                      <p className="userid">{loginId}님</p>
+                      <p className="userid">{name}님</p>
                       <button
                         type="button"
                         style={{ marginLeft: "10px" }}
@@ -108,8 +131,8 @@ const Header = () => {
                     </div>
                   </div>
                 </>
-              ) : ( */}
-                <div id="top_login" className="login-container">
+              ) : (
+                <div id="top_login" className="auth-buttons">
                   <a className="auth-button" href="/login">
                     로그인
                   </a>
@@ -118,8 +141,8 @@ const Header = () => {
                     회원가입
                   </a>
                 </div>
-              {/* ) */}
-            {/* } */}
+              )
+            }
 
           </div>
         </div>
@@ -164,7 +187,7 @@ const Header = () => {
           </>
         )}
 
-        {!isMobile && (
+{!isMobile && (
           <nav className="header-nav">
             <ul className="nav-menu">
               {menuItems.map((item, index) => (
@@ -174,25 +197,29 @@ const Header = () => {
                   onMouseEnter={() => handleMenuHover(index)}
                   onMouseLeave={() => handleMenuHover(null)}
                 >
-                  {/* 버튼 클릭 시 첫 번째 세부목록으로 이동 */}
-                  <Link
-                    to={`/${item.title.toLowerCase()}/${item.submenu[0].toLowerCase().replace(/ /g, '-')}`}
-                    className="nav-button"
-                  >
-                    {item.title}
-                  </Link>
-                  {/* 서브메뉴 */}
-                  <div className="submenu">
-                    {item.submenu.map((subItem, subIndex) => (
-                      <Link
-                        key={subIndex}
-                        to={`/${item.title.toLowerCase()}/${subItem.toLowerCase().replace(/ /g, '-')}`}
-                        className="submenu-item"
-                      >
-                        {subItem}
-                      </Link>
-                    ))}
+                  <div key={index} className="menu-item">
+                    {/* 메인 메뉴 */}
+                    <Link
+                      to={item.submenu[0]?.link || "/default"}
+                      className="nav-button"
+                    >
+                      {item.title}
+                    </Link>
+
+                    {/* 서브메뉴 */}
+                    <div className="submenu">
+                      {item.submenu.map((subItem, subIndex) => (
+                        <Link
+                          key={subIndex}
+                          to={subItem.link}
+                          className="submenu-item"
+                        >
+                          {subItem.title}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
+
                 </li>
               ))}
             </ul>
