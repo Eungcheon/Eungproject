@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSocket } from '../../../hooks/socket'; // 새 전역 소켓 관리 방식
 import './css/CounselorDashboard.css';
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const CounselorDashboard = () => {
     const [requests, setRequests] = useState([]);
     const navigate = useNavigate();
+    const { isName, isUserId } = useContext(LoginContext);
+
     useEffect(() => {
         const socket = getSocket(); // 소켓 초기화
 
@@ -22,8 +25,7 @@ const CounselorDashboard = () => {
     }, []); // socket 의존성 추가
 
     const handleAccept = (roomId) => {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo')); // 상담사 정보
-        const counselorId = userInfo.userId;
+        const counselorId = isUserId;
 
         if (!roomId) {
             console.error('Room ID가 유효하지 않음');

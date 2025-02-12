@@ -14,7 +14,7 @@ const ScheduleManage = () => {
 
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule`,
+            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule/manage`,
                 {
                     params: { counselor: isName } // 서버에 상담사 이름 전달
                 }
@@ -60,11 +60,9 @@ const ScheduleManage = () => {
                                 {!schedule.reserve_status ? '예약 대기중' : '예약됨'}
                             </td>
                             <td>
-                                {!schedule.reserve_status && (
-                                    <button onClick={() => handleDelete(schedule.id)}>
-                                        삭제
-                                    </button>
-                                )}
+                                <button onClick={() => handleDelete(schedule.id)}>
+                                    삭제
+                                </button>
                             </td>
                         </tr>
                     ))}

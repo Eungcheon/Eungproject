@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSocket } from '../../../hooks/socket'; // 전역 소켓 관리 방식
 import './css/CounselorList.css';
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const counselorData = [
     { id: 1, name: '김상담', status: 'available', info: '심리상담 전문가', experience: '10년' },
@@ -11,17 +12,17 @@ const counselorData = [
 
 const CounselorList = () => {
     const navigate = useNavigate();
+    const { isName, isUserId } = useContext(LoginContext);
 
     const handleChatStart = async () => {
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
         const socket = getSocket(); // 소켓 초기화
 
         // 상담 요청 전송 및 roomId 수신
         socket.emit(
             'requestCounseling',
             {
-                userId: userInfo.userId,
-                userName: userInfo.userName,
+                userId: isUserId,
+                userName: isName,
             },
             ({ roomId, error }) => {
                 if (error) {
@@ -36,7 +37,7 @@ const CounselorList = () => {
                 navigate(`/counsel/realtime/chat/${roomId}`);
 
                 // 방에 참여
-                socket.emit('joinRoom', { roomId, userName: userInfo.userName });
+                socket.emit('joinRoom', { roomId, userName: isName });
             }
         );
     };
@@ -62,6 +63,9 @@ const CounselorList = () => {
                     </div>
                 ))}
             </div>
+            <button onClick={() => navigate("/counsel/realtime/dashboard")}>
+                대시보드    
+            </button>
         </div>
     );
 };

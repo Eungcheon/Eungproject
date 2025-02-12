@@ -45,6 +45,7 @@ public class UserController {
 			UserDto userDto = UserDto.fromEntity(user);
 			userDto.setPassword(null); // 비밀번호 필드 제거
 			System.out.println("응답 데이터: " + userDto); // 디버깅용 로그
+			System.out.println("응답 데이터: " + userDto.getRole());
 			return ResponseEntity.ok(userDto);
 		} catch (Exception e) {
 			e.printStackTrace();

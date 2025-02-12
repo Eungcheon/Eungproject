@@ -16,12 +16,12 @@ const ScheduleCalendar = () => {
     const navigate = useNavigate();
     const { isName } = useContext(LoginContext);
 
+    // console.log(isAdmin);
+
     // 일정 데이터 가져오기
     const fetchSchedules = async () => {
         try {
-            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule`, {
-                params: { counselor: isName }, // 예: 현재 로그인된 사용자 이름
-            });
+            const response = await axios.get(`${SERVER_URL}/api/counsel/schedule`);
             const groupedSchedules = response.data.reduce((acc, schedule) => {
                 const day = new Date(schedule.counsel_date).getDate();
                 if (!acc[day]) acc[day] = [];
@@ -97,6 +97,7 @@ const ScheduleCalendar = () => {
         const currentYear = currentDate.getFullYear();
         const currentMonth = currentDate.getMonth(); // 0-indexed (0 = 1월)
 
+       
     
         return (
             <div className="offline-schedule-container">
@@ -137,10 +138,8 @@ const ScheduleCalendar = () => {
             alert("이미 예약된 일정입니다.");
             return;
         }
-    
         
-        
-        if(window.confirm("예약하시겠습니까?")) {
+        if(window.confirm("예약하시겠습니까?\n예약 시 취소가 불가능합니다!")) {
             try {
                 await axios.patch(`${SERVER_URL}/api/counsel/schedule/${schedule.id}/reserve`, clientName, {
                     headers: { 'Content-Type': 'text/plain' } // 단순 문자열 전송

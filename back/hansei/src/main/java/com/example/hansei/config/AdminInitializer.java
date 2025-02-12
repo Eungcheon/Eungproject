@@ -35,5 +35,23 @@ public class AdminInitializer implements CommandLineRunner {
             userRepository.save(admin);
             System.out.println("✅ 관리자 계정이 자동 생성되었습니다. (ID: admin / PW: admin123)");
         }
+        
+        if (userRepository.findByLoginid("user").isEmpty()) { // 유저가 없을 경우 추가
+            HanUser user = new HanUser();
+            user.setLoginid("user"); // 기본 유저 아이디
+            user.setPassword(passwordEncoder.encode("user1234")); // 기본 유저 비밀번호
+            user.setRole(Role.ROLE_USER); // ✅ Role Enum 사용 (ROLE_USER)
+            
+            // 필수 정보 추가
+            user.setName("유저");
+            user.setEmail("user@example.com");
+            user.setPhone("010-1234-5679");
+            user.setGender(Gender.MALE); // 기본값 설정
+            user.setSms(true); // 문자 수신 동의
+            user.setDepart("일반부"); // 기본 학과 (필수 값)
+
+            userRepository.save(user);
+            System.out.println("✅ 유저 계정이 자동 생성되었습니다. (ID: user / PW: user1234)");
+        }
     }
 }

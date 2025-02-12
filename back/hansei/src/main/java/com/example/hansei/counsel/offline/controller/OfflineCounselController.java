@@ -27,27 +27,26 @@ public class OfflineCounselController {
         this.offlineCounselService = offlineCounselService;
     }
 
-    // ✅ 일정 등록
+    // 일정 등록
     @PostMapping
     public ResponseEntity<String> createSchedule(@RequestBody OfflineCounselDto dto) {
         offlineCounselService.createSchedule(dto);
         return ResponseEntity.ok("일정이 등록되었습니다.");
     }
-
-    // ✅ 본인의 일정 조회
+    
+    // 일정 조회
     @GetMapping
-    public List<OfflineCounselDto> getSchedules(@RequestParam String counselor) {
+    public List<OfflineCounselDto> getSchedules() {
+        return offlineCounselService.getSchedules();
+    }
+
+    // 본인의 일정 조회
+    @GetMapping("/manage")
+    public List<OfflineCounselDto> getMySchedules(@RequestParam String counselor) {
         return offlineCounselService.getSchedulesByCounselor(counselor);
     }
 
-    // ✅ 일정 수정
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateSchedule(@PathVariable Long id, @RequestBody OfflineCounselDto dto) {
-        offlineCounselService.updateSchedule(id, dto);
-        return ResponseEntity.ok("일정이 수정되었습니다.");
-    }
-
-    // ✅ 일정 삭제
+    // 일정 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSchedule(@PathVariable Long id, @RequestParam String counselor) {
         offlineCounselService.deleteSchedule(id, counselor);

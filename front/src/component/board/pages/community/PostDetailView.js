@@ -20,7 +20,6 @@ const PostDetailView = () => {
         const fetchPostDetail = async () => {
             try {
                 const response = await axios.get(`${SERVER_URL}/api/board/${type}/${id}`);
-                console.log('Post detail response:', response.data);
                 setPost(response.data);
             } catch (error) {
                 console.error('Error fetching post detail:', error);
@@ -54,7 +53,7 @@ const PostDetailView = () => {
                 </tbody>
             </table>
             <div className="common-button-container">
-                {isAdmin && <button onClick={() => navigate(`/community/${type}/edit/${id}`)}>수정</button>}
+                {!isAdmin && <button onClick={() => navigate(`/community/${type}/edit/${id}`)}>수정</button>}
                 <button onClick={() => navigate(`/community/${type}`)}>목록</button>
             </div>
         </div>

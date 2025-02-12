@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getSocket, disconnectSocket } from '../../../hooks/socket'; // 전역 소켓 관리
 import UserRequestHandler from './UserRequestHandler';
 import './css/ChatRoom.css';
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const ChatRoom = () => {
     const { roomId } = useParams(); // URL에서 roomId 가져오기
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
+    const { isName } = useContext(LoginContext);
     // 초기화 시에만 로컬 스토리지에서 userName을 가져옴
-    const initialUserName = JSON.parse(localStorage.getItem('userInfo'))?.userName || 'Guest';
+    const initialUserName = isName || 'Guest';
     const [userName] = useState(initialUserName); // 이후 변경되지 않도록 고정
 
     const navigate = useNavigate();
@@ -50,13 +52,14 @@ const ChatRoom = () => {
         // 방 종료 시 처리
         socketRef.current.on('roomEnded', () => {
             alert('상담이 종료되었습니다. 메인 페이지로 이동합니다.');
-            // 상담사의 경우 대시보드로, 사용자는 "/counsel"로 리다이렉트
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            if (userInfo.userRole === 'ADMIN') {
-                navigate('/counsel/realtime/dashboard');
-            } else {
-                navigate('/counsel');
-            }
+            // // 상담사의 경우 대시보드로, 사용자는 "/counsel"로 리다이렉트
+            // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+            // if (userInfo.userRole === 'ADMIN') {
+            //     navigate('/counsel/realtime/dashboard');
+            // } else {
+            //     navigate('/counsel');
+            // }
+            navigate('/counsel');
         });
 
         return () => {

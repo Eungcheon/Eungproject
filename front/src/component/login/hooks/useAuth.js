@@ -18,8 +18,8 @@ const login_status_from_context = (isLogin, isLoginInProgress) =>
     isLoginInProgress ? LOGIN_STATUS.LOGIN_PENDING : isLogin ? LOGIN_STATUS.LOGGED_IN : LOGIN_STATUS.LOGGED_OUT;
 
 const roles_from_context = (roles) => {
-    if (roles?.isUser) return ROLES.USER;
-    if (roles?.isAdmin) return ROLES.ADMIN;
+    if (roles?.ROLE_USER) return ROLES.USER;
+    if (roles?.ROLE_ADMIN) return ROLES.ADMIN;
     return ROLES.UNKNOWN;
 };
 
