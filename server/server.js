@@ -13,26 +13,44 @@ const io = socketIO(server, {
 
 // 상담 대기열 및 활성화된 방 관리
 let pendingRequests = []; // 대기 중인 요청 목록
+
 const activeRooms = {}; // 활성화된 방 { roomId: { userId, userName, counselorId } }
+
+const counselorStatuses = {};
 
 io.on('connection', (socket) => {
     console.log('새로운 사용자 연결:', socket.id);
+    const { counselorId } = socket.handshake.query; // 소켓 연결 시 counselorId 받기
 
+    if (counselorId) {
+        counselorStatuses[counselorId] = 'available'; // 상태를 대기 중으로 설정
+        console.log(`상담사 ${counselorId} 상태: 대기 중`);
+        io.emit('counselorStatusUpdate', counselorStatuses); // 클라이언트에 상태 전송
+    }
+
+    // 상담사가 채팅을 시작했을 때
+    socket.on('startChat', () => {
+        if (counselorId) {
+            counselorStatuses[counselorId] = 'busy'; // 상태를 상담 중으로 변경
+            io.emit('counselorStatusUpdate', counselorStatuses); // 상태 업데이트
+        }
+    });
     // 상담 요청 처리
-    socket.on('requestCounseling', ({ userId, userName }, callback) => {
-        if (!userId || !userName) {
+    socket.on('requestCounseling', ({ userId, userName, counselorName }, callback) => {
+        if (!userId || !userName || !counselorName) {
             console.error('상담 요청 실패: 필수 데이터 누락');
             callback({ error: '유효하지 않은 요청 데이터입니다.' });
             return;
         }
 
         const roomId = `${userId}-${Date.now()}`; // 고유 Room ID 생성
-        console.log(`상담 요청: ${userName}, Room ID: ${roomId}`);
+        console.log(`상담 요청: ${userName}, Room ID: ${roomId}, Counselor: ${counselorName}`);
 
         // 대기 중인 요청 추가
         pendingRequests.push({
             userId,
             userName,
+            counselorName,
             socketId: socket.id,
             roomId,
             status: 'pending',
@@ -45,7 +63,7 @@ io.on('connection', (socket) => {
         callback({ roomId });
 
         // 상담사들에게 대기 중인 요청 알림
-        io.emit('counselRequest', { userId, userName, roomId });
+        io.emit('counselRequest', { userId, userName, roomId, counselorName });
 
         console.log(`사용자 ${userName} (${socket.id})가 방 ${roomId}에 입장`);
     });
@@ -171,6 +189,11 @@ io.on('connection', (socket) => {
     // 사용자 연결 종료 처리
     socket.on('disconnect', () => {
         console.log('사용자 연결 종료:', socket.id);
+
+        if (counselorId) {
+            counselorStatuses[counselorId] = 'offline'; // 상태를 오프라인으로 설정
+            io.emit('counselorStatusUpdate', counselorStatuses); // 상태 업데이트
+        }
 
         // 대기열 요청 제거
         pendingRequests = pendingRequests.filter((req) => req.socketId !== socket.id);

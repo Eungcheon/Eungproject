@@ -1,71 +1,58 @@
-import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getSocket } from '../../../hooks/socket'; // 전역 소켓 관리 방식
-import './css/CounselorList.css';
-import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
-
-const counselorData = [
-    { id: 1, name: '김상담', status: 'available', info: '심리상담 전문가', experience: '10년' },
-    { id: 2, name: '이상담', status: 'busy', info: '청소년 상담 전문', experience: '7년' },
-    { id: 3, name: '박상담', status: 'available', info: '대학생활 상담 전문', experience: '5년' },
-];
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { getSocket } from "../../../hooks/socket";
+import { LoginContext } from "../../../../login/security/contexts/LoginContextProvider";
+import "./css/CounselorList.css";
 
 const CounselorList = () => {
     const navigate = useNavigate();
-    const { isName, isUserId } = useContext(LoginContext);
+    const { isUserId, isName } = useContext(LoginContext); // 로그인 정보
+    const [counselors, setCounselors] = useState([]); // 상담사 목록
 
-    const handleChatStart = async () => {
-        const socket = getSocket(); // 소켓 초기화
+    useEffect(() => {
+        // 상담사 목록 가져오기 (예: API 호출)
+        fetch("/api/counselors")
+            .then((res) => res.json())
+            .then((data) => setCounselors(data))
+            .catch((err) => console.error("Error fetching counselors:", err));
+    }, []);
 
-        // 상담 요청 전송 및 roomId 수신
+    const handleChatStart = (counselorName) => {
+        const socket = getSocket();
+
+        // 상담 요청 전송
         socket.emit(
-            'requestCounseling',
-            {
-                userId: isUserId,
-                userName: isName,
-            },
+            "requestCounseling",
+            { userId: isUserId, userName: isName, counselorName },
             ({ roomId, error }) => {
                 if (error) {
-                    console.error('방 생성 실패:', error);
+                    console.error("상담 요청 실패:", error);
                     return;
                 }
 
-                // 서버에서 roomId를 받아온 경우
-                console.log('생성된 Room ID:', roomId);
-
-                // 사용자 바로 방으로 이동
-                navigate(`/counsel/realtime/chat/${roomId}`);
-
-                // 방에 참여
-                socket.emit('joinRoom', { roomId, userName: isName });
+                navigate(`/counsel/realtime/chat/${roomId}`); // 채팅방으로 이동
             }
         );
     };
 
     return (
         <div className="counselor-list-container">
-            <h2>실시간 상담</h2>
+            <h2>실시간 상담사 목록</h2>
             <div className="counselor-grid">
-                {counselorData.map((counselor) => (
+                {counselors.map((counselor) => (
                     <div key={counselor.id} className="counselor-card">
                         <h3>{counselor.name}</h3>
                         <p className="info">{counselor.info}</p>
                         <p className="experience">경력: {counselor.experience}</p>
-                        <div className={`status ${counselor.status}`}>
-                            {counselor.status === 'available' ? '상담 가능' : '상담중'}
-                        </div>
                         <button
-                            onClick={handleChatStart}
-                            disabled={counselor.status !== 'available'}
+                            className="chat-button"
+                            onClick={() => handleChatStart(counselor.name)}
                         >
                             상담 시작
                         </button>
                     </div>
                 ))}
             </div>
-            <button onClick={() => navigate("/counsel/realtime/dashboard")}>
-                대시보드(상담사용)    
-            </button>
         </div>
     );
 };

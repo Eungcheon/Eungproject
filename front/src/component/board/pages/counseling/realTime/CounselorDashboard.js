@@ -12,8 +12,11 @@ const CounselorDashboard = () => {
     useEffect(() => {
         const socket = getSocket(); // 소켓 초기화
 
-        const handleCounselRequest = ({ userId, userName, roomId }) => {
-            setRequests((prev) => [...prev, { userId, userName, roomId }]);
+        const handleCounselRequest = ({ userId, userName, roomId, counselorName }) => {
+            // 로그인한 상담사와 요청 상담사가 일치하는 경우에만 요청 추가
+            if (counselorName === isName) {
+                setRequests((prev) => [...prev, { userId, userName, roomId }]);
+            }
         };
 
         // 상담 요청 수신 이벤트 등록
@@ -22,7 +25,7 @@ const CounselorDashboard = () => {
         return () => {
             socket.off('counselRequest', handleCounselRequest); // 기존 리스너 제거
         };
-    }, []); // socket 의존성 추가
+    }, [isName]); // socket 의존성 추가
 
     const handleAccept = (roomId) => {
         const counselorId = isUserId;
