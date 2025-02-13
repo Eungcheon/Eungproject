@@ -1,10 +1,11 @@
 import "../../common/css/PostDetailView.css";
 import "../../common/css/Button.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
 import useIsAdmin from "../../../hooks/useIsAdmin";
+import { LoginContext } from "../../../../login/security/contexts/LoginContextProvider";
 
 const CounselDetailView = () => {
     const isAdmin = useIsAdmin();
@@ -12,6 +13,7 @@ const CounselDetailView = () => {
     const navigate = useNavigate();
     const [counsel, setCounsel] = useState(null);
     const [isAuthor, setIsAuthor] = useState(false);
+    const { isName, roles } = useContext(LoginContext);
 
     useEffect(() => {
         const fetchCounselDetail = async () => {
@@ -20,8 +22,7 @@ const CounselDetailView = () => {
                 setCounsel(response.data);
 
                 // 현재 로그인한 사용자가 작성자인지 확인
-                const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-                setIsAuthor(userInfo?.userName === response.data.author);
+                setIsAuthor(isName === response.data.author);
             } catch (error) {
                 console.error('Error fetching counsel detail:', error);
             }

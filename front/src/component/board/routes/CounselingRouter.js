@@ -5,7 +5,6 @@ import CounselWriteForm from '../pages/counseling/online/CounselWriteForm';
 import CounselDetailView from '../pages/counseling/online/CounselDetailView';
 import CounselAnswerForm from '../pages/counseling/online/CounselAnswerForm';
 import OfflineCounsel from '../pages/counseling/offline/OfflineCounsel';
-import CounselRegister from '../pages/counseling/offline/CounselRegister';
 import ScheduleManage from '../pages/counseling/offline/ScheduleManage';
 import CounselorList from '../pages/counseling/realTime/CounselorList';
 import ChatRoom from '../pages/counseling/realTime/ChatRoom';
@@ -23,8 +22,6 @@ const CounselingRouter = (
     <Route path="online/answer/:id" element={<CounselAnswerForm />} />
     <Route path="online/answer/edit/:id" element={<CounselAnswerForm />} />
     <Route path="offline" element={<OfflineCounsel />} />
-    <Route path="offline/register" element={<CounselRegister />} />
-    <Route path="offline/register/:id" element={<CounselRegister />} />
     <Route path="offline/schedule/manage" element={<ScheduleManage />} />
     <Route path="realtime" element={<CounselorList />} />
     <Route path="realtime/dashboard" element={<CounselorDashboard />} />

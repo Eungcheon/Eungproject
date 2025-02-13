@@ -1,8 +1,9 @@
 import '../../common/css/PostWriteForm.css';
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const CounselAnswerForm = () => {
     const { id } = useParams();
@@ -10,6 +11,7 @@ const CounselAnswerForm = () => {
     const [counsel, setCounsel] = useState(null);
     const [answer, setAnswer] = useState('');
     const [isEdit, setIsEdit] = useState(false);
+    const { isName } = useContext(LoginContext);
 
     useEffect(() => {
         const fetchCounsel = async () => {
@@ -40,13 +42,13 @@ const CounselAnswerForm = () => {
                 // 답변 수정
                 await axios.put(`${SERVER_URL}/api/counsel/${id}/answer`, {
                     answer: answer,
-                    answerer: JSON.parse(localStorage.getItem('userInfo'))?.userName
+                    answerer: isName
                 });
             } else {
                 // 새 답변 작성
                 await axios.post(`${SERVER_URL}/api/counsel/${id}/answer`, {
                     answer: answer,
-                    answerer: JSON.parse(localStorage.getItem('userInfo'))?.userName
+                    answerer: isName
                 });
             }
             navigate(`/counsel/online/detail/${id}`);

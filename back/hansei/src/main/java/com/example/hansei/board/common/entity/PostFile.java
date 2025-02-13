@@ -25,10 +25,6 @@ public class PostFile {
     private String contentType; // 파일 타입
     private Long size;         // 파일 크기
     
-//    @ManyToOne
-//    @JoinColumn(name = "post_id")
-//    private Post post;
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", insertable = false, updatable = false)
     private Post post;  // 읽기 전용으로 설정

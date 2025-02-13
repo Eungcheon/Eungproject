@@ -1,8 +1,9 @@
 import '../../common/css/PostWriteForm.css';
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const CounselWriteForm = () => {
     const { id } = useParams();
@@ -11,6 +12,7 @@ const CounselWriteForm = () => {
     const [content, setContent] = useState('');
     const [author, setAuthor] = useState('');
     const [createdDate, setCreatedDate] = useState('');
+    const { isName } = useContext(LoginContext);
 
     const isEdit = !!id;
 
@@ -30,10 +32,7 @@ const CounselWriteForm = () => {
             };
             fetchCounsel();
         } else {
-            const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            if (userInfo) {
-                setAuthor(userInfo.userName);
-            }
+            setAuthor(isName);
         }
     }, [isEdit, id]);
 

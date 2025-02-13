@@ -1,12 +1,13 @@
 import '../../common/css/Board.css';
 import { useNavigate } from "react-router-dom";
 import Pagination from "../../common/Pagination";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../../api/serverURL";
 import useIsAdmin from "../../../hooks/useIsAdmin";
 import useSearch from '../../../hooks/useSearch';
 import SearchBox from '../../common/SearchBox';
+import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
 const CounselBoard = () => {
     const [posts, setPosts] = useState([]);
@@ -14,6 +15,7 @@ const CounselBoard = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
     const [sortOrder, setSortOrder] = useState('desc');
+    const { isName } = useContext(LoginContext);
 
     const itemsPerPage = 10;
 
@@ -59,11 +61,9 @@ const CounselBoard = () => {
     };
 
     const handlePostClick = (post) => {
-        // 현재 로그인한 사용자 정보 가져오기
-        const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
         // 관리자이거나 작성자인 경우에만 접근 가능
-        if (isAdmin || post.author === userInfo?.userName) {
+        if (isAdmin || post.author === isName) {
             navigate(`/counsel/online/detail/${post.id}`);
         } else {
             alert('작성자만 열람할 수 있습니다.');

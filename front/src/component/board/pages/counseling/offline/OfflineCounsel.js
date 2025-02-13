@@ -9,7 +9,8 @@ const OfflineCounsel = () => {
     return (
         <div className="offline-counsel-main">
             <h1>오프라인 상담</h1>
-            <p>예약에 대한 설명</p>
+            <p>등록되어 있는 상담일정을 클릭하여 예약 가능합니다.</p>
+            <p>상담 예약 시 취소가 불가능하오니 주의바랍니다.</p>
             <div className="offline-tab-container">
                 <button
                     className={`offline-tab-button ${activeTab === 'schedule' ? 'active' : ''}`}

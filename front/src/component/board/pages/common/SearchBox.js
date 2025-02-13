@@ -7,14 +7,19 @@ const SearchBox = ({
     handleSearch,
     handleSearchSubmit
 }) => {
-    const [localSearchKeyword, setLocalSearchKeyword] = useState('');
+    // const [localSearchKeyword, setLocalSearchKeyword] = useState('');
 
-    const handleLocalSearchChange = (e) => {
-        setLocalSearchKeyword(e.target.value);
+    // const handleLocalSearchChange = (e) => {
+    //     setLocalSearchKeyword(e.target.value);
+    // };
+
+    const handleInputChange = (e) => {
+        // 검색 키워드 변경 시 바로 부모 컴포넌트로 전달
+        handleSearch(e.target.value);
     };
 
     const handleSubmit = () => {
-        handleSearch(localSearchKeyword);
+        // handleSearch(localSearchKeyword);
         handleSearchSubmit();
     };
 
@@ -30,8 +35,8 @@ const SearchBox = ({
             <input
                 type="text"
                 placeholder="검색어를 입력하세요"
-                value={localSearchKeyword}
-                onChange={handleLocalSearchChange}
+                // value={localSearchKeyword}
+                onChange={handleInputChange}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         handleSubmit();

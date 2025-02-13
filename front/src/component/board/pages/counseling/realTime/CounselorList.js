@@ -64,7 +64,7 @@ const CounselorList = () => {
                 ))}
             </div>
             <button onClick={() => navigate("/counsel/realtime/dashboard")}>
-                대시보드    
+                대시보드(상담사용)    
             </button>
         </div>
     );
