@@ -112,12 +112,12 @@ const CounselDetailView = () => {
                 )}
 
                 {/* 답변이 없고 관리자인 경우 답변작성 버튼 표시 */}
-                {!counsel?.answer && !isAdmin && (
+                {!counsel?.answer && isAdmin && (
                     <button onClick={() => navigate(`/counsel/online/answer/${id}`)}>답변작성</button>
                 )}
 
                 {/* 답변이 있고 관리자인 경우 답변 수정/삭제 버튼 표시 */}
-                {counsel?.answer && !isAdmin && (
+                {counsel?.answer && isAdmin && (
                     <>
                         <button onClick={() => navigate(`/counsel/online/answer/edit/${id}`)}>답변수정</button>
                         <button onClick={handleAnswerDelete}>답변삭제</button>

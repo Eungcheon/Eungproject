@@ -53,7 +53,7 @@ const PostDetailView = () => {
                 </tbody>
             </table>
             <div className="common-button-container">
-                {!isAdmin && <button onClick={() => navigate(`/community/${type}/edit/${id}`)}>수정</button>}
+                {isAdmin && <button onClick={() => navigate(`/community/${type}/edit/${id}`)}>수정</button>}
                 <button onClick={() => navigate(`/community/${type}`)}>목록</button>
             </div>
         </div>

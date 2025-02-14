@@ -92,7 +92,7 @@ const Board = ({ type }) => {
                     handleSearch={handleSearch}
                     handleSearchSubmit={handleSearchSubmit}
                 />
-                {!isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
+                {isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
             </div>
             <div className="board-middle-box">
                 <table className="common-board-table">
