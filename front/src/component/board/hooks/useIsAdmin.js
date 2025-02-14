@@ -1,10 +1,10 @@
-import useAuth from '../../login/hooks/useAuth';
+import { useContext } from 'react';
+import { LoginContext } from '../../login/security/contexts/LoginContextProvider';
 
 const useIsAdmin = () => {
-    const { roles } = useAuth();
-
-    console.log("Roles in useIsAdmin:", roles); // 디버깅 로그
-    return roles?.ROLE_ADMIN === true; // 관리자 권한 확인
+    const { roles } = useContext(LoginContext);
+    console.log(roles);
+    return roles === "ROLE_ADMIN"; // 관리자 권한 확인
 };
 
 export default useIsAdmin;

@@ -7,10 +7,12 @@ import { LoginContext } from '../../../../login/security/contexts/LoginContextPr
 const CounselorDashboard = () => {
     const [requests, setRequests] = useState([]);
     const navigate = useNavigate();
-    const { isName, isUserId } = useContext(LoginContext);
+    const { isName } = useContext(LoginContext);
+    const counselorName = isName;
 
     useEffect(() => {
         const socket = getSocket(); // 소켓 초기화
+        socket.emit('dashboardOpen', counselorName); // 서버에 대시보드 접속 알림
 
         const handleCounselRequest = ({ userId, userName, roomId, counselorName }) => {
             // 로그인한 상담사와 요청 상담사가 일치하는 경우에만 요청 추가
@@ -23,23 +25,29 @@ const CounselorDashboard = () => {
         socket.on('counselRequest', handleCounselRequest);
 
         return () => {
+            socket.emit('dashboardClose', counselorName); // 대시보드 닫힘 상태 알림
             socket.off('counselRequest', handleCounselRequest); // 기존 리스너 제거
         };
     }, [isName]); // socket 의존성 추가
 
     const handleAccept = (roomId) => {
-        const counselorId = isUserId;
+        const counselorName = isName;
 
         if (!roomId) {
             console.error('Room ID가 유효하지 않음');
             return;
         }
 
-        console.log(`상담 수락: Room ID: ${roomId}, Counselor ID: ${counselorId}`); // 디버깅용 로그
+        console.log(`상담 수락: Room ID: ${roomId}, Counselor ID: ${counselorName}`); // 디버깅용 로그
         
         const socket = getSocket();
-        socket.emit('acceptCounseling', { roomId, counselorId }); // 상담 수락 이벤트 전송
+        
+        socket.emit('acceptCounseling', { roomId, counselorName }); // 상담 수락 이벤트 전송
+        
+        socket.emit('startChat', counselorName);
+        
         navigate(`/counsel/realtime/chat/${roomId}`); // 방으로 이동
+        
     };
 
     return (

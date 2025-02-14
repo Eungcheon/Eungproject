@@ -30,7 +30,7 @@ const LoginContextProvider = ({ children }) => {
 
     // ✅ [2] 로그인 후 사용자 정보 저장
     const loginSetting = useCallback((userData, accessToken) => {
-        const { userId, loginid, name, gender, role : userRoles = [] } = userData;
+        const { userId, loginid, name, gender, role } = userData;
 
         localStorage.setItem("accessToken", accessToken); // ✅ Cookies 대신 localStorage 사용
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`; // ✅ 모든 요청에 Authorization 헤더 추가
@@ -41,20 +41,20 @@ const LoginContextProvider = ({ children }) => {
         setIsName(name);
         setIsGender(gender);
 
-        if (Array.isArray(userRoles)) {
-            setRoles(userRoles.reduce((acc, role) => ({ ...acc, [role]: true }), {}));
-        } else {
-            console.warn("Invalid roles data:", userRoles);
-            setRoles({});
-        }
-
-        // // 단일 역할 처리
-        // if (role) {
-        //     setRoles({ [role]: true }); // 단일 값도 객체로 변환
+        // if (Array.isArray(userRoles)) {
+        //     setRoles(userRoles.reduce((acc, role) => ({ ...acc, [role]: true }), {}));
         // } else {
-        //     console.warn("No role provided");
+        //     console.warn("Invalid roles data:", userRoles);
         //     setRoles({});
         // }
+
+        // 단일 역할 처리
+        if (role) {
+            setRoles(role); // 단일 값도 객체로 변환
+        } else {
+            console.warn("No role provided");
+            setRoles();
+        }
     }, []);
 
     // ✅ [3] 로그인 체크 (localStorage 사용)

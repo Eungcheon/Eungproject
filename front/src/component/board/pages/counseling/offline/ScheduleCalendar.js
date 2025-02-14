@@ -14,7 +14,7 @@ const ScheduleCalendar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const isAdmin = useIsAdmin(); // 관리자 체크
     const navigate = useNavigate();
-    const { isName } = useContext(LoginContext);
+    const { isName, roles } = useContext(LoginContext);
 
     // console.log(isAdmin);
 
@@ -136,6 +136,7 @@ const ScheduleCalendar = () => {
 
         if (schedule.reserve_status) {
             alert("이미 예약된 일정입니다.");
+            console.log(roles);
             return;
         }
         
@@ -189,7 +190,7 @@ const ScheduleCalendar = () => {
                     ))}
                 </tbody>
             </table>
-            {!isAdmin && (
+            {isAdmin && (
                 <div className="common-button-container">
                     <button onClick={() => setIsModalOpen(true)}>일정 등록</button>
                     <button onClick={() => navigate("/counsel/offline/schedule/manage")}>일정 관리</button>

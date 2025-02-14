@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
@@ -11,6 +12,11 @@ const io = socketIO(server, {
     },
 });
 
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+}));
+
 // 상담 대기열 및 활성화된 방 관리
 let pendingRequests = []; // 대기 중인 요청 목록
 
@@ -18,23 +24,44 @@ const activeRooms = {}; // 활성화된 방 { roomId: { userId, userName, counse
 
 const counselorStatuses = {};
 
+// 상담사 상태 반환 API
+app.get('/api/counselorStatuses', (req, res) => {
+    console.log('상담사 상태 반환 요청', counselorStatuses); // 디버깅용 로그
+    res.json(counselorStatuses); // 현재 상담사 상태를 JSON으로 반환
+});
+
 io.on('connection', (socket) => {
     console.log('새로운 사용자 연결:', socket.id);
-    const { counselorId } = socket.handshake.query; // 소켓 연결 시 counselorId 받기
-
-    if (counselorId) {
-        counselorStatuses[counselorId] = 'available'; // 상태를 대기 중으로 설정
-        console.log(`상담사 ${counselorId} 상태: 대기 중`);
-        io.emit('counselorStatusUpdate', counselorStatuses); // 클라이언트에 상태 전송
-    }
-
-    // 상담사가 채팅을 시작했을 때
-    socket.on('startChat', () => {
-        if (counselorId) {
-            counselorStatuses[counselorId] = 'busy'; // 상태를 상담 중으로 변경
-            io.emit('counselorStatusUpdate', counselorStatuses); // 상태 업데이트
+    // const { counselorId } = socket.handshake.query; // 소켓 연결 시 counselorId 받기
+    
+    // if (counselorId) {
+    //     counselorStatuses[counselorId] = 'available'; // 상태를 대기 중으로 설정
+    //     console.log(counselorStatuses[counselorId]);
+    // }
+    // 상담사가 대시보드에 접속했을 때
+    socket.on('dashboardOpen', (counselorName) => {
+        if (counselorName) {
+            socket.data.counselorName = counselorName;
+            counselorStatuses[counselorName] = 'available'; // 상태를 대기 중으로 설정
+            console.log(counselorStatuses[counselorName]);
         }
     });
+
+    // 대시보드가 닫힐 때
+    socket.on('dashboardClose', (counselorName) => {
+        if (counselorName) {
+            counselorStatuses[counselorName] = 'offline';
+        }
+    });
+    
+    
+    // 상담사가 채팅을 시작했을 때
+    socket.on('startChat', (counselorName) => {
+        if (counselorName) {
+            counselorStatuses[counselorName] = 'busy'; // 상태를 상담 중으로 변경
+        }
+    });
+
     // 상담 요청 처리
     socket.on('requestCounseling', ({ userId, userName, counselorName }, callback) => {
         if (!userId || !userName || !counselorName) {
@@ -69,16 +96,16 @@ io.on('connection', (socket) => {
     });
 
 
-    socket.on('acceptCounseling', ({ roomId, counselorId }) => {
+    socket.on('acceptCounseling', ({ roomId, counselorName }) => {
         // 상담사가 이미 상담 중인지 확인
         const isCounselorBusy = Object.values(activeRooms).some(
-            (room) => room.counselorId === counselorId
+            (room) => room.counselorName === counselorName
         );
         if (isCounselorBusy) {
             socket.emit('error', { message: '상담사가 이미 상담 중입니다.' });
             return;
         }
-    
+
         // 대기 중인 요청 검증
         const requestIndex = pendingRequests.findIndex((req) => req.roomId === roomId);
         if (requestIndex === -1) {
@@ -86,46 +113,49 @@ io.on('connection', (socket) => {
             socket.emit('error', { message: '유효하지 않은 상담 요청입니다.' });
             return;
         }
-    
+
         const request = pendingRequests[requestIndex];
-    
+
         // 방 활성화
         activeRooms[roomId] = {
             userId: request.userId,
             userName: request.userName,
-            counselorId,
+            counselorName,
         };
-    
+
+        counselorStatuses[counselorName] = "busy"; // 상담사 상태: 상담 중
+        io.emit("counselorStatusUpdate", counselorStatuses); // 상태 업데이트 전송
+        console.log("현재 상담사 상태:", counselorStatuses);
+
         // 상담사가 방에 참여하도록 추가
         socket.join(roomId);
-        console.log(`상담 요청 수락: Room ID: ${roomId}, Counselor ID: ${counselorId}`);
+        console.log(`상담 요청 수락: Room ID: ${roomId}, Counselor ID: ${counselorName}`);
         io.to(roomId).emit('systemMessage', `상담사가 입장했습니다.`);
-    
-        // 같은 상담사와 연결된 다른 대기 요청 취소
+
+        // 해당 상담사와 관련된 다른 대기 중 요청 취소
         pendingRequests = pendingRequests.filter((req) => {
-            if (req.counselorId === counselorId && req.roomId !== roomId) {
-                // 요청 취소 알림 전송
+            if (req.counselorName === request.counselorName && req.roomId !== roomId) {
+                // 취소된 요청에게 이벤트 전송
                 io.to(req.socketId).emit('requestCanceled', {
-                    message: '다른 요청이 수락되었습니다.',
+                    message: '상담사가 다른 요청을 수락했습니다.',
                     roomId: req.roomId,
                 });
-    
-                // 방에서 나가기 처리
+
+                // 소켓 연결 해제 및 방 나가기
                 const clientSocket = io.sockets.sockets.get(req.socketId);
                 if (clientSocket) {
-                    clientSocket.leave(req.roomId); // 방 나가기
+                    clientSocket.leave(req.roomId);
                     console.log(`사용자 ${req.userName}가 방 ${req.roomId}에서 나갔습니다.`);
                 }
-    
-                return false; // 대기 요청 제거
+                return false; // 요청 제거
             }
             return true;
         });
-    
-        // 수락된 요청 대기열에서 제거
+
+        // // 수락된 요청 대기열에서 제거
         pendingRequests = pendingRequests.filter((req) => req.roomId !== roomId);
     });
-    
+
 
 
     // 사용자 또는 상담사 방 참여
@@ -169,6 +199,10 @@ io.on('connection', (socket) => {
             return;
         }
 
+        // 상담사 ID 가져오기
+        const { counselorName } = activeRooms[roomId]; 
+        console.log(`종료된 Room의 상담사 ID: ${counselorName}`);
+
         // 방에 연결된 모든 사용자에게 종료 이벤트 알림
         io.to(roomId).emit('roomEnded');
 
@@ -184,15 +218,18 @@ io.on('connection', (socket) => {
         // 활성화된 방에서 데이터 삭제
         delete activeRooms[roomId];
         console.log(`Room ID ${roomId} 데이터가 삭제되었습니다.`);
+
+        if (counselorName) {
+            counselorStatuses[counselorName] = 'available';
+        }
     });
 
     // 사용자 연결 종료 처리
     socket.on('disconnect', () => {
         console.log('사용자 연결 종료:', socket.id);
 
-        if (counselorId) {
-            counselorStatuses[counselorId] = 'offline'; // 상태를 오프라인으로 설정
-            io.emit('counselorStatusUpdate', counselorStatuses); // 상태 업데이트
+        if (socket.data.counselorName) {
+            counselorStatuses[socket.data.counselorName] = 'offline'; // 상태를 오프라인으로 설정
         }
 
         // 대기열 요청 제거

@@ -2,17 +2,10 @@ import { useEffect, useState } from "react";
 import { MonthlyBarChart } from "./charts/BarChart";
 import { CounselTypePieChart } from "./charts/PieChart";
 import './css/CounselStatistics.css';
+import { SERVER_URL } from "../../../api/serverURL";
 
 const CounselStatistics = () => {
     const [monthlyData, setMonthlyData] = useState([]);
-    // const monthlyData = [
-    //     { month: "3월", count: 30 },
-    //     { month: "4월", count: 28 },
-    //     { month: "5월", count: 31 },
-    //     { month: "6월", count: 40 },
-    //     { month: "7월", count: 51 },
-    //     { month: "8월", count: 49 }
-    // ];
 
     const typeData = [
         { name: "재학생", value: 65 },
@@ -22,7 +15,7 @@ const CounselStatistics = () => {
 
     // API 호출
     useEffect(() => {
-        fetch('http://localhost:8090/api/counsel/stats/monthly')
+        fetch(`${SERVER_URL}/api/counsel/stats/monthly`)
             .then((response) => response.json())
             .then((data) => {
                 console.log("Fetched Data:", data);

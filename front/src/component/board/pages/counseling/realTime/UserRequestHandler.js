@@ -13,7 +13,7 @@ const UserRequestHandler = () => {
             alert(data.message || '다른 요청이 수락되었습니다.');
             socket.emit('leaveRoom', { roomId: data.roomId }); // 서버에 방 나가기 요청
             disconnectSocket(); // 소켓 연결 해제
-            navigate('/counselorList'); // 상담사 목록 페이지로 이동
+            navigate('/counsel/realtime'); // 상담사 목록 페이지로 이동
         });
 
         return () => {
