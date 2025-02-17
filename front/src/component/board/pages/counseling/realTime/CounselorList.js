@@ -4,12 +4,14 @@ import { LoginContext } from "../../../../login/security/contexts/LoginContextPr
 import "./css/CounselorList.css";
 import { SERVER_URL } from "../../../api/serverURL"; 
 import { getSocket } from "../../../hooks/socket";
+import useIsAdmin from "../../../hooks/useIsAdmin";
 
 const CounselorList = () => {
     const navigate = useNavigate();
     const { isUserId, isName } = useContext(LoginContext); // 로그인 정보
     const [counselors, setCounselors] = useState([]); // 상담사 목록
     const [statuses, setStatuses] = useState({});
+    const isAdmin = useIsAdmin();
 
     useEffect(() => {
         // 상담사 목록 가져오기 (예: API 호출)
@@ -81,9 +83,9 @@ const CounselorList = () => {
                     </div>
                 ))}
             </div>
-            <button onClick={() => navigate("/counsel/realtime/dashboard")}>
+            {isAdmin && <button className="realtime-dashboard" onClick={() => navigate("/counsel/realtime/dashboard")}>
                 dashboard
-            </button>
+            </button>}
         </div>
     );
 };

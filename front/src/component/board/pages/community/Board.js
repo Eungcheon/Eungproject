@@ -87,7 +87,7 @@ const Board = ({ type }) => {
                     handleSearch={handleSearch}
                     handleSearchSubmit={handleSearchSubmit}
                 />
-                {isAdmin ? <button onClick={handleWriteClick}>글쓰기</button> : <p>&nbsp;</p>}
+                {isAdmin ? <button onClick={handleWriteClick}>글쓰기</button> : <p>&nbsp;&nbsp;&nbsp;</p>}
             </div>
             <div className="board-middle-box">
                 <table className="common-board-table">

@@ -74,3 +74,7 @@
 .request-card button:last-child:hover {
     background-color: #c0392b;
 }
+
+.realtime-dashboard {
+    margin-top: 10px;
+}

@@ -9,13 +9,16 @@
 
 .board-page-item > button {
     border: none;
-    background-color: white;
+    background-color: #f8f9fa;
     cursor: pointer;
     display: flex;
     align-items: center;
     width: 25px;
     height: 25px;
-    
+}
+
+.page-arrows {
+    font-size: large;
 }
 
 .board-page-item > button > img {
