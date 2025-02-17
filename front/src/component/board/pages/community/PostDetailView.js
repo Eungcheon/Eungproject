@@ -7,6 +7,7 @@ import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";
 import useIsAdmin from "../../hooks/useIsAdmin";
 import AttachmentView from "./AttachmentView";
+import boardTitles from "../common/constants/boardTitles";
 
 const PostDetailView = () => {
 
@@ -31,6 +32,7 @@ const PostDetailView = () => {
 
     return (
         <div className="common-detail-board-container">
+            <h2>{boardTitles[type]}</h2>
             <table>
                 <tbody>
                     <tr>

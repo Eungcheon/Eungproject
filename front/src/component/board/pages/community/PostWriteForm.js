@@ -1,9 +1,11 @@
 import '../common/css/PostWriteForm.css';
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../api/serverURL";
 import useFileUpload from "../../hooks/useFileUpload";
+import boardTitles from '../common/constants/boardTitles';
+import { LoginContext } from '../../../login/security/contexts/LoginContextProvider';
 
 const PostWriteForm = () => {
     const { type, id } = useParams();
@@ -12,6 +14,7 @@ const PostWriteForm = () => {
     const [content, setContent] = useState('');
     const [author, setAuthor] = useState('');
     const [createdDate, setCreatedDate] = useState('');
+    const { isName } = useContext(LoginContext)
 
     const {
         existingFiles,
@@ -49,9 +52,9 @@ const PostWriteForm = () => {
                 try {
                     // const response = await axios.get(`${SERVER_URL}/api/user/info`);
                     // setAuthor(response.data.name);
-                    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-                    if (userInfo) {
-                        setAuthor(userInfo.userName);
+                    // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+                    if (isName) {
+                        setAuthor(isName);
                     }
                 } catch (error) {
                     console.error('Error fetching user info:', error);
@@ -114,6 +117,7 @@ const PostWriteForm = () => {
 
     return (
         <div className="write-board-container">
+            <h2>{boardTitles[type]}</h2>
             <table>
                 <tbody>
                     <tr>

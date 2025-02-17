@@ -8,15 +8,10 @@ import { SERVER_URL } from "../../api/serverURL";
 import useIsAdmin from "../../hooks/useIsAdmin";
 import useSearch from '../../hooks/useSearch';
 import SearchBox from '../common/SearchBox';
+import boardTitles from '../common/constants/boardTitles';
 
 
 const Board = ({ type }) => {
-    const boardTitles = {
-        'notice': '공지사항',
-        'archive': '자료실',
-        'faq': '자주 묻는 질문'
-    };
-
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -92,7 +87,7 @@ const Board = ({ type }) => {
                     handleSearch={handleSearch}
                     handleSearchSubmit={handleSearchSubmit}
                 />
-                {isAdmin && <button onClick={handleWriteClick}>글쓰기</button>}
+                {isAdmin ? <button onClick={handleWriteClick}>글쓰기</button> : <p>&nbsp;</p>}
             </div>
             <div className="board-middle-box">
                 <table className="common-board-table">
