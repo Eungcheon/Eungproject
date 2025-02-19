@@ -2,8 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../../../../login/security/contexts/LoginContextProvider";
 import "./css/CounselorList.css";
-import { SERVER_URL } from "../../../api/serverURL"; 
-import { getSocket } from "../../../hooks/socket";
+import { SERVER_URL } from "../../../api/serverURL";
+import { disconnectSocket, getSocket } from "../../../hooks/socket";
 import useIsAdmin from "../../../hooks/useIsAdmin";
 
 const CounselorList = () => {
@@ -28,7 +28,9 @@ const CounselorList = () => {
                 console.log("상담사 상태 데이터:", data);
             }) // 상담사 상태 저장
             .catch((err) => console.error("Error fetching counselor statuses:", err));
-    }, []);   
+
+        disconnectSocket();
+    }, []);
 
     const handleChatStart = (counselorName) => {
         const socket = getSocket();
@@ -57,29 +59,29 @@ const CounselorList = () => {
                         <h3>{counselor.name}</h3>
                         <p className="info">{counselor.info}</p>
                         <p className="experience">경력: {counselor.experience}</p>
-                        {(statuses[counselor.name] === "busy") && 
-                        <button
-                            className="chat-button"
-                            disabled 
-                            onClick={() => handleChatStart(counselor.name)}
-                        >
-                            상담 중..
-                        </button>}
-                        {(statuses[counselor.name] === "offline" || statuses[counselor.name] === undefined) && 
-                        <button
-                            className="chat-button"
-                            disabled 
-                            onClick={() => handleChatStart(counselor.name)}
-                        >
-                            오프라인
-                        </button>}
-                        {(statuses[counselor.name] === "available") && 
-                        <button
-                            className="chat-button"
-                            onClick={() => handleChatStart(counselor.name)}
-                        >
-                            상담 하기
-                        </button>}
+                        {(statuses[counselor.name] === "busy") &&
+                            <button
+                                className="chat-button"
+                                disabled
+                                onClick={() => handleChatStart(counselor.name)}
+                            >
+                                상담 중..
+                            </button>}
+                        {(statuses[counselor.name] === "offline" || statuses[counselor.name] === undefined) &&
+                            <button
+                                className="chat-button"
+                                disabled
+                                onClick={() => handleChatStart(counselor.name)}
+                            >
+                                오프라인
+                            </button>}
+                        {(statuses[counselor.name] === "available") &&
+                            <button
+                                className="chat-button"
+                                onClick={() => handleChatStart(counselor.name)}
+                            >
+                                상담 하기
+                            </button>}
                     </div>
                 ))}
             </div>

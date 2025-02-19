@@ -3,11 +3,11 @@ import { useState } from 'react';
 
 export const CounselTypePieChart = ({ data }) => {
     const [activeIndex, setActiveIndex] = useState(0);
-    const COLORS = ['#4e89d6', '#ee8b60', '#ffa7d1'];
+    const COLORS = ['#4e89d6', '#ee8b60', '#ffa7d1', '#b8e986', '#f38181'];
 
     const renderActiveShape = (props) => {
         const RADIAN = Math.PI / 180;
-        const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props;
+        const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, counselor, count} = props;
         const sin = Math.sin(-RADIAN * midAngle);
         const cos = Math.cos(-RADIAN * midAngle);
         const sx = cx + (outerRadius + 10) * cos;
@@ -43,7 +43,7 @@ export const CounselTypePieChart = ({ data }) => {
                 />
                 <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
                 <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-                <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`${value}회`}</text>
+                <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`${counselor} - ${count}회`}</text>
                 <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
                     {`(${(percent * 100).toFixed(2)}%)`}
                 </text>
@@ -58,7 +58,7 @@ export const CounselTypePieChart = ({ data }) => {
 
     return (
         <div>
-            <h3>대상별 상담 분포</h3>
+            <h3>상담사별 상담 분포</h3>
             <PieChart width={500} height={300}>
                 <Pie
                     activeIndex={activeIndex}
@@ -69,7 +69,8 @@ export const CounselTypePieChart = ({ data }) => {
                     innerRadius={0}
                     outerRadius={80}
                     fill="#8884d8"
-                    dataKey="value"
+                    nameKey="counselor"
+                    dataKey="count"
                     onMouseEnter={onPieEnter}
                 >
                     {data.map((entry, index) => (

@@ -9,6 +9,7 @@ import useIsAdmin from "../../hooks/useIsAdmin";
 import useSearch from '../../hooks/useSearch';
 import SearchBox from '../common/SearchBox';
 import boardTitles from '../common/constants/boardTitles';
+import CommunitySideBar from './CommunitySideBar';
 
 
 const Board = ({ type }) => {
@@ -72,64 +73,69 @@ const Board = ({ type }) => {
     };
 
     return (
-        <div className="common-board-container">
-            <h1>{boardTitles[type]}</h1>
-            <div className="board-top-box">
-                <div className="select-sort-order">
-                    <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
-                        <option value="desc">최신순</option>
-                        <option value="asc">오래된순</option>
-                    </select>
+        <div className="community-container">
+            <div className="board-left-side">
+                <CommunitySideBar />
+            </div>
+            <div className="common-board-container">
+                <h1>{boardTitles[type]}</h1>
+                <div className="board-top-box">
+                    <div className="select-sort-order">
+                        <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
+                            <option value="desc">최신순</option>
+                            <option value="asc">오래된순</option>
+                        </select>
+                    </div>
+                    <SearchBox
+                        searchType={searchType}
+                        handleSearchTypeChange={handleSearchTypeChange}
+                        handleSearch={handleSearch}
+                        handleSearchSubmit={handleSearchSubmit}
+                    />
+                    {isAdmin ? <button onClick={handleWriteClick}>글쓰기</button> : <p>&nbsp;&nbsp;&nbsp;</p>}
                 </div>
-                <SearchBox
-                    searchType={searchType}
-                    handleSearchTypeChange={handleSearchTypeChange}
-                    handleSearch={handleSearch}
-                    handleSearchSubmit={handleSearchSubmit}
-                />
-                {isAdmin ? <button onClick={handleWriteClick}>글쓰기</button> : <p>&nbsp;&nbsp;&nbsp;</p>}
-            </div>
-            <div className="board-middle-box">
-                <table className="common-board-table">
-                    <colgroup>
-                        <col style={{ width: "10%" }} />
-                        <col style={{ width: "50%" }} />
-                        <col style={{ width: "20%" }} />
-                        <col style={{ width: "20%" }} />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>작성일자</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {posts.map((post, index) => (
-                            <tr key={post.id} >
-                                <td>{sortOrder === 'desc'
-                                    ? totalElements - (currentPage * itemsPerPage) - index
-                                    : (currentPage * itemsPerPage) + index + 1
-                                }</td>
-                                <td>
-                                    <span className='common-board-title'
-                                        onClick={() => handlePostClick(post.id)}>
-                                        {post.title}
-                                    </span>
-                                </td>
-                                <td>{post.author}</td>
-                                <td>{post.createdDate.split('T')[0]}</td>
+                <div className="board-middle-box">
+                    <table className="common-board-table">
+                        <colgroup>
+                            <col style={{ width: "10%" }} />
+                            <col style={{ width: "50%" }} />
+                            <col style={{ width: "20%" }} />
+                            <col style={{ width: "20%" }} />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일자</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {posts.map((post, index) => (
+                                <tr key={post.id} >
+                                    <td>{sortOrder === 'desc'
+                                        ? totalElements - (currentPage * itemsPerPage) - index
+                                        : (currentPage * itemsPerPage) + index + 1
+                                    }</td>
+                                    <td>
+                                        <span className='common-board-title'
+                                            onClick={() => handlePostClick(post.id)}>
+                                            {post.title}
+                                        </span>
+                                    </td>
+                                    <td>{post.author}</td>
+                                    <td>{post.createdDate.split('T')[0]}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <Pagination
+                    currentPage={currentPage + 1}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
             </div>
-            <Pagination
-                currentPage={currentPage + 1}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
-            />
         </div>
     );
 };

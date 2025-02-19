@@ -32,12 +32,7 @@ app.get('/api/counselorStatuses', (req, res) => {
 
 io.on('connection', (socket) => {
     console.log('새로운 사용자 연결:', socket.id);
-    // const { counselorId } = socket.handshake.query; // 소켓 연결 시 counselorId 받기
     
-    // if (counselorId) {
-    //     counselorStatuses[counselorId] = 'available'; // 상태를 대기 중으로 설정
-    //     console.log(counselorStatuses[counselorId]);
-    // }
     // 상담사가 대시보드에 접속했을 때
     socket.on('dashboardOpen', (counselorName) => {
         if (counselorName) {
@@ -89,6 +84,11 @@ io.on('connection', (socket) => {
         // 생성된 Room ID를 클라이언트로 반환
         callback({ roomId });
 
+        setTimeout(() => {
+            // 상담 대기 중 메세지 출력
+            io.to(roomId).emit('waitingAccept', `상담사를 기다리는 중 입니다...`);
+        }, 1000);
+        
         // 상담사들에게 대기 중인 요청 알림
         io.emit('counselRequest', { userId, userName, roomId, counselorName });
 

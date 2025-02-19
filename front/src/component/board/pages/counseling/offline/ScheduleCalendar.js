@@ -14,7 +14,7 @@ const ScheduleCalendar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const isAdmin = useIsAdmin(); // 관리자 체크
     const navigate = useNavigate();
-    const { isName, roles } = useContext(LoginContext);
+    const { isName } = useContext(LoginContext);
 
     // console.log(isAdmin);
 
@@ -136,7 +136,11 @@ const ScheduleCalendar = () => {
 
         if (schedule.reserve_status) {
             alert("이미 예약된 일정입니다.");
-            console.log(roles);
+            return;
+        }
+
+        if(new Date(schedule.counsel_date) < currentDate) {
+            alert("예약기간이 지난 일정입니다.");
             return;
         }
         

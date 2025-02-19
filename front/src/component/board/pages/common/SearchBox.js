@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './css/SearchBox.css';
 
 const SearchBox = ({
@@ -7,11 +7,6 @@ const SearchBox = ({
     handleSearch,
     handleSearchSubmit
 }) => {
-    // const [localSearchKeyword, setLocalSearchKeyword] = useState('');
-
-    // const handleLocalSearchChange = (e) => {
-    //     setLocalSearchKeyword(e.target.value);
-    // };
 
     const handleInputChange = (e) => {
         // 검색 키워드 변경 시 바로 부모 컴포넌트로 전달
@@ -19,7 +14,6 @@ const SearchBox = ({
     };
 
     const handleSubmit = () => {
-        // handleSearch(localSearchKeyword);
         handleSearchSubmit();
     };
 

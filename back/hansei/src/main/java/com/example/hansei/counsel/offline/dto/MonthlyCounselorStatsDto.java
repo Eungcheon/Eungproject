@@ -9,7 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonthlyStatsDto {
-    private String month;  // "YYYY-MM" 형식
-    private int count;     // 예약된 상담 횟수
+public class MonthlyCounselorStatsDto {
+	
+	private String month;
+	private String counselor;
+	private int count;
+	
 }

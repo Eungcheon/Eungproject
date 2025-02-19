@@ -13,19 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.hansei.counsel.offline.dto.MonthlyCounselorStatsDto;
 import com.example.hansei.counsel.offline.dto.MonthlyStatsDto;
 import com.example.hansei.counsel.offline.dto.OfflineCounselDto;
 import com.example.hansei.counsel.offline.service.OfflineCounselService;
+import com.example.hansei.counsel.offline.service.StatisticsService;
+
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/counsel")
 public class OfflineCounselController {
 
     private final OfflineCounselService offlineCounselService;
-
-    public OfflineCounselController(OfflineCounselService offlineCounselService) {
-        this.offlineCounselService = offlineCounselService;
-    }
+    private final StatisticsService statisticsService;
 
     // 일정 등록
     @PostMapping("/schedule")
@@ -64,13 +66,20 @@ public class OfflineCounselController {
     // 월별 상담 통계 조회
     @GetMapping("/stats/monthly")
     public List<MonthlyStatsDto> getMonthlyStats() {
-        return offlineCounselService.getMonthlyStats();
+        return statisticsService.getMonthlyStats();
+    }
+    
+    // 월별 상담 통계 조회
+    @GetMapping("/stats/monthlyCounselor")
+    public List<MonthlyCounselorStatsDto> getMonthlyCounselorStats() {
+        return statisticsService.getMonthlyCounselorStats();
     }
     
     // 즉시 갱신
     @PostMapping("/stats/refresh")
     public void forceRefreshStats() {
-        offlineCounselService.updateMonthlyStatsCache();
+    	statisticsService.updateMonthlyStatsCache();
+    	statisticsService.updateMonthlyCounselorStatsCache();
     }
 }
 

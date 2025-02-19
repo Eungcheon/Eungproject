@@ -19,6 +19,30 @@
 CREATE DATABASE IF NOT EXISTS `hansei` /*!40100 DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci */;
 USE `hansei`;
 
+-- 테이블 hansei.counselor 구조 내보내기
+CREATE TABLE IF NOT EXISTS `counselor` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `experience` varchar(255) DEFAULT NULL,
+  `info` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
+-- 테이블 hansei.offline_counsel 구조 내보내기
+CREATE TABLE IF NOT EXISTS `offline_counsel` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `client` varchar(255) DEFAULT NULL,
+  `counsel_date` date NOT NULL,
+  `counsel_time` varchar(255) NOT NULL,
+  `counselor` varchar(255) NOT NULL,
+  `status` bit(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
 -- 테이블 hansei.online_counsel 구조 내보내기
 CREATE TABLE IF NOT EXISTS `online_counsel` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -30,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `online_counsel` (
   `created_date` datetime DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -42,11 +66,8 @@ CREATE TABLE IF NOT EXISTS `post` (
   `content` varchar(255) DEFAULT NULL,
   `author` varchar(255) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_post_user` (`user_id`),
-  CONSTRAINT `fk_post_user` FOREIGN KEY (`user_id`) REFERENCES `user_info` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
@@ -78,15 +99,22 @@ CREATE TABLE IF NOT EXISTS `post_file` (
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
--- 테이블 hansei.user_info 구조 내보내기
-CREATE TABLE IF NOT EXISTS `user_info` (
+-- 테이블 hansei.users 구조 내보내기
+CREATE TABLE IF NOT EXISTS `users` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_role` varchar(255) DEFAULT NULL,
-  `user_name` varchar(255) DEFAULT NULL,
-  `user_email` varchar(255) DEFAULT NULL,
-  `user_password` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `depart` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `gender` enum('FEMALE','MALE') NOT NULL,
+  `loginid` varchar(255) NOT NULL,
+  `user_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `role` enum('ROLE_ADMIN','ROLE_USER') DEFAULT NULL,
+  `sms` bit(1) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `UK6dotkott2kjsp8vw4d0m25fb7` (`email`),
+  UNIQUE KEY `UKtr5k5irb4gp2c45h7sgsjjfkx` (`loginid`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 

@@ -4,12 +4,16 @@ import { getSocket, disconnectSocket } from '../../../hooks/socket'; // 전역 �
 import UserRequestHandler from './UserRequestHandler';
 import './css/ChatRoom.css';
 import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
+import useIsAdmin from '../../../hooks/useIsAdmin';
 
 const ChatRoom = () => {
     const { roomId } = useParams(); // URL에서 roomId 가져오기
     const [messages, setMessages] = useState([]);
+    const [isAutoScroll, setIsAutoScroll] = useState(true); // 자동 스크롤 여부
+    const messagesContainerRef = useRef(null); // 채팅창 컨테이너 참조
     const [inputMessage, setInputMessage] = useState('');
     const { isName } = useContext(LoginContext);
+    const isAdmin = useIsAdmin();
     // 초기화 시에만 로컬 스토리지에서 userName을 가져옴
     const initialUserName = isName || 'Guest';
     const [userName] = useState(initialUserName); // 이후 변경되지 않도록 고정
@@ -17,6 +21,31 @@ const ChatRoom = () => {
     const navigate = useNavigate();
 
     const socketRef = useRef(null);
+
+    const scrollToBottom = () => {
+        if (isAutoScroll && messagesContainerRef.current) {
+            messagesContainerRef.current.scrollTo({
+                top: messagesContainerRef.current.scrollHeight,
+                behavior: 'smooth',
+            });
+        }
+    };
+
+    // 사용자가 스크롤했는지 확인하는 함수
+    const handleScroll = () => {
+        if (!messagesContainerRef.current) return;
+    
+        const { scrollTop, scrollHeight, clientHeight } =
+            messagesContainerRef.current;
+    
+        // 사용자가 맨 아래에 있는지 확인 (여유값 10px)
+        const atBottom = scrollHeight - scrollTop - clientHeight <= 10;
+        setIsAutoScroll(atBottom); // 맨 아래에 있으면 자동 스크롤 활성화
+    };
+
+    useEffect(() => {
+        scrollToBottom(); // 메시지가 변경될 때마다 실행
+    }, [messages]);
 
     useEffect(() => {
         const socket = getSocket();
@@ -28,10 +57,17 @@ const ChatRoom = () => {
             setMessages((prevMessages) => [...prevMessages, message]);
         });
 
+        // 대기 중 메세지 수신
+        socket.on('waitingAccept', (message) => {
+            setMessages((prevMessages) => [...prevMessages, { sender: 'System', message }]);
+        });
+
         // 시스템 메시지 수신
         socket.on('systemMessage', (message) => {
             setMessages((prevMessages) => [...prevMessages, { sender: 'System', message }]);
         });
+
+        
 
         // 에러 처리
         socket.on('error', (error) => {
@@ -52,14 +88,13 @@ const ChatRoom = () => {
         // 방 종료 시 처리
         socketRef.current.on('roomEnded', () => {
             alert('상담이 종료되었습니다. 메인 페이지로 이동합니다.');
-            // // 상담사의 경우 대시보드로, 사용자는 "/counsel"로 리다이렉트
-            // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-            // if (userInfo.userRole === 'ADMIN') {
-            //     navigate('/counsel/realtime/dashboard');
-            // } else {
-            //     navigate('/counsel');
-            // }
-            navigate('/counsel');
+
+            if (isAdmin) {
+                navigate('/counsel/realtime/dashboard')
+            }
+            else {
+                navigate('/counsel');
+            }
         });
 
         return () => {
@@ -87,14 +122,22 @@ const ChatRoom = () => {
         <div className="chat-room">
             <UserRequestHandler />
             <h1>채팅방: {roomId}</h1>
+
             {/* 채팅창 */}
-            <div className="chat-messages">
+            <div className="chat-messages"
+                 onScroll={handleScroll}
+                 ref={messagesContainerRef}>
                 {messages.map((msg, index) => (
-                    <div key={index} className="message">
-                        <strong>{msg.sender}:</strong> {msg.message}
+                    <div
+                        key={index}
+                        className={`message ${msg.sender === userName ? 'mine' : 'other'}`}
+                    >
+                        <span className="sender">{msg.sender}</span>
+                        <span className="message-color">{msg.message}</span>
                     </div>
                 ))}
             </div>
+
             {/* 채팅 입력/전송 */}
             <form className="message-form" onSubmit={sendMessage}>
                 <input
@@ -105,10 +148,11 @@ const ChatRoom = () => {
                 />
                 <button type="submit">전송</button>
             </form>
+
             {/* 방 종료 버튼 */}
-            <button className="end-room-button" onClick={handleEndRoom}>
+            {isAdmin && <button className="end-room-button" onClick={handleEndRoom}>
                 상담 종료
-            </button>
+            </button>}
         </div>
     );
 };
