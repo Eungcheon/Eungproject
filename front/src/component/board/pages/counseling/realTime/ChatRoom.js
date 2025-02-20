@@ -67,7 +67,10 @@ const ChatRoom = () => {
             setMessages((prevMessages) => [...prevMessages, { sender: 'System', message }]);
         });
 
-        
+        // 연결끊김 메시지 수신
+        socket.on('userDisconnected', (message) => {
+            setMessages((prevMessages) => [...prevMessages, { sender: 'System', message }]);
+        });
 
         // 에러 처리
         socket.on('error', (error) => {
@@ -77,7 +80,7 @@ const ChatRoom = () => {
         // 컴포넌트 언마운트 시 소켓 및 리스너 정리
         return () => {
             if (socketRef.current) {
-                socketRef.current.emit('leaveRoom', { roomId });
+                socketRef.current.emit('leaveRoom', { roomId, userName });
                 socketRef.current.off('receiveMessage');
                 disconnectSocket();
             }
@@ -121,7 +124,7 @@ const ChatRoom = () => {
     return (
         <div className="chat-room">
             <UserRequestHandler />
-            <h1>채팅방: {roomId}</h1>
+            <h1>채팅방: {userName}</h1>
 
             {/* 채팅창 */}
             <div className="chat-messages"

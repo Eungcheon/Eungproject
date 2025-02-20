@@ -61,7 +61,7 @@ const CounselorList = () => {
                         <p className="experience">경력: {counselor.experience}</p>
                         {(statuses[counselor.name] === "busy") &&
                             <button
-                                className="chat-button"
+                                className={`chat-button ${statuses[counselor.name]}`}
                                 disabled
                                 onClick={() => handleChatStart(counselor.name)}
                             >
@@ -69,7 +69,7 @@ const CounselorList = () => {
                             </button>}
                         {(statuses[counselor.name] === "offline" || statuses[counselor.name] === undefined) &&
                             <button
-                                className="chat-button"
+                                className={`chat-button ${statuses[counselor.name]}`}
                                 disabled
                                 onClick={() => handleChatStart(counselor.name)}
                             >
@@ -77,7 +77,7 @@ const CounselorList = () => {
                             </button>}
                         {(statuses[counselor.name] === "available") &&
                             <button
-                                className="chat-button"
+                                className={`chat-button ${statuses[counselor.name]}`}
                                 onClick={() => handleChatStart(counselor.name)}
                             >
                                 상담 하기

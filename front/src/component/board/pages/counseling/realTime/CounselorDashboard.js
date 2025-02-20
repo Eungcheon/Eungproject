@@ -25,7 +25,6 @@ const CounselorDashboard = () => {
         socket.on('counselRequest', handleCounselRequest);
 
         return () => {
-            socket.emit('dashboardClose', counselorName); // 대시보드 닫힘 상태 알림
             socket.off('counselRequest', handleCounselRequest); // 기존 리스너 제거
         };
     }, [isName]); // socket 의존성 추가

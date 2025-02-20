@@ -40,15 +40,7 @@ io.on('connection', (socket) => {
             counselorStatuses[counselorName] = 'available'; // 상태를 대기 중으로 설정
             console.log(counselorStatuses[counselorName]);
         }
-    });
-
-    // 대시보드가 닫힐 때
-    socket.on('dashboardClose', (counselorName) => {
-        if (counselorName) {
-            counselorStatuses[counselorName] = 'offline';
-        }
-    });
-    
+    });  
     
     // 상담사가 채팅을 시작했을 때
     socket.on('startChat', (counselorName) => {
@@ -182,8 +174,12 @@ io.on('connection', (socket) => {
     });
 
     // 방 떠나기
-    socket.on('leaveRoom', ({ roomId }) => {
+    socket.on('leaveRoom', ({ roomId, userName }) => {
         if (!roomId) return;
+
+        setTimeout(() => {
+            io.to(roomId).emit('userDisconnected', `${userName}님이 연결 종료되었습니다.`);
+        }, 1000)
 
         socket.leave(roomId);
         console.log(`사용자가 방 ${roomId}에서 나감`);
@@ -225,15 +221,15 @@ io.on('connection', (socket) => {
     });
 
     // 사용자 연결 종료 처리
-    socket.on('disconnect', () => {
+    socket.on('disconnect', ({ roomId, userName }) => {
         console.log('사용자 연결 종료:', socket.id);
 
         if (socket.data.counselorName) {
             counselorStatuses[socket.data.counselorName] = 'offline'; // 상태를 오프라인으로 설정
         }
 
-        // 대기열 요청 제거
-        pendingRequests = pendingRequests.filter((req) => req.socketId !== socket.id);
+        // // 대기열 요청 제거
+        // pendingRequests = pendingRequests.filter((req) => req.socketId !== socket.id);
     });
 });
 

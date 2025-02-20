@@ -50,9 +50,6 @@ const PostWriteForm = () => {
             // 새 글 작성 모드일 때는 현재 사용자 정보만 설정
             const fetchUserInfo = async () => {
                 try {
-                    // const response = await axios.get(`${SERVER_URL}/api/user/info`);
-                    // setAuthor(response.data.name);
-                    // const userInfo = JSON.parse(localStorage.getItem('userInfo'));
                     if (isName) {
                         setAuthor(isName);
                     }
@@ -146,7 +143,10 @@ const PostWriteForm = () => {
                             {isEdit && existingFiles.map(file => (
                                 <div key={file.id} className="write-selected-files">
                                     {file.name}
-                                    <button onClick={() => handleRemoveExistingFile(file.id)}>
+                                    <button 
+                                        onClick={() => handleRemoveExistingFile(file.id)}
+                                        className="write-remove-file"
+                                    >
                                         ×
                                     </button>
                                 </div>
@@ -175,7 +175,7 @@ const PostWriteForm = () => {
             </table>
             <div className="common-button-container">
                 <button onClick={handleSubmit}>
-                    {isEdit ? '수정' : '저장'}
+                    저장
                 </button>
                 {isEdit && <button onClick={handleDelete}>삭제</button>}
                 <button onClick={() => navigate(`/community/${type}`)}>목록</button>

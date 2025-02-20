@@ -14,7 +14,8 @@ public class MonthlyStatsScheduler {
     // 매월 1일 자정에 실행
     @Scheduled(cron = "0 0 0 1 * *") // 0초 0분 0시 1일 *월 *요일
     public void updateMonthlyStatsCache() {
-    	statisticsService.updateMonthlyStatsCache();
+    	statisticsService.updateMonthlyStatsCache();			// 월별 상담 횟수
+    	statisticsService.updateMonthlyCounselorStatsCache();	// 상담사별 상담 횟수
         System.out.println("Monthly statistics cache updated.");
     }
 }

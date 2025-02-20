@@ -45,7 +45,9 @@ const useFileUpload = () => {
         
         // 빈 배열일 때는 아예 보내지 않기
         if (filesToDelete && filesToDelete.length > 0) {
-            formData.append('filesToDelete', JSON.stringify(filesToDelete));
+            filesToDelete.forEach((fileId) => {
+                formData.append('filesToDelete', fileId); // 배열의 각 요소를 개별적으로 추가
+            });
         }
     };
 
