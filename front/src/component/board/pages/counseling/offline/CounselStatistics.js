@@ -38,7 +38,7 @@ const CounselStatistics = () => {
 
     return(
         <div className="offline-statistics-container">
-            <a href="#">통계다운로드(보류)</a>
+            {/* <a href="#">통계다운로드(보류)</a> */}
             <div className="offline-chart-row">
                 <MonthlyBarChart data={monthlyData}/>
                 <CounselTypePieChart data={monthlyCounselorData}/>
