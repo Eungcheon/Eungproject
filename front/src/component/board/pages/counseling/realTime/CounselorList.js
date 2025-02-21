@@ -53,6 +53,7 @@ const CounselorList = () => {
     return (
         <div className="counselor-list-container">
             <h2>실시간 상담사 목록</h2>
+            <p>상담 가능 시간은 09:00 ~ 18:00 까지 입니다.</p>
             <div className="counselor-grid">
                 {counselors.map((counselor) => (
                     <div key={counselor.id} className="counselor-card">

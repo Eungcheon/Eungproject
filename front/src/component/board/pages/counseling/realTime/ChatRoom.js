@@ -34,10 +34,10 @@ const ChatRoom = () => {
     // 사용자가 스크롤했는지 확인하는 함수
     const handleScroll = () => {
         if (!messagesContainerRef.current) return;
-    
+
         const { scrollTop, scrollHeight, clientHeight } =
             messagesContainerRef.current;
-    
+
         // 사용자가 맨 아래에 있는지 확인 (여유값 10px)
         const atBottom = scrollHeight - scrollTop - clientHeight <= 10;
         setIsAutoScroll(atBottom); // 맨 아래에 있으면 자동 스크롤 활성화
@@ -128,8 +128,8 @@ const ChatRoom = () => {
 
             {/* 채팅창 */}
             <div className="chat-messages"
-                 onScroll={handleScroll}
-                 ref={messagesContainerRef}>
+                onScroll={handleScroll}
+                ref={messagesContainerRef}>
                 {messages.map((msg, index) => (
                     <div
                         key={index}
@@ -150,12 +150,11 @@ const ChatRoom = () => {
                     placeholder="메시지를 입력하세요"
                 />
                 <button type="submit">전송</button>
+                {/* 방 종료 버튼 */}
+                {isAdmin && <button className="end-room-button" onClick={handleEndRoom}>
+                    상담 종료
+                </button>}
             </form>
-
-            {/* 방 종료 버튼 */}
-            {isAdmin && <button className="end-room-button" onClick={handleEndRoom}>
-                상담 종료
-            </button>}
         </div>
     );
 };
