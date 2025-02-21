@@ -8,13 +8,13 @@ const CommunitySideBar = () => {
         <div className="community-side-bar">
             <h2>MENU</h2>
             <div className="community-side-bar-menu">
-                <Link to="/community/notice">
+                <Link to="/community/notice" reloadDocument>
                     공지사항
                 </Link>
-                <Link to="/community/faq">
+                <Link to="/community/faq" reloadDocument>
                     FAQ
                 </Link>
-                <Link to="/community/archive">
+                <Link to="/community/archive" reloadDocument>
                     자료실
                 </Link>
             </div>
