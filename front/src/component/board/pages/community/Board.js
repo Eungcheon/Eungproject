@@ -136,6 +136,7 @@ const Board = ({ type }) => {
                     onPageChange={handlePageChange}
                 />
             </div>
+            <div className="board-right-side"></div>
         </div>
     );
 };

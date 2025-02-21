@@ -54,6 +54,15 @@ const CounselorList = () => {
         <div className="counselor-list-container">
             <h2>실시간 상담사 목록</h2>
             <p>상담 가능 시간은 09:00 ~ 18:00 까지 입니다.</p>
+            <div className="counselor-list-top">
+                <p>상태 업데이트 버튼을 눌러서 상담사의 상태를 업데이트 할 수 있습니다.</p>
+                <button
+                    className="refresh-button"
+                    onClick={() => window.location.reload()}
+                >
+                    ↺ 상태 업데이트
+                </button>
+            </div>
             <div className="counselor-grid">
                 {counselors.map((counselor) => (
                     <div key={counselor.id} className="counselor-card">

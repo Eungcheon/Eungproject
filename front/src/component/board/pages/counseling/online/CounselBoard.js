@@ -144,6 +144,7 @@ const CounselBoard = () => {
                     onPageChange={handlePageChange}
                 />
             </div>
+            <div className="board-right-side"></div>
         </div>
     );
 };
