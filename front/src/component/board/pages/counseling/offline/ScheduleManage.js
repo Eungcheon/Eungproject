@@ -19,7 +19,15 @@ const ScheduleManage = () => {
                     params: { counselor: isName } // 서버에 상담사 이름 전달
                 }
             );
-            setSchedules(response.data);
+
+            // 현재 날짜를 기준으로 지난 일정은 제외
+            const today = new Date(); // 현재 날짜
+            const filteredSchedules = response.data.filter(schedule => {
+                const scheduleDate = new Date(schedule.counsel_date); // 일정 날짜를 Date 객체로 변환
+                return scheduleDate >= today; // 오늘 이후의 일정만 포함
+            });
+
+            setSchedules(filteredSchedules);
         } catch (error) {
             console.error('Error fetching schedules:', error);
         }
