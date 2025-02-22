@@ -42,13 +42,13 @@
 .offline-calendar th.sat { color: #339af0; }
 
 .cal-day {
-    position: absolute; /* 절대 위치 설정 */
+    text-align: left;
     left: 5px;         /* 왼쪽 여백 */
     font-weight: bold;
 }
 
 .offline-schedule-container {
-    padding-top: 15px;
+    padding-top: 5px;
     display: flex;
     flex-direction: column;
     gap: 5px;
