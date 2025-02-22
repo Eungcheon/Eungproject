@@ -78,7 +78,7 @@ const CounselBoard = () => {
         <div className="community-container">
             <div className="board-left-side"></div>
             <div className="common-board-container">
-                <h1>온라인 상담</h1>
+                <h1 className="font-bold">온라인 상담</h1>
                 <p>상담 게시글 작성 후 답변이 달리면 수정/삭제가 불가능합니다.</p>
                 <p>이후 게시글 삭제는 관리자에게 문의해주세요.</p>
                 <div className="board-top-box">

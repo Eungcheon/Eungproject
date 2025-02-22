@@ -46,6 +46,7 @@
     background-color: #f8f9fa;
     border-top: 2px solid #333;
     border-bottom: 1px solid #ddd;
+    text-align: center;
 }
 
 .common-board-table > thead > tr > th {

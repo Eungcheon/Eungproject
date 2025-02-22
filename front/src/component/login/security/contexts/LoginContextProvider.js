@@ -40,6 +40,7 @@ const LoginContextProvider = ({ children }) => {
         setIsLoginId(loginid);
         setIsName(name);
         setIsGender(gender);
+        setRoles(role);
 
         // if (Array.isArray(userRoles)) {
         //     setRoles(userRoles.reduce((acc, role) => ({ ...acc, [role]: true }), {}));
@@ -48,13 +49,6 @@ const LoginContextProvider = ({ children }) => {
         //     setRoles({});
         // }
 
-        // 단일 역할 처리
-        if (role) {
-            setRoles(role); // 단일 값도 객체로 변환
-        } else {
-            console.warn("No role provided");
-            setRoles();
-        }
     }, []);
 
     // ✅ [3] 로그인 체크 (localStorage 사용)

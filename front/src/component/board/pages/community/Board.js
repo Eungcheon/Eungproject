@@ -78,7 +78,7 @@ const Board = ({ type }) => {
                 <CommunitySideBar />
             </div>
             <div className="common-board-container">
-                <h1>{boardTitles[type]}</h1>
+                <h1 className="font-bold">{boardTitles[type]}</h1>
                 <div className="board-top-box">
                     <div className="select-sort-order">
                         <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>

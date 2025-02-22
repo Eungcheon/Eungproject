@@ -9,7 +9,7 @@
 
 .board-page-item > button {
     border: none;
-    background-color: #f8f9fa;
+    background-color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
