@@ -34,8 +34,22 @@ public class FileService {
     @Autowired
     private PostRepository postRepository;
     
+    
+    
     // 파일 업로드
     public List<PostFile> saveFiles(List<MultipartFile> files) {
+    	
+    	File chkDir = new File(uploadPath);
+    	
+    	// 폴더가 없으면 생성
+    	if(!chkDir.exists()) {
+    		try {
+    			chkDir.mkdirs();
+    		} catch (Exception e) {
+    			System.out.println("폴더 생성 에러");
+    		}
+    	}
+    	
         List<PostFile> savedFiles = new ArrayList<>();
         
         for (MultipartFile multipartFile : files) {
@@ -50,7 +64,7 @@ public class FileService {
                     // 파일 확장자 추출
                     String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
                     
-                    // 저장할 파일명 생성 (UUID + 확장자)
+                    // 저장할 파일명 생성 (UUID + 확장자) - 중복된 이름을 가진 파일도 저장가능
                     String storedFileName = uuid + extension;
                     
                     // 파일 저장 경로 생성

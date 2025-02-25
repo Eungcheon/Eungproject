@@ -9,6 +9,8 @@ import useSearch from '../../../hooks/useSearch';
 import SearchBox from '../../common/SearchBox';
 import { LoginContext } from '../../../../login/security/contexts/LoginContextProvider';
 
+const onlineDescription = "질문을 작성하면 상담사가 답변을 달아드립니다.\n\n상담 게시글 작성 후 답변이 달리면 수정/삭제가 불가능합니다. 이후 게시글 삭제는 관리자에게 문의해주세요.";
+
 const CounselBoard = () => {
     const [posts, setPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
@@ -79,8 +81,7 @@ const CounselBoard = () => {
             <div className="board-left-side"></div>
             <div className="common-board-container">
                 <h1 className="font-bold">온라인 상담</h1>
-                <p>상담 게시글 작성 후 답변이 달리면 수정/삭제가 불가능합니다.</p>
-                <p>이후 게시글 삭제는 관리자에게 문의해주세요.</p>
+                <p>{onlineDescription}</p>
                 <div className="board-top-box">
                     <div className="select-sort-order">
                         <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>

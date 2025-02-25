@@ -114,7 +114,7 @@ const PostWriteForm = () => {
 
     return (
         <div className="write-board-container">
-            <h2>{boardTitles[type]}</h2>
+            <h1 className='font-bold'>{boardTitles[type]}</h1>
             <table>
                 <tbody>
                     <tr>

@@ -32,7 +32,7 @@ const PostDetailView = () => {
 
     return (
         <div className="common-detail-board-container">
-            <h2>{boardTitles[type]}</h2>
+            <h1 className="font-bold">{boardTitles[type]}</h1>
             <table>
                 <tbody>
                     <tr>

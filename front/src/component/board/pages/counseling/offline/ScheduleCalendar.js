@@ -110,6 +110,13 @@ const ScheduleCalendar = () => {
                             scheduleDate.getMonth() === currentMonth
                         );
                     })
+                    .sort((a, b) => {
+                        // counsel_time의 앞 두 글자를 숫자로 변환하여 비교
+                        const timeA = parseInt(a.counsel_time.slice(0, 2), 10); // "09:00" -> 9
+                        const timeB = parseInt(b.counsel_time.slice(0, 2), 10); // "10:00" -> 10
+    
+                        return timeA - timeB; // 오름차순 정렬
+                    })
                     .map((schedule, index) => (
                         <div
                             key={index}
