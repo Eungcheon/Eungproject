@@ -16,3 +16,11 @@
 .common-button-container button:hover {
     background-color: #002855;
 }
+
+@media screen and (max-width: 768px) {
+    
+    .common-button-container button {
+        padding: 5px;
+        font-size: 0.8rem;
+    }
+}

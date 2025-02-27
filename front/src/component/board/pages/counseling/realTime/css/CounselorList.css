@@ -64,3 +64,20 @@
     color: white;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+
+    .counselor-list-container h1 {
+        text-align: center;
+    }
+
+    .counselor-list-top {
+        font-size: 0.7rem;
+        gap: 5px;
+    }
+    
+    .refresh-button {
+        height: 50px;
+        font-size: 0.7rem;
+    }
+}

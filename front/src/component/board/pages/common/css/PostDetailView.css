@@ -41,4 +41,26 @@
     white-space: pre-wrap;
 }
 
+@media screen and (max-width:768px) {
+
+    .common-detail-board-container {
+        width: 90%;
+        margin: 5px auto;
+        padding: 0;
+    }
+
+    .common-detail-board-container table {
+        margin: 0 auto;
+        font-size: 0.8rem;
+    }
+
+    .common-detail-board-container th {
+        width: 25%;
+    }
+
+    .common-detail-board-container td {
+        width: 75%;
+    }
+}
+
 

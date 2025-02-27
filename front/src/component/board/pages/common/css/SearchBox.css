@@ -24,3 +24,13 @@
     cursor: pointer;
     border-radius: 4px;
 }
+
+@media screen and (max-width: 768px) {
+    .common-board-search-box {
+        max-height: 2rem;
+    }
+
+    .common-board-search-box > button {
+        font-size: 0.7rem;
+    }
+}

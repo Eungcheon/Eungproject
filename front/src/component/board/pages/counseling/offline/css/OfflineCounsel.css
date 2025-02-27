@@ -39,3 +39,20 @@
 .offline-counsel-content-container {
     min-height: 500px;
 }
+
+@media screen and (max-width: 768px) {
+    
+    .offline-counsel-main {
+        text-align: center;
+        padding: 2vh;
+    }
+
+    .offline-counsel-main p {
+        font-size: 0.7rem;
+    }
+
+    .offline-counsel-content-container {
+        display: flex;
+        justify-content: center;
+    }
+}

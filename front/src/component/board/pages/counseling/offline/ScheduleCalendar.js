@@ -128,7 +128,7 @@ const ScheduleCalendar = () => {
                         >
                             {schedule.counselor}
                             {schedule.reserve_status && " - 예약됨"}
-                            <div>{schedule.counsel_time}</div>
+                            <div className='offline-counsel-time'>{schedule.counsel_time}</div>
                         </div>
                     ))}
             </div>
@@ -151,7 +151,15 @@ const ScheduleCalendar = () => {
             return;
         }
         
-        if(window.confirm("예약하시겠습니까?\n예약 시 취소가 불가능합니다!")) {
+        if(window.confirm(
+            `
+            상담일 : ${schedule.counsel_date}\n
+            시간 : ${schedule.counsel_time}\n
+            예약하시겠습니까?\n
+            예약 시 취소가 불가능합니다!
+            `.replace(/^\s+/gm, '')
+        )) {
+
             try {
                 await axios.patch(`${SERVER_URL}/api/counsel/schedule/${schedule.id}/reserve`, clientName, {
                     headers: { 'Content-Type': 'text/plain' } // 단순 문자열 전송

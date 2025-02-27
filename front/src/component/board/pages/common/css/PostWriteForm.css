@@ -73,3 +73,27 @@
 .write-remove-file:hover, .wirte-selected-files button:hover {
     color: #333;
 }
+
+@media screen and (max-width:768px) {
+
+    .write-board-container {
+        width: 95%;
+        margin: 5px auto;
+        padding: 5px;
+    }
+
+    .write-board-container table {
+        font-size: 0.8rem;
+    }
+
+    .write-board-container th {
+        padding: 5px;
+        width: 5vh;
+        vertical-align: middle;
+    }
+
+    .write-board-container td {
+        padding: 10px auto;
+    }
+
+}

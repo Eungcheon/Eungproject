@@ -13,7 +13,7 @@
     margin-left: 10px;
     margin-right: 10px;
     align-items: center;
-    border-radius: 10%;
+    border-radius: 20px;
     border: 2px solid;
     background-color: white;
 }
@@ -27,4 +27,27 @@
 
 .community-side-bar a:hover {
     color: #0066cc;
+}
+
+@media screen and (max-width: 768px) {
+    .community-side-bar {
+        margin-top: 20px;
+    }
+
+    .community-side-bar-menu {
+        display: flex;
+        justify-content: center;
+        height: 50px;
+        margin-left: 10px;
+        margin-right: 10px;
+        align-items: center;
+        border-radius: 30px;
+        border: 2px solid;
+        background-color: white;
+    }
+
+    .community-side-bar a{
+        font-size: medium;
+        margin: 0 1rem;
+    }
 }

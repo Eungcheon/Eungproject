@@ -55,7 +55,7 @@
 }
 
 .offline-schedule {
-    font-size: 0.9em;
+    font-size: 0.8rem;
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
@@ -122,4 +122,27 @@
 
 .manage-schedule-button:hover {
     background-color: #002855;
+}
+
+@media screen and (max-width: 768px) {
+
+    .offline-schedule-calendar {
+        padding: 0;
+    }
+
+    .offline-calendar {
+        font-size: 0.7rem;
+    }
+    
+    .offline-calendar th, .offline-calendar td {
+        padding: 5px;
+    }
+
+    .offline-schedule {
+        font-size: 0.6rem;
+    }
+
+    .offline-counsel-time {
+        font-size: 0;
+    }
 }
