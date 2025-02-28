@@ -140,13 +140,14 @@ const ScheduleCalendar = () => {
     const handleScheduleClick = async (schedule) => {
 
         const clientName = isName;
+        const today = new Date();
 
         if (schedule.reserve_status) {
             alert("이미 예약된 일정입니다.");
             return;
         }
 
-        if(new Date(schedule.counsel_date) < currentDate) {
+        if(new Date(schedule.counsel_date) < today) {
             alert("예약기간이 지난 일정입니다.");
             return;
         }
